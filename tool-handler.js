@@ -31,15 +31,14 @@ function setImageTool(name) {
 function setSubTools(name) {
     clearSelectedTool();
     if(subtools_container.firstChild) subtools_container.removeChild(subtools_container.firstChild);
-    if(name == 'attacker') {
-        subtools_container.appendChild(attacker_tools);
+    var tools_page;
+    switch (name) {
+        case 'tools': tools_page = tools_tools; break;
+        case 'attacker': tools_page = attacker_tools; break;
+        case 'defender': tools_page = defender_tools; break;
+        default: return;
     }
-    else if(name == 'defender') {
-        subtools_container.appendChild(defender_tools);
-    }
-    else if(name == 'tools') {
-        subtools_container.appendChild(tools_tools);
-    }
+    subtools_container.appendChild(tools_page);
 }
 
 function clearSelectedTool() {

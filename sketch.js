@@ -23,15 +23,14 @@ function setup() {
 
 }
 
-var updateCounter = 5;
+var updateCounter = 2;
 function update() {
-    updateCounter = 5;
+    updateCounter = 2;
 }
 
 function draw() {
     if (updateCounter > 0) updateCounter--;
     else return;
-    console.log('update:', updateCounter);
     background(17);
     translate(translateX, translateY);
 

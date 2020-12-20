@@ -6,6 +6,7 @@ The simple but useful web-based Rainbow Six: Siege strategy editor.
 - Refactor the code to have less hard coded sections.
 - Change how the tint works. (idk how but so a certain player
   could have a certain color assigned to them.)
+- Fix the sidebar toggle buttons.
 
 ## Features to implement:
 - Saving/loading the creation.

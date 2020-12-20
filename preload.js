@@ -65,15 +65,26 @@ function createImageToolPage(target, groups) {
     // Create sections from the groups.
     groups.forEach((group) => {
         target.appendChild(createHeader(group.name));
-        var center;
+        var center = createDivCenter(), rowWidth = 0;
+        target.appendChild(center);
         for (let i = 0; i < group.assets.length; i++) {
             const tempAsset = group.assets[i];
-            // Fit only 6 elements per row.
-            if (i%6==0) {
+
+            // Calculate the width of each element and if the total
+            // width exceeds the reserved space, continue on a new row.
+            const imageTool = createImageTool(group.path, tempAsset[0], tempAsset[1], group.extension, tempAsset[2]);
+            // Sad way of acquiring the width of the element.
+            tools_tools.appendChild(imageTool);
+            rowWidth += imageTool.getBoundingClientRect().width;
+            tools_tools.removeChild(imageTool);
+
+            if (rowWidth > 90) {
                 center = createDivCenter();
                 target.appendChild(center);
+                rowWidth = 0;
             }
-            center.appendChild(createImageTool(group.path, tempAsset[0], tempAsset[1], group.extension, tempAsset[2]));
+
+            center.appendChild(imageTool);
         }
         target.appendChild(createHR());
     });
