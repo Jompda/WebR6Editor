@@ -1,5 +1,5 @@
 
-const preloadImages = new Map();
+const preloadedImages = new Map();
 
 var bg_image;
 function changeMap(name) {
@@ -87,7 +87,7 @@ function createImageTool(path, title, filename, extension, owner) {
     r.setAttribute('type', 'radio');
     r.setAttribute('name', 'tool');
     const filepath = path+filename+extension;
-    preloadImages.set(filename, loadImage(filepath)); // Preload the images for p5
+    preloadedImages.set(filename, loadImage(filepath)); // Preload the images for p5
     r.setAttribute('onchange', `setImageTool('${filename}')`);
     const i = document.createElement('img');
     i.setAttribute('src', filepath);

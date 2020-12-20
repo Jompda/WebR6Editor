@@ -17,7 +17,7 @@ function setImageTool(name) {
     tool = new function() {
         this.onRelease = function() {
             if(!onObject) {
-                const scale = 1, img = preloadImages.get(name);
+                const scale = 1, img = preloadedImages.get(name);
                 var aspect_ratio = img.width / img.height;
                 objects.unshift(new ImageObject(
                     (mouseX - translateX)/zoom, (mouseY - translateY)/zoom,
