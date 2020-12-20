@@ -1,0 +1,120 @@
+[
+    {
+        "group": "attackers",
+        "path": "assets/",
+        "extension": ".png",
+        "assets": [
+            [ "Sledge" ],
+            [ "Thatcher" ],
+            [ "Ash" ],
+            [ "Thermite" ],
+            [ "Twitch" ],
+            [ "Montagne" ],
+            [ "Glaz" ],
+            [ "Fuze" ],
+            [ "Blitz" ],
+            [ "IQ" ],
+            [ "Buck" ],
+            [ "Black Beard", "blackbeard" ],
+            [ "Capitão", "capitao" ],
+            [ "Hibana" ],
+            [ "Jackal" ],
+            [ "Ying" ],
+            [ "Zofia" ],
+            [ "Dokkaebi" ],
+            [ "Lion" ],
+            [ "Finka" ],
+            [ "Maverick" ],
+            [ "Nomad" ]
+        ]
+    },
+    {
+        "group": "defenders",
+        "path": "assets/",
+        "extension": ".png",
+        "assets": [
+            [ "Smoke" ],
+            [ "Mute" ],
+            [ "Castle" ],
+            [ "Pulse" ],
+            [ "Doc" ],
+            [ "Rook" ],
+            [ "Kapkan" ],
+            [ "Tachanka" ],
+            [ "Jäger", "jager" ],
+            [ "Bandit" ],
+            [ "Frost" ],
+            [ "Valkyrie" ],
+            [ "Caveira" ],
+            [ "Echo" ],
+            [ "Mira" ],
+            [ "Lesion" ],
+            [ "Ela" ],
+            [ "Vigil" ],
+            [ "Maestro" ],
+            [ "Alibi" ],
+            [ "Clash" ],
+            [ "Kaid" ]
+        ]
+    },
+
+
+    {
+        "group": "attacker_default_gadgets",
+        "path": "assets/default_gadgets/",
+        "extension": ".png",
+        "assets": [
+            [ "Breach Charge", "breachcharge" ],
+            [ "Claymore" ],
+            [ "Stun Grenade", "stungrenade" ],
+            [ "Smoke Grenade", "smokegrenade" ]
+        ]
+    },
+    {
+        "group": "defender_default_gadgets",
+        "path": "assets/default_gadgets/",
+        "extension": ".png",
+        "assets": [
+            [ "Reinforcement" ],
+            [ "Barricade" ],
+            [ "Nitro Cell", "nitrocell" ],
+            [ "Deployable Shield", "deployableshield" ],
+            [ "Barbed Wire", "barbedwire" ],
+            [ "Impact Grenade", "impactgrenade" ]
+        ]
+    },
+
+
+    {
+        "group": "attacker_specific_gadgets",
+        "path": "assets/special_gadgets/",
+        "extension": ".png",
+        "assets": [
+            [ "Exothermic Charge", "exothermiccharge", "thermite" ],
+            [ "X-Kairos", null, "hibana" ],
+            [ "Breaching Torch", "breachingtorch", "maverick" ],
+            [ "TACMK0", null, "capitao" ],
+            [ "Candela", null, "ying" ]
+        ]
+    },
+    {
+        "group": "defender_specific_gadgets",
+        "path": "assets/special_gadgets/",
+        "extension": ".png",
+        "assets": [
+            [ "Remote Gas Grenade", "remotegasgrenade", "smoke" ],
+            [ "Signal Disruptor", "signaldisruptor", "mute" ],
+            [ "Armor Panel", "armorpanel", "castle" ],
+            [ "Active Defense System", "activedefensesystem", "jager" ],
+            [ "Shockwire", null, "bandit" ],
+            [ "Welcome Mat", "welcomemat", "frost" ],
+            [ "Black Eye", "blackeye", "valkyrie" ],
+            [ "Yokai", null, "echo" ],
+            [ "Black Mirror", "blackmirror", "mira" ],
+            [ "Gu", null, "lesion" ],
+            [ "Grzmot Mine", "grzmotmine", "ela" ],
+            [ "Evil Eye", "evileye", "maestro" ],
+            [ "Prisma", null, "alibi" ]
+        ]
+    }
+]

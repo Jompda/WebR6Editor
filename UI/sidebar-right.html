@@ -1,0 +1,45 @@
+
+<div class="sidebar-toggle" id="sidebar-right-toggle" onclick="sidebarRightToggle()">
+  <svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:white;">
+    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path>
+  </svg>
+</div>
+<div class="sidebar">
+  <div class="sidebar-aligner">
+    <div style="width:100%;display:flex;justify-content:center;">
+      <label class="tool-page-button">
+        <input type="radio" name="tool-page-button" onchange="setSubTools('tools');" checked>
+        <div>Tools</div>
+      </label>
+      <label class="tool-page-button">
+        <input type="radio" name="tool-page-button" onchange="setSubTools('attacker');">
+        <div>Attacker Tools</div>
+      </label>
+      <label class="tool-page-button">
+        <input type="radio" name="tool-page-button" onchange="setSubTools('defender');">
+        <div>Defender Tools</div>
+      </label>
+    </div>
+    <hr class="sidebar-hr">
+    <div id="subtools-container"></div>
+    <hr class="sidebar-hr">
+    <p class="sidebar-header">Tint:</p>
+    <div class="center">
+      <input type="radio" class="tint-color" name="tint-color"
+      style="background-color:white;" onclick="setTint(color(255))">
+      <input type="radio" class="tint-color" name="tint-color"
+      style="background-color:red;" onclick="setTint(color(255,0,0))">
+      <input type="radio" class="tint-color" name="tint-color"
+      style="background-color:green;" onclick="setTint(color(0,255,0))">
+      <input type="radio" class="tint-color" name="tint-color"
+      style="background-color:blue;" onclick="setTint(color(0,0,255))">
+      <input type="radio" class="tint-color" name="tint-color"
+      style="background-color:orange;" onclick="setTint(color(255,165,0))">
+      <input type="radio" class="tint-color" name="tint-color"
+      style="background-color:yellow;" onclick="setTint(color(255,255,0))">
+      <input type="radio" class="tint-color" name="tint-color"
+      style="background-color:rgb(196, 57, 238);" onclick="setTint(color(196,57,238))">
+      <input class="tint-color" type="color" value="#ffffff" onchange="setTint(color(this.value))">
+    </div>
+  </div>
+</div>
