@@ -5,7 +5,7 @@ var bg_image;
 function changeMap(name) {
     if(!name.includes('-----'))
         bg_image = loadImage(`assets/maps/${name}.jpg`);
-        update = true;
+        update();
 }
 
 const sidebar_left = document.getElementById('sidebar-left');

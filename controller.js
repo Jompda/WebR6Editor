@@ -7,7 +7,7 @@ var onObject = false;
 var dragged = false;
 
 function mousePressed() {
-    update = true;
+    update();
     if(mouseButton != CENTER) {
         if(bounds()) return;
         //check for intersection
@@ -25,7 +25,7 @@ function mousePressed() {
 }
 
 function mouseDragged() {
-    update = true;
+    update();
     dragged = true;
     if(mouseButton != CENTER) {
         if(bounds()) return;
@@ -42,7 +42,7 @@ function mouseDragged() {
 }
 
 function mouseReleased() {
-    update = true;
+    update();
     if(mouseButton != CENTER) {
         if(bounds()) return;
         if(tool && tool.onRelease) tool.onRelease();
@@ -59,7 +59,7 @@ function mouseReleased() {
 }*/
 
 function mouseWheel(e) {
-    update = true;
+    update();
     if(bounds()) return;
 
     let zoomDelta = -e.delta/500;

@@ -8,7 +8,7 @@ const objects = [];
 
 function windowResized() {
     resizeCanvas(viewport.offsetWidth, viewport.offsetHeight);
-    update = true;
+    update();
 }
 
 function setup() {
@@ -23,10 +23,15 @@ function setup() {
 
 }
 
-var update = true;
+var updateCounter = 5;
+function update() {
+    updateCounter = 5;
+}
+
 function draw() {
-    if (!update) return;
-    update = false;
+    if (updateCounter > 0) updateCounter--;
+    else return;
+    console.log('update:', updateCounter);
     background(17);
     translate(translateX, translateY);
 
