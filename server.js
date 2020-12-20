@@ -1,4 +1,5 @@
 
+// This is not supposed to be a secure server implementation.
 var port = 80;
 var http = require('http');
 var url = require('url');

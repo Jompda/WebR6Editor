@@ -1,4 +1,6 @@
 
+// This whole thing is a mess.
+
 var translateX = 0, translateY = 0;
 var minZoom = 0.6;
 var lastX, lastY;
@@ -64,6 +66,7 @@ function mouseWheel(e) {
 
     let zoomDelta = -e.delta/500;
   
+    // TODO: Recreate this shit. What the fuck was I thinking..
     if(zoom + zoomDelta < minZoom)
       zoomDelta += minZoom-(zoom+zoomDelta);
     if(zoom > 2) zoomDelta *= 1.5; //boosts the zoomDelta
