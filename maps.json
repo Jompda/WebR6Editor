@@ -1,0 +1,81 @@
+[
+    {
+        "name": "Bank", "esl": false,
+        "floors": [
+            [ "Basement", "bank-1" ],
+            [ "1st", "bank0" ],
+            [ "2nd", "bank1" ],
+            [ "Roof", "bank2" ]
+        ]
+    },
+    {
+        "name": "Border", "esl": true,
+        "floors": [
+            [ "1st", "border0" ],
+            [ "2nd", "border1" ],
+            [ "Roof", "border2" ]
+        ]
+    },
+    {
+        "name": "Chalet", "esl": false,
+        "floors": [
+            [ "Basement", "chalet-1" ],
+            [ "1st", "chalet0" ],
+            [ "2nd", "chalet1" ],
+            [ "Roof", "chalet2" ]
+        ]
+    },
+    {
+        "name": "Club House", "esl": true,
+        "floors": [
+            [ "Basement", "club-1" ],
+            [ "1st", "club0" ],
+            [ "2nd", "club1" ],
+            [ "Roof", "club2" ]
+        ]
+    },
+    {
+        "name": "Coastline", "esl": true,
+        "floors": [
+            [ "1st", "coastline0" ],
+            [ "2nd", "coastline1" ],
+            [ "Roof", "coastline2" ]
+        ]
+    },
+    {
+        "name": "Consulate", "esl": true,
+        "floors": [
+            [ "Basement", "consulate-1" ],
+            [ "1st", "consulate0" ],
+            [ "2nd", "consulate1" ],
+            [ "Roof", "consulate2" ]
+        ]
+    },
+    {
+        "name": "Kafe Dostoyevsky", "esl": true,
+        "floors": [
+            [ "1st", "dostoyevsky0" ],
+            [ "2nd", "dostoyevsky1" ],
+            [ "3rd", "dostoyevsky2" ],
+            [ "Roof", "dostoyevsky3" ]
+        ]
+    },
+    {
+        "name": "Oregon", "esl": true,
+        "floors": [
+            [ "basement", "oregon-1" ],
+            [ "1st", "oregon0" ],
+            [ "2nd", "oregon1" ],
+            [ "Roof", "oregon2" ]
+        ]
+    },
+    {
+        "name": "Skyscraper", "esl": false,
+        "floors": [
+            [ "1st", "sky0" ],
+            [ "2nd", "sky1" ],
+            [ "3rd", "sky2" ],
+            [ "Roof", "sky3" ]
+        ]
+    }
+]

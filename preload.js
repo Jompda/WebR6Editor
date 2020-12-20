@@ -32,6 +32,7 @@ function preload() {
     getHttpResource('/UI/sidebar-left.html', (xhr) => {
         sidebar_left.innerHTML = xhr.responseText;
         sidebar_left_toggle = document.getElementById('sidebar-left-toggle');
+        getHttpResource('/maps.json', loadMapList);
     });
     getHttpResource('/UI/sidebar-right.html', (xhr) => {
         sidebar_right.innerHTML = xhr.responseText;
@@ -44,6 +45,25 @@ function preload() {
         getHttpResource('/assets.json', loadAssetList);
     });
     changeMap('bank-1');
+}
+
+function loadMapList(xhr) {
+    const mapConfig = JSON.parse(xhr.responseText);
+    const mapchooserElem = document.getElementById('mapchooser');
+    mapConfig.forEach((map, i) => {
+        if (i > 0) {
+            const line = document.createElement('option');
+            line.innerHTML = '-----';
+            mapchooserElem.appendChild(line);
+        }
+        map.floors.forEach((floor) => {
+            const option = document.createElement('option');
+            option.setAttribute('value', floor[1]);
+            if (map.esl) option.setAttribute('class', 'map-pool-esl');
+            option.innerHTML = `${map.name} ${floor[0]}`;
+            mapchooserElem.appendChild(option);
+        });
+    });
 }
 
 function loadAssetList(xhr) {
@@ -106,6 +126,19 @@ function createImageTool(path, title, filename, extension, owner) {
     elem.appendChild(r);
     elem.appendChild(i);
     return elem;
+}
+
+
+// Sidebar functionality.
+function sidebarLeftToggle() {
+    if(!sidebar_left.style.left) sidebar_left.style.left = '0px';
+    if(sidebar_left.style.left == '0px') sidebar_left.style.left = '-301px';
+    else sidebar_left.style.left = '0px';
+}
+function sidebarRightToggle() {
+    if(!sidebar_right.style.right) sidebar_right.style.right = '0px';
+    if(sidebar_right.style.right == '0px') sidebar_right.style.right = '-301px';
+    else sidebar_right.style.right = '0px';
 }
 
 
