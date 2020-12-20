@@ -1,4 +1,0 @@
-Refactor the code to have less hard coded sections.
-Also the operators should be fetched from a separate file like 'assets.json'.
-
-Git
