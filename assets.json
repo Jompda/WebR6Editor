@@ -2,7 +2,7 @@
     {
         "name": "Attackers",
         "page": "attackers",
-        "path": "assets/",
+        "path": "assets/operators/",
         "extension": ".png",
         "assets": [
             [ "Sledge" ],
@@ -32,7 +32,7 @@
     {
         "name": "Defenders",
         "page": "defenders",
-        "path": "assets/",
+        "path": "assets/operators/",
         "extension": ".png",
         "assets": [
             [ "Smoke" ],
