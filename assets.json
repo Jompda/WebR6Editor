@@ -1,6 +1,7 @@
 [
     {
-        "group": "Attackers",
+        "name": "Attackers",
+        "page": "attackers",
         "path": "assets/",
         "extension": ".png",
         "assets": [
@@ -29,7 +30,8 @@
         ]
     },
     {
-        "group": "Defenders",
+        "name": "Defenders",
+        "page": "defenders",
         "path": "assets/",
         "extension": ".png",
         "assets": [
@@ -60,7 +62,8 @@
 
 
     {
-        "group": "Attacker Gadgets",
+        "name": "Attacker Gadgets",
+        "page": "attackers",
         "path": "assets/default_gadgets/",
         "extension": ".png",
         "assets": [
@@ -71,7 +74,8 @@
         ]
     },
     {
-        "group": "Defender Gadgets",
+        "name": "Defender Gadgets",
+        "page": "defenders",
         "path": "assets/default_gadgets/",
         "extension": ".png",
         "assets": [
@@ -86,7 +90,8 @@
 
 
     {
-        "group": "Attacker Unique Gadgets",
+        "name": "Attacker Unique Gadgets",
+        "page": "attackers",
         "path": "assets/special_gadgets/",
         "extension": ".png",
         "assets": [
@@ -98,7 +103,8 @@
         ]
     },
     {
-        "group": "Defender Unique Gadgets",
+        "name": "Defender Unique Gadgets",
+        "page": "defenders",
         "path": "assets/special_gadgets/",
         "extension": ".png",
         "assets": [

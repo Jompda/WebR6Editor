@@ -13,15 +13,13 @@ function setTool(name) {
     }
 }
 
-function setImageTool(name, tint, scale) {
+function setImageTool(filepath, name) {
     tool = new function() {
         this.onRelease = function() {
             if(!onObject) {
-                if(!scale) scale = 1;
-                let img = getImageByName(name);
-                var aspect_ratio = 1;
-                if(img) aspect_ratio = img.width / img.height;
-                else img = loadImage(`assets/${name}.png`);
+                let scale = 1;
+                let img = loadImage(filepath);
+                var aspect_ratio = 1;//= img.width / img.height;
                 if(tint) {
                     objects.unshift(new ImageObject(
                         (mouseX - translateX)/zoom, (mouseY - translateY)/zoom,
