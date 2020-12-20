@@ -9,7 +9,7 @@
     <p class="sidebar-header">LEFT:</p>
     <hr class="sidebar-hr">
     <p class="sidebar-header">Map:</p>
-    <select id="mapchooser" onchange="changeMap(this)">
+    <select id="mapchooser" onchange="(() => {changeMap(this.value); update = true;})()">
       <option value="bank-1" class="map-pool-esl">Bank -1</option>
       <option value="bank0" class="map-pool-esl">Bank 0</option>
       <option value="bank1" class="map-pool-esl">Bank 1</option>

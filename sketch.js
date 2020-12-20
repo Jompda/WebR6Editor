@@ -23,11 +23,11 @@ function setup() {
 var update = true;
 function draw() {
     if (!update) return;
+    update = false;
     background(17);
     translate(translateX, translateY);
 
     image(bg_image, 0, 0, bg_image.width*zoom, bg_image.height*zoom);
 
     for(let i = objects.length-1; i > -1; i--) objects[i].draw();
-    update = false;
 }

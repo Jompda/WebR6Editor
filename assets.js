@@ -3,9 +3,9 @@ const imageobj_size = 42;
 const images = [];
 
 var bg_image;
-function changeMap(element) {
-    if(!element.value.includes('-----'))
-        bg_image = loadImage(`assets/maps/${element.value}.jpg`);
+function changeMap(name) {
+    if(!name.includes('-----'))
+        bg_image = loadImage(`assets/maps/${name}.jpg`);
 }
 
 function getImageByName(name) {
@@ -16,8 +16,6 @@ function getImageByName(name) {
 }
 
 function loadAssets() {
-    bg_image = createImage(1, 1);
-
     //DEFAULT GADGETS
     //ATTACKER
     images[images.length] = new function() {

@@ -9,44 +9,36 @@ var tools_tools;
 var attacker_tools;
 var defender_tools;
 
+function getHttpResource(url, callback) {
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', url); xhr.send();
+    xhr.onerror = () => console.log(`Error ${xhr.status}: ${xhr.statusText}`);
+    xhr.onload = () => {
+        if (xhr.status != 200) return xhr.onerror();
+        callback(xhr);
+    }
+}
+
 function preload() {
     //let left_content = fs.readFileSync(__dirname + '/UI/sidebar-left.html', 'utf8').trim();
 
     // temp
-    {
-        let xhr = new XMLHttpRequest();
-        xhr.open('GET', '/UI/sidebar-left.html');
-        xhr.send();
-        xhr.onload = function() {
-            if (xhr.status != 200) {
-                console.log(`Error ${xhr.status}: ${xhr.statusText}`);
-            } else {
-                console.log(`Done, got ${xhr.response.length} bytes`);
-                sidebar_left.innerHTML = xhr.responseText;
-                sidebar_left_toggle = document.getElementById('sidebar-left-toggle');
-            }
-        };
-    }
-    {
-        let xhr = new XMLHttpRequest();
-        xhr.open('GET', '/UI/sidebar-right.html');
-        xhr.send();
-        xhr.onload = function() {
-            if (xhr.status != 200) {
-                console.log(`Error ${xhr.status}: ${xhr.statusText}`);
-            } else {
-                console.log(`Done, got ${xhr.response.length} bytes`);
-                sidebar_right.innerHTML = xhr.responseText;
-                sidebar_right_toggle = document.getElementById('sidebar-right-toggle');
-                subtools_container = document.getElementById('subtools-container');
-                createTools();
-                createAttackerTools();
-                createDefenderTools();
-                setSubTools('tools');
-            }
-        };
-    }
-    loadAssets();
+    getHttpResource('/UI/sidebar-left.html', (xhr) => {
+        sidebar_left.innerHTML = xhr.responseText;
+        sidebar_left_toggle = document.getElementById('sidebar-left-toggle');
+    });
+    getHttpResource('/UI/sidebar-right.html', (xhr) => {
+        sidebar_right.innerHTML = xhr.responseText;
+        sidebar_right_toggle = document.getElementById('sidebar-right-toggle');
+        subtools_container = document.getElementById('subtools-container');
+        createTools();
+        // Call a function which 
+        createAttackerTools();
+        createDefenderTools();
+        setSubTools('tools');
+    });
+    changeMap('bank-1');
+    //loadAssets();
 }
 
 function createTools() {
