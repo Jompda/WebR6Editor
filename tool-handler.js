@@ -13,23 +13,16 @@ function setTool(name) {
     }
 }
 
-function setImageTool(filepath, name) {
+function setImageTool(name) {
     tool = new function() {
         this.onRelease = function() {
             if(!onObject) {
-                let scale = 1;
-                let img = loadImage(filepath);
-                var aspect_ratio = 1;//= img.width / img.height;
-                if(tint) {
-                    objects.unshift(new ImageObject(
-                        (mouseX - translateX)/zoom, (mouseY - translateY)/zoom,
-                        imageobj_size*aspect_ratio*scale, imageobj_size*scale, img, getTint()));
-                }
-                else {
-                    objects.unshift(new ImageObject(
-                        (mouseX - translateX)/zoom, (mouseY - translateY)/zoom,
-                        imageobj_size*aspect_ratio*scale, imageobj_size*scale, img));
-                }
+                const scale = 1, img = preloadImages.get(name);
+                var aspect_ratio = img.width / img.height;
+                objects.unshift(new ImageObject(
+                    (mouseX - translateX)/zoom, (mouseY - translateY)/zoom,
+                    imageobj_size*aspect_ratio*scale, imageobj_size*scale, img, getTint()
+                ));
             }
         }
     }
@@ -52,7 +45,7 @@ function setSubTools(name) {
 function clearSelectedTool() {
     var elem = document.getElementsByName("tool");
     for(var i=0;i<elem.length;i++)
-    elem[i].checked = false;
+        elem[i].checked = false;
 }
 
 

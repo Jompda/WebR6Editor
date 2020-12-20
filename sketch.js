@@ -8,6 +8,7 @@ const objects = [];
 
 function windowResized() {
     resizeCanvas(viewport.offsetWidth, viewport.offsetHeight);
+    update = true;
 }
 
 function setup() {

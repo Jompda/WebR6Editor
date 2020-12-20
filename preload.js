@@ -1,8 +1,11 @@
 
+const preloadImages = new Map();
+
 var bg_image;
 function changeMap(name) {
     if(!name.includes('-----'))
         bg_image = loadImage(`assets/maps/${name}.jpg`);
+        update = true;
 }
 
 const sidebar_left = document.getElementById('sidebar-left');
@@ -26,9 +29,6 @@ function getHttpResource(url, callback) {
 }
 
 function preload() {
-    //let left_content = fs.readFileSync(__dirname + '/UI/sidebar-left.html', 'utf8').trim();
-
-    // temp
     getHttpResource('/UI/sidebar-left.html', (xhr) => {
         sidebar_left.innerHTML = xhr.responseText;
         sidebar_left_toggle = document.getElementById('sidebar-left-toggle');
@@ -40,11 +40,10 @@ function preload() {
         
         // Load the tools
         createTools();
-        getHttpResource('/assets.json', loadAssetList);
         setSubTools('tools');
+        getHttpResource('/assets.json', loadAssetList);
     });
     changeMap('bank-1');
-    //loadAssets();
 }
 
 function loadAssetList(xhr) {
@@ -58,39 +57,39 @@ function loadAssetList(xhr) {
             default: console.log('ERROR: Unknown group:', group); break;
         }
     });
-    setupAttackerPage(attackerGroups);
-    //setupDefenderPage(defenderGroups);
+    createImageToolPage(attacker_tools = document.createElement('div'), attackerGroups);
+    createImageToolPage(defender_tools = document.createElement('div'), defenderGroups);
 }
 
-function setupAttackerPage(groups) {
-    attacker_tools = document.createElement('div');
-    
+function createImageToolPage(target, groups) {
     // Create sections from the groups.
     groups.forEach((group) => {
-        attacker_tools.appendChild(createHeader(group.name));
+        target.appendChild(createHeader(group.name));
         var center;
         for (let i = 0; i < group.assets.length; i++) {
             const tempAsset = group.assets[i];
+            // Fit only 6 elements per row.
             if (i%6==0) {
                 center = createDivCenter();
-                attacker_tools.appendChild(center);
+                target.appendChild(center);
             }
             center.appendChild(createImageTool(group.path, tempAsset[0], tempAsset[1], group.extension, tempAsset[2]));
         }
-        attacker_tools.appendChild(createHR());
+        target.appendChild(createHR());
     });
 }
 
 function createImageTool(path, title, filename, extension, owner) {
     if(!filename) filename = title.toLowerCase();
-    let elem = document.createElement('label');
+    const elem = document.createElement('label');
     elem.setAttribute('class', 'imagetool');
-    let r = document.createElement('input');
+    const r = document.createElement('input');
     r.setAttribute('type', 'radio');
     r.setAttribute('name', 'tool');
     const filepath = path+filename+extension;
-    r.setAttribute('onchange', `setImageTool('${filepath}', '${filename}')`);
-    let i = document.createElement('img');
+    preloadImages.set(filename, loadImage(filepath)); // Preload the images for p5
+    r.setAttribute('onchange', `setImageTool('${filename}')`);
+    const i = document.createElement('img');
     i.setAttribute('src', filepath);
     i.setAttribute('title', title);
     elem.appendChild(r);
