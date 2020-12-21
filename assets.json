@@ -26,7 +26,14 @@
             [ "Lion" ],
             [ "Finka" ],
             [ "Maverick" ],
-            [ "Nomad" ]
+            [ "Nomad" ],
+            [ "Gridlock" ],
+            [ "NØKK", "nokk" ],
+            [ "Amaru" ],
+            [ "Kali" ],
+            [ "Iana" ],
+            [ "Ace" ],
+            [ "Zero" ]
         ]
     },
     {
@@ -56,7 +63,14 @@
             [ "Maestro" ],
             [ "Alibi" ],
             [ "Clash" ],
-            [ "Kaid" ]
+            [ "Kaid" ],
+            [ "Mozzie" ],
+            [ "Warden" ],
+            [ "Goyo" ],
+            [ "Wamai" ],
+            [ "Oryx" ],
+            [ "Melusi" ],
+            [ "Aruni", "ash" ]
         ]
     },
 
@@ -84,7 +98,9 @@
             [ "Nitro Cell", "nitrocell" ],
             [ "Deployable Shield", "deployableshield" ],
             [ "Barbed Wire", "barbedwire" ],
-            [ "Impact Grenade", "impactgrenade" ]
+            [ "Impact Grenade", "impactgrenade" ],
+            [ "Bulletproof Camera", "bulletproofcamera" ],
+            [ "Proximity Alarm", "proximityalarm" ]
         ]
     },
 
@@ -96,10 +112,10 @@
         "extension": ".png",
         "assets": [
             [ "Exothermic Charge", "exothermiccharge", "thermite" ],
-            [ "X-Kairos", null, "hibana" ],
-            [ "Breaching Torch", "breachingtorch", "maverick" ],
             [ "TACMK0", null, "capitao" ],
-            [ "Candela", null, "ying" ]
+            [ "X-Kairos", null, "hibana" ],
+            [ "Candela", null, "ying" ],
+            [ "Breaching Torch", "breachingtorch", "maverick" ]
         ]
     },
     {
@@ -112,15 +128,21 @@
             [ "Signal Disruptor", "signaldisruptor", "mute" ],
             [ "Armor Panel", "armorpanel", "castle" ],
             [ "Active Defense System", "activedefensesystem", "jager" ],
-            [ "Shockwire", null, "bandit" ],
+            [ "Shock Wire", "shockwire", "bandit" ],
             [ "Welcome Mat", "welcomemat", "frost" ],
             [ "Black Eye", "blackeye", "valkyrie" ],
             [ "Yokai", null, "echo" ],
             [ "Black Mirror", "blackmirror", "mira" ],
-            [ "Gu", null, "lesion" ],
+            [ "Gu Mine", "gumine", "lesion" ],
             [ "Grzmot Mine", "grzmotmine", "ela" ],
+            [ "Prisma", null, "alibi" ],
             [ "Evil Eye", "evileye", "maestro" ],
-            [ "Prisma", null, "alibi" ]
+            [ "Electroclaw", null, "kaid" ],
+            [ "Pest", null, "mozzie" ],
+            [ "Vulcan Shield", "vulcanshield", "goyo" ],
+            [ "Mag-NET", null, "wamai" ],
+            [ "Dash", null, "oryx" ],
+            [ "Banshee", null, "melusi" ]
         ]
     }
 ]

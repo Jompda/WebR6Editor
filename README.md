@@ -4,10 +4,9 @@ The simple but useful web-based Rainbow Six: Siege strategy editor.
 
 ## TODO:
 - Add comments and overall documentation to the code.
-- Change how the tint works. (idk how but so a certain player
-  could have a certain color assigned to them.)
+- Remove the tint feature and replace it with a colored rectangle around the object.
 - Update the maps.
-- Add the newest operators and gadgets.
+- Add Aruni and her gadget.
 - Form contexts around certain modules like the controller and tool-handler
   for hiding a large number of functions under a class.
 
