@@ -1,5 +1,7 @@
 
 const tools = [];
+
+// Doesn't need setter and getter.
 var saveTint = undefined;
 function getTint() {return saveTint;}
 function setTint(tint) {saveTint = tint;}

@@ -14,7 +14,7 @@ var sidebar_left_toggle;
 var sidebar_right_toggle;
 
 var subtools_container;
-var tools_tools;
+var tools_tools; // Wtf is this name?
 var attacker_tools;
 var defender_tools;
 
