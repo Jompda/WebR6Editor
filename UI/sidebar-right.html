@@ -8,15 +8,15 @@
   <div class="sidebar-aligner">
     <div style="width:100%;display:flex;justify-content:center;">
       <label class="tool-page-button">
-        <input type="radio" name="tool-page-button" onchange="setSubTools('tools');" checked>
+        <input type="radio" name="tool-page-button" onchange="ToolHandler.setSubTools('tools');" checked>
         <div>Tools</div>
       </label>
       <label class="tool-page-button">
-        <input type="radio" name="tool-page-button" onchange="setSubTools('attacker');">
+        <input type="radio" name="tool-page-button" onchange="ToolHandler.setSubTools('attacker');">
         <div>Attacker Tools</div>
       </label>
       <label class="tool-page-button">
-        <input type="radio" name="tool-page-button" onchange="setSubTools('defender');">
+        <input type="radio" name="tool-page-button" onchange="ToolHandler.setSubTools('defender');">
         <div>Defender Tools</div>
       </label>
     </div>
@@ -26,20 +26,20 @@
     <p class="sidebar-header">Tint:</p>
     <div class="center">
       <input type="radio" class="tint-color" name="tint-color"
-      style="background-color:white;" onclick="setTint(color(255))">
+      style="background-color:white;" onclick="ToolHandler.setTint(color(255))">
       <input type="radio" class="tint-color" name="tint-color"
-      style="background-color:red;" onclick="setTint(color(255,0,0))">
+      style="background-color:red;" onclick="ToolHandler.setTint(color(255,0,0))">
       <input type="radio" class="tint-color" name="tint-color"
-      style="background-color:green;" onclick="setTint(color(0,255,0))">
+      style="background-color:green;" onclick="ToolHandler.setTint(color(0,255,0))">
       <input type="radio" class="tint-color" name="tint-color"
-      style="background-color:blue;" onclick="setTint(color(0,0,255))">
+      style="background-color:blue;" onclick="ToolHandler.setTint(color(0,0,255))">
       <input type="radio" class="tint-color" name="tint-color"
-      style="background-color:orange;" onclick="setTint(color(255,165,0))">
+      style="background-color:orange;" onclick="ToolHandler.setTint(color(255,165,0))">
       <input type="radio" class="tint-color" name="tint-color"
-      style="background-color:yellow;" onclick="setTint(color(255,255,0))">
+      style="background-color:yellow;" onclick="ToolHandler.setTint(color(255,255,0))">
       <input type="radio" class="tint-color" name="tint-color"
-      style="background-color:rgb(196, 57, 238);" onclick="setTint(color(196,57,238))">
-      <input class="tint-color" type="color" value="#ffffff" onchange="setTint(color(this.value))">
+      style="background-color:rgb(196, 57, 238);" onclick="ToolHandler.setTint(color(196,57,238))">
+      <input class="tint-color" type="color" value="#ffffff" onchange="ToolHandler.setTint(color(this.value))">
     </div>
   </div>
 </div>

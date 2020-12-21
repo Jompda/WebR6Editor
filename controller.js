@@ -4,7 +4,6 @@
 var translateX = 0, translateY = 0;
 var minZoom = 0.6;
 var lastX, lastY;
-var tool;
 var onObject = false;
 var dragged = false;
 
@@ -22,7 +21,7 @@ function mousePressed() {
                 break;
             }
         }
-        if(tool && tool.onPress) tool.onPress();
+        if(ToolHandler.tool && ToolHandler.tool.onPress) ToolHandler.tool.onPress();
     }
 }
 
@@ -31,7 +30,7 @@ function mouseDragged() {
     dragged = true;
     if(mouseButton != CENTER) {
         if(bounds()) return;
-        if(tool && tool.onDrag) tool.onDrag();
+        if(ToolHandler.tool && ToolHandler.tool.onDrag) ToolHandler.tool.onDrag();
         else dragObject();
     }
     else {
@@ -47,8 +46,8 @@ function mouseReleased() {
     update();
     if(mouseButton != CENTER) {
         if(bounds()) return;
-        if(tool && tool.onRelease) tool.onRelease();
-        console.log(tool);
+        if(ToolHandler.tool && ToolHandler.tool.onRelease) ToolHandler.tool.onRelease();
+        //console.log(ToolHandler.tool);
     }
     lastX = undefined; lastY = undefined;
     onObject = false;

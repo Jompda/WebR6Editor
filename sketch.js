@@ -12,12 +12,12 @@ function windowResized() {
 }
 
 function setup() {
-    setTool('remover');
+    ToolHandler.setTool('remover');
     viewport = document.getElementById('viewport');
     canvas = createCanvas(viewport.offsetWidth, viewport.offsetHeight);
     canvas.parent('viewport');
 
-    setTint(color(255));
+    ToolHandler.setTint(color(255));
     //temporary object
     //objects[objects.length] = new ImageObject(0, 0, imageobj_size, imageobj_size, loadImage('assets/ash.png'), saveTint);
 

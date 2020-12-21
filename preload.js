@@ -38,10 +38,12 @@ function preload() {
         sidebar_right.innerHTML = xhr.responseText;
         sidebar_right_toggle = document.getElementById('sidebar-right-toggle');
         subtools_container = document.getElementById('subtools-container');
+        attacker_tools = document.createElement('div');
+        defender_tools = document.createElement('div');
         
         // Load the tools
         createTools();
-        setSubTools('tools');
+        ToolHandler.setSubTools('tools');
         getHttpResource('/assets.json', loadAssetList);
     });
     changeMap('bank-1');
@@ -77,8 +79,8 @@ function loadAssetList(xhr) {
             default: console.log('ERROR: Unknown group:', group); break;
         }
     });
-    createImageToolPage(attacker_tools = document.createElement('div'), attackerGroups);
-    createImageToolPage(defender_tools = document.createElement('div'), defenderGroups);
+    createImageToolPage(attacker_tools, attackerGroups);
+    createImageToolPage(defender_tools, defenderGroups);
 }
 
 function createImageToolPage(target, groups) {
@@ -93,12 +95,13 @@ function createImageToolPage(target, groups) {
             // Calculate the width of each element and if the total
             // width exceeds the reserved space, continue on a new row.
             const imageTool = createImageTool(group.path, tempAsset[0], tempAsset[1], group.extension, tempAsset[2]);
-            // Sad way of acquiring the width of the element.
+            // Sad way of acquiring the width of the element. UPDATE: This doesn't work.
+            // In order for this kind of width calculation to work, the images would need to be preloaded.
             tools_tools.appendChild(imageTool);
             rowWidth += imageTool.getBoundingClientRect().width;
             tools_tools.removeChild(imageTool);
 
-            if (rowWidth > 90) {
+            if (rowWidth >= 84) {
                 center = createDivCenter();
                 target.appendChild(center);
                 rowWidth = 0;
@@ -119,7 +122,7 @@ function createImageTool(path, title, filename, extension, owner) {
     r.setAttribute('name', 'tool');
     const filepath = path+filename+extension;
     preloadedImages.set(filename, loadImage(filepath)); // Preload the images for p5
-    r.setAttribute('onchange', `setImageTool('${filename}')`);
+    r.setAttribute('onchange', `ToolHandler.setImageTool('${filename}')`);
     const i = document.createElement('img');
     i.setAttribute('src', filepath);
     i.setAttribute('title', title);
@@ -150,7 +153,7 @@ function createTools() {
 function createToolButton(title) {
     let elem = document.createElement('button');
     elem.setAttribute('class', 'toolbutton');
-    elem.setAttribute('onclick', `setTool('${title.toLowerCase()}')`);
+    elem.setAttribute('onclick', `ToolHandler.setTool('${title.toLowerCase()}')`);
     elem.innerHTML = title;
     return elem;
 }
