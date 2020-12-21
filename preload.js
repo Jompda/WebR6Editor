@@ -24,6 +24,7 @@ function getHttpResource(url, callback) {
 }
 
 function preload() {
+    bg_image = createImage(1,1); // Just to avoid background-image drawing errors.
     getHttpResource('/UI/sidebar-left.html', (xhr) => {
         sidebar_left.innerHTML = xhr.responseText;
         sidebar_left_toggle = document.getElementById('sidebar-left-toggle');
@@ -41,7 +42,6 @@ function preload() {
         ToolHandler.setSubTools('tools');
         getHttpResource('/assets.json', loadAssetList);
     });
-    changeMap('bank-1');
 }
 
 function loadMapList(xhr) {
@@ -55,12 +55,13 @@ function loadMapList(xhr) {
         }
         map.floors.forEach((floor) => {
             const option = document.createElement('option');
-            option.setAttribute('value', floor[1]);
+            option.setAttribute('value', `${map.name}/${floor[1]}`);
             if (map.esl) option.setAttribute('class', 'map-pool-esl');
             option.innerHTML = `${map.name} ${floor[0]}`;
             mapchooserElem.appendChild(option);
         });
     });
+    changeMap(`${mapConfig[0].name}/${mapConfig[0].floors[0][1]}`);
 }
 
 function loadAssetList(xhr) {

@@ -9,7 +9,7 @@
         ]
     },
     {
-        "name": "Border", "esl": true,
+        "name": "Border", "esl": false,
         "floors": [
             [ "1st", "border0" ],
             [ "2nd", "border1" ],
@@ -26,47 +26,58 @@
         ]
     },
     {
-        "name": "Club House", "esl": true,
+        "name": "Clubhouse", "esl": true,
         "floors": [
-            [ "Basement", "club-1" ],
-            [ "1st", "club0" ],
-            [ "2nd", "club1" ],
-            [ "Roof", "club2" ]
+            [ "Basement", "basement" ],
+            [ "Ground Floor", "groundfloor" ],
+            [ "Top Floor", "topfloor" ]
         ]
     },
     {
         "name": "Coastline", "esl": true,
         "floors": [
-            [ "1st", "coastline0" ],
-            [ "2nd", "coastline1" ],
-            [ "Roof", "coastline2" ]
+            [ "Ground Floor", "groundfloor" ],
+            [ "Top Floor", "topfloor" ]
         ]
     },
     {
         "name": "Consulate", "esl": true,
         "floors": [
-            [ "Basement", "consulate-1" ],
-            [ "1st", "consulate0" ],
-            [ "2nd", "consulate1" ],
-            [ "Roof", "consulate2" ]
+            [ "Basement", "basement" ],
+            [ "Ground Floor", "groundfloor" ],
+            [ "Top Floor", "topfloor" ]
         ]
     },
     {
-        "name": "Kafe Dostoyevsky", "esl": true,
+        "name": "Kafe", "esl": true,
         "floors": [
-            [ "1st", "dostoyevsky0" ],
-            [ "2nd", "dostoyevsky1" ],
-            [ "3rd", "dostoyevsky2" ],
-            [ "Roof", "dostoyevsky3" ]
+            [ "Ground Floor", "groundfloor" ],
+            [ "Middle Floor", "middlefloor" ],
+            [ "Top Floor", "topfloor" ]
         ]
     },
     {
         "name": "Oregon", "esl": true,
         "floors": [
-            [ "basement", "oregon-1" ],
-            [ "1st", "oregon0" ],
-            [ "2nd", "oregon1" ],
-            [ "Roof", "oregon2" ]
+            [ "Basement", "basement" ],
+            [ "Ground Floor", "groundfloor" ],
+            [ "Top Floor", "topfloor" ],
+            [ "Tower Floor", "towerfloor" ]
+        ]
+    },
+    {
+        "name": "Themepark", "esl": true,
+        "floors": [
+            [ "Ground Floor", "groundfloor" ],
+            [ "Top Floor", "topfloor" ]
+        ]
+    },
+    {
+        "name": "Villa", "esl": true,
+        "floors": [
+            [ "Basement", "basement" ],
+            [ "Ground Floor", "groundfloor" ],
+            [ "Top Floor", "topfloor" ]
         ]
     },
     {

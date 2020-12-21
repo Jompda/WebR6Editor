@@ -2,7 +2,7 @@
 // This whole thing is a mess.
 
 var translateX = 0, translateY = 0;
-var minZoom = 0.6;
+var minZoom = 0.2;
 var lastX, lastY;
 var onObject = false;
 var dragged = false;
@@ -64,28 +64,27 @@ function mouseWheel(e) {
     if(bounds()) return;
 
     let zoomDelta = -e.delta/500;
-  
-    // TODO: Recreate this shit. What the fuck was I thinking..
-    if(zoom + zoomDelta < minZoom)
-      zoomDelta += minZoom-(zoom+zoomDelta);
-    if(zoom > 2) zoomDelta *= 1.5; //boosts the zoomDelta
-    if(zoom > 4) zoomDelta *= 1.5;
-    if(zoom > 8) zoomDelta *= 1.5;
-    if(zoom > 12) zoomDelta *= 1.5;
 
-    //zooming relative to cursor
-    translateX += -((mouseX-translateX)/zoom * zoomDelta);
-    translateY += -((mouseY-translateY)/zoom * zoomDelta);
-    //zooming relative to camera position aka center of the viewport
-    //translateX += -((width/2-translateX)/zoom * zoomDelta);
-    //translateY += -((height/2-translateY)/zoom * zoomDelta);
-    zoom += zoomDelta;
+    function adjustTranslation() {
+        // Relative to cursor.
+        translateX += -((mouseX-translateX)/zoom * zoomDelta);
+        translateY += -((mouseY-translateY)/zoom * zoomDelta);
+        // Relative to the camera position AKA center of the viewport.
+        //translateX += -((width/2-translateX)/zoom * zoomDelta);
+        //translateY += -((height/2-translateY)/zoom * zoomDelta);
+    }
+
+    if (zoom + zoomDelta < minZoom)
+        zoomDelta += minZoom-(zoom+zoomDelta);
+
+    adjustTranslation();
+    console.log(zoom, '+=', zoomDelta, '=', zoom += zoomDelta);
 }
 
 function bounds() {
     //filters out mouse events that are overlapping with the sidebars
     if(mouseX < sidebar_left.offsetLeft+sidebar_left.offsetWidth || mouseX > sidebar_right.offsetLeft) return true;
-    //filter out the toggle buttons.
+    //filter out the toggle buttons. Dear god, what the fuck is this..
     if(dist(mouseX, mouseY, sidebar_right.offsetLeft+sidebar_right_toggle.offsetLeft+sidebar_right_toggle.offsetWidth/2,
         sidebar_right_toggle.offsetTop+sidebar_right_toggle.offsetHeight/2) < 20) return true;
     if(dist(mouseX, mouseY, sidebar_left.offsetLeft+sidebar_left_toggle.offsetLeft+sidebar_left_toggle.offsetWidth/2,
