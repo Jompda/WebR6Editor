@@ -1,5 +1,11 @@
 
 class ToolHandler {
+
+    static subtools_container;
+    static basic_tools; // Wtf is this name?
+    static attacker_tools;
+    static defender_tools;
+
     static tool;
     static tools = [];
 
@@ -34,20 +40,20 @@ class ToolHandler {
 
     static setSubTools(name) {
         this.clearSelectedTool();
-        if(subtools_container.firstChild) subtools_container.removeChild(subtools_container.firstChild);
-        var tools_page;
+        if(this.subtools_container.firstChild) this.subtools_container.removeChild(this.subtools_container.firstChild);
+        let toolsPage;
         switch (name) {
-            case 'tools': tools_page = tools_tools; break;
-            case 'attacker': tools_page = attacker_tools; break;
-            case 'defender': tools_page = defender_tools; break;
+            case 'tools': toolsPage = this.basic_tools; break;
+            case 'attacker': toolsPage = this.attacker_tools; break;
+            case 'defender': toolsPage = this.defender_tools; break;
             default: return;
         }
-        subtools_container.appendChild(tools_page);
+        this.subtools_container.appendChild(toolsPage);
     }
 
     static clearSelectedTool() {
-        var elem = document.getElementsByName("tool");
-        for(var i=0;i<elem.length;i++)
+        const elem = document.getElementsByName("tool");
+        for(let i=0;i<elem.length;i++)
             elem[i].checked = false;
     }
 }

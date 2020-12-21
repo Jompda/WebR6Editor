@@ -13,11 +13,6 @@ const sidebar_right = document.getElementById('sidebar-right');
 var sidebar_left_toggle;
 var sidebar_right_toggle;
 
-var subtools_container;
-var tools_tools; // Wtf is this name?
-var attacker_tools;
-var defender_tools;
-
 function getHttpResource(url, callback) {
     let xhr = new XMLHttpRequest();
     xhr.open('GET', url); xhr.send();
@@ -37,9 +32,9 @@ function preload() {
     getHttpResource('/UI/sidebar-right.html', (xhr) => {
         sidebar_right.innerHTML = xhr.responseText;
         sidebar_right_toggle = document.getElementById('sidebar-right-toggle');
-        subtools_container = document.getElementById('subtools-container');
-        attacker_tools = document.createElement('div');
-        defender_tools = document.createElement('div');
+        ToolHandler.subtools_container = document.getElementById('subtools-container');
+        ToolHandler.attacker_tools = document.createElement('div');
+        ToolHandler.defender_tools = document.createElement('div');
         
         // Load the tools
         createTools();
@@ -79,8 +74,8 @@ function loadAssetList(xhr) {
             default: console.log('ERROR: Unknown group:', group); break;
         }
     });
-    createImageToolPage(attacker_tools, attackerGroups);
-    createImageToolPage(defender_tools, defenderGroups);
+    createImageToolPage(ToolHandler.attacker_tools, attackerGroups);
+    createImageToolPage(ToolHandler.defender_tools, defenderGroups);
 }
 
 function createImageToolPage(target, groups) {
@@ -132,8 +127,8 @@ function sidebarRightToggle() {
 
 // Functions to create HTML elements.
 function createTools() {
-    tools_tools = document.createElement('div');
-    tools_tools.appendChild(createToolButton('Remover'));
+    ToolHandler.basic_tools = document.createElement('div');
+    ToolHandler.basic_tools.appendChild(createToolButton('Remover'));
 }
 function createToolButton(title) {
     let elem = document.createElement('button');
