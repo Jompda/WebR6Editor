@@ -87,28 +87,13 @@ function createImageToolPage(target, groups) {
     // Create sections from the groups.
     groups.forEach((group) => {
         target.appendChild(createHeader(group.name));
-        var center = createDivCenter(), rowWidth = 0;
-        target.appendChild(center);
+        const table = createFlexTable();
         for (let i = 0; i < group.assets.length; i++) {
             const tempAsset = group.assets[i];
-
-            // Calculate the width of each element and if the total
-            // width exceeds the reserved space, continue on a new row.
             const imageTool = createImageTool(group.path, tempAsset[0], tempAsset[1], group.extension, tempAsset[2]);
-            // Sad way of acquiring the width of the element. UPDATE: This doesn't work.
-            // In order for this kind of width calculation to work, the images would need to be preloaded.
-            tools_tools.appendChild(imageTool);
-            rowWidth += imageTool.getBoundingClientRect().width;
-            tools_tools.removeChild(imageTool);
-
-            if (rowWidth >= 84) {
-                center = createDivCenter();
-                target.appendChild(center);
-                rowWidth = 0;
-            }
-
-            center.appendChild(imageTool);
+            table.appendChild(imageTool);
         }
+        target.appendChild(table);
         target.appendChild(createHR());
     });
 }
@@ -168,8 +153,8 @@ function createHR() {
     elem.setAttribute('class', 'sidebar-hr');
     return elem;
 }
-function createDivCenter() {
+function createFlexTable() {
     let elem = document.createElement('div');
-    elem.setAttribute('class', 'center');
+    elem.setAttribute('class', 'flex-table');
     return elem;
 }
