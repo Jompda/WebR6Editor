@@ -147,11 +147,17 @@ html, body {
 .imagetool > img {
     height: 32px;
     padding: 4px 6px;
+    margin: 0 2px;
     border: 1px solid rgba(0,0,0,0);
     outline: none;
 }
 .imagetool > img:hover {
     border: 1px solid red;
+}
+.operator-tool {
+    height: 40px !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 /*
 2.5. TOOLS

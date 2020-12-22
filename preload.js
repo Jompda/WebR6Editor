@@ -107,6 +107,7 @@ function createImageTool(path, title, filename, extension, owner) {
     const i = document.createElement('img');
     i.setAttribute('src', filepath);
     i.setAttribute('title', title);
+    if (path.includes('operator')) i.setAttribute('class', 'operator-tool'); // lazy
     elem.appendChild(r);
     elem.appendChild(i);
     return elem;
