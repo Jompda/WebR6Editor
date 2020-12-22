@@ -111,11 +111,11 @@
         "path": "assets/special_gadgets/",
         "extension": ".png",
         "assets": [
-            [ "Exothermic Charge", "exothermiccharge", "thermite" ],
-            [ "TACMK0", null, "capitao" ],
-            [ "X-Kairos", null, "hibana" ],
-            [ "Candela", null, "ying" ],
-            [ "Breaching Torch", "breachingtorch", "maverick" ]
+            [ "Exothermic Charge", "exothermiccharge" ],
+            [ "TACMK0" ],
+            [ "X-Kairos" ],
+            [ "Candela" ],
+            [ "Breaching Torch", "breachingtorch" ]
         ]
     },
     {
@@ -124,25 +124,25 @@
         "path": "assets/special_gadgets/",
         "extension": ".png",
         "assets": [
-            [ "Remote Gas Grenade", "remotegasgrenade", "smoke" ],
-            [ "Signal Disruptor", "signaldisruptor", "mute" ],
-            [ "Armor Panel", "armorpanel", "castle" ],
-            [ "Active Defense System", "activedefensesystem", "jager" ],
-            [ "Shock Wire", "shockwire", "bandit" ],
-            [ "Welcome Mat", "welcomemat", "frost" ],
-            [ "Black Eye", "blackeye", "valkyrie" ],
-            [ "Yokai", null, "echo" ],
-            [ "Black Mirror", "blackmirror", "mira" ],
-            [ "Gu Mine", "gumine", "lesion" ],
-            [ "Grzmot Mine", "grzmotmine", "ela" ],
-            [ "Prisma", null, "alibi" ],
-            [ "Evil Eye", "evileye", "maestro" ],
-            [ "Electroclaw", null, "kaid" ],
-            [ "Pest", null, "mozzie" ],
-            [ "Vulcan Shield", "vulcanshield", "goyo" ],
-            [ "Mag-NET", null, "wamai" ],
-            [ "Dash", null, "oryx" ],
-            [ "Banshee", null, "melusi" ]
+            [ "Remote Gas Grenade", "remotegasgrenade" ],
+            [ "Signal Disruptor", "signaldisruptor" ],
+            [ "Armor Panel", "armorpanel" ],
+            [ "Active Defense System", "activedefensesystem" ],
+            [ "Shock Wire", "shockwire" ],
+            [ "Welcome Mat", "welcomemat" ],
+            [ "Black Eye", "blackeye" ],
+            [ "Yokai" ],
+            [ "Black Mirror", "blackmirror" ],
+            [ "Gu Mine", "gumine" ],
+            [ "Grzmot Mine", "grzmotmine" ],
+            [ "Prisma" ],
+            [ "Evil Eye", "evileye" ],
+            [ "Electroclaw" ],
+            [ "Pest" ],
+            [ "Vulcan Shield", "vulcanshield" ],
+            [ "Mag-NET" ],
+            [ "Dash" ],
+            [ "Banshee" ]
         ]
     }
 ]

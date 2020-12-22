@@ -30,7 +30,7 @@ class ToolHandler {
                     const scale = 1, img = preloadedImages.get(name);
                     var aspect_ratio = img.width / img.height;
                     objects.unshift(new ImageObject(
-                        (mouseX - translateX)/zoom, (mouseY - translateY)/zoom,
+                        (mouseX - translateX - imageobj_size*aspect_ratio/2)/zoom, (mouseY - translateY - imageobj_size/2)/zoom,
                         imageobj_size*aspect_ratio*scale, imageobj_size*scale, img, ToolHandler.getTint()
                     ));
                 }

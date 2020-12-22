@@ -35,5 +35,11 @@ function draw() {
 
     image(bg_image, 0, 0, bg_image.width*zoom, bg_image.height*zoom);
 
-    for(let i = objects.length-1; i > -1; i--) objects[i].draw();
+    for(let i = objects.length-1; i > -1; i--) {
+        push(); objects[i].draw(); pop();
+    }
+}
+
+function showObjectProperties(obj) {
+    console.log(obj);
 }
