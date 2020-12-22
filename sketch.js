@@ -20,6 +20,10 @@ function setup() {
     //temporary object
     //objects[objects.length] = new ImageObject(0, 0, imageobj_size, imageobj_size, loadImage('assets/ash.png'), saveTint);
 
+    // To avoid opening the context menu when right clicking on the canvas.
+    document.oncontextmenu = function() {
+        return false;
+    }
 }
 
 var updateCounter = 2;
@@ -41,5 +45,5 @@ function draw() {
 }
 
 function showObjectProperties(obj) {
-    console.log(obj);
+    console.log('showObjectProperties:', obj);
 }

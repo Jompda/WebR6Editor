@@ -8,48 +8,69 @@ var lastX, lastY;
 var onObject = false;
 var dragged = false;
 
-function mousePressed() {
+function mousePressed(event) {
+    onObject = false;
     update();
-    if(mouseButton != CENTER) {
-        if(bounds()) return;
-        //check for intersection
-        for(let i = 0; i < objects.length; i++) {
-            if(objects[i].intersects((mouseX - translateX)/zoom, (mouseY - translateY)/zoom)) {
-                onObject = objects[i];
-                //move to first
-                objects.splice(i, 1);
-                objects.unshift(onObject);
-                break;
-            }
+    if(bounds()) return;
+    // Check for intersection.
+    for(let i = 0; i < objects.length; i++) {
+        if(objects[i].intersects((mouseX - translateX)/zoom, (mouseY - translateY)/zoom)) {
+            onObject = objects[i];
+            // Move to first.
+            objects.splice(i, 1);
+            objects.unshift(onObject);
+            break;
         }
-        if(ToolHandler.tool && ToolHandler.tool.onPress) ToolHandler.tool.onPress();
+    }
+    
+    switch (mouseButton) {
+        case CENTER: break;
+        case RIGHT: showObjectProperties(onObject); break;
+        case LEFT:
+            if(ToolHandler.tool && ToolHandler.tool.onPress)
+                ToolHandler.tool.onPress();
+            break;
+        default: break;
     }
 }
 
-function mouseDragged() {
+function mouseDragged(event) {
     update();
     dragged = true;
-    if(mouseButton != CENTER) {
-        if(bounds()) return;
-        if(ToolHandler.tool && ToolHandler.tool.onDrag) ToolHandler.tool.onDrag();
-        else dragObject();
-    }
-    else {
-        //drag the viewport
-        if(!lastX || !lastY) {lastX = mouseX; lastY = mouseY}
-        let deltaX = mouseX - lastX, deltaY = mouseY - lastY;
-        translateX += deltaX; translateY += deltaY;
-        lastX = mouseX; lastY = mouseY;
+    if(bounds()) return;
+
+    switch (mouseButton) {
+        case CENTER:
+            // Drag the viewport.
+            if(!lastX || !lastY) {lastX = mouseX; lastY = mouseY}
+            let deltaX = mouseX - lastX, deltaY = mouseY - lastY;
+            translateX += deltaX; translateY += deltaY;
+            lastX = mouseX; lastY = mouseY;
+            break;
+        case RIGHT: break;
+        case LEFT:
+            if(ToolHandler.tool && ToolHandler.tool.onDrag)
+                ToolHandler.tool.onDrag();
+            else dragObject();
+            break;
+        default: break;
     }
 }
 
-function mouseReleased() {
+function mouseReleased(event) {
     update();
-    if(mouseButton != CENTER) {
-        if(bounds()) return;
-        if(ToolHandler.tool && ToolHandler.tool.onRelease) ToolHandler.tool.onRelease();
-        //console.log(ToolHandler.tool);
+    if(bounds()) return;
+
+    switch (mouseButton) {
+        case CENTER: break;
+        case RIGHT: break;
+        case LEFT:
+            if(ToolHandler.tool && ToolHandler.tool.onRelease)
+                ToolHandler.tool.onRelease();
+            break;
+        default: break;
     }
+
     lastX = undefined; lastY = undefined;
     onObject = false;
     dragged = false;
@@ -60,11 +81,11 @@ function mouseReleased() {
     if(tool.onMove) tool.onMove();
 }*/
 
-function mouseWheel(e) {
+function mouseWheel(event) {
     update();
     if(bounds()) return;
 
-    let zoomDelta = -e.delta*zoom/750;
+    let zoomDelta = -event.delta*zoom/750;
 
     function adjustTranslation() {
         // Relative to cursor.
