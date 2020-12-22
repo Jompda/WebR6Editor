@@ -2,6 +2,7 @@
 // This whole thing is a mess.
 
 var translateX = 0, translateY = 0;
+var zoom = 1;
 var minZoom = 0.2;
 var lastX, lastY;
 var onObject = false;
@@ -63,7 +64,7 @@ function mouseWheel(e) {
     update();
     if(bounds()) return;
 
-    let zoomDelta = -e.delta/500;
+    let zoomDelta = -e.delta*zoom/750;
 
     function adjustTranslation() {
         // Relative to cursor.
@@ -78,7 +79,8 @@ function mouseWheel(e) {
         zoomDelta += minZoom-(zoom+zoomDelta);
 
     adjustTranslation();
-    console.log(zoom, '+=', zoomDelta, '=', zoom += zoomDelta);
+    //console.log(zoom, '+', zoomDelta, '=', zoom + zoomDelta);
+    zoom += zoomDelta;
 }
 
 function bounds() {

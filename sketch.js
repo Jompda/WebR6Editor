@@ -3,7 +3,6 @@ const imageobj_size = 42;
 
 var viewport;
 var canvas;
-var zoom = 1;
 const objects = [];
 
 function windowResized() {
