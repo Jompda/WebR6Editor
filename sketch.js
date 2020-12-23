@@ -41,5 +41,5 @@ function draw() {
 }
 
 function showObjectProperties(obj) {
-    console.log('showObjectProperties:', obj);
+    console.log(arguments.callee.name, obj);
 }
