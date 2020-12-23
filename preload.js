@@ -92,29 +92,29 @@ function createImageToolGroup(target, group) {
     const table = createFlexTable();
     for (let i = 0; i < group.assets.length; i++) {
         const tempAsset = group.assets[i];
-        const imageTool = createImageTool(group.path, tempAsset[0], tempAsset[1], group.extension, tempAsset[2]);
+        const imageTool = createImageTool(group.path, tempAsset[0], tempAsset[1], group.extension);
         table.appendChild(imageTool);
     }
     target.appendChild(table);
     target.appendChild(createHR());
 }
 
-function createImageTool(path, title, filename, extension, owner) {
+function createImageTool(path, title, filename, extension) {
     if(!filename) filename = title.toLowerCase();
-    const elem = document.createElement('label');
-    elem.setAttribute('class', 'imagetool');
-    const r = document.createElement('input');
-    r.setAttribute('type', 'radio');
-    r.setAttribute('name', 'tool');
     const filepath = path+filename+extension, assetURL = resourceURL + filepath;
     preloadedImages.set(filename, loadImage(assetURL)); // Preload the images for p5
-    r.setAttribute('onchange', `ToolHandler.setImageTool('${filename}')`);
-    const i = document.createElement('img');
-    i.setAttribute('src', assetURL);
-    i.setAttribute('title', title);
-    elem.appendChild(r);
-    elem.appendChild(i);
-    return elem;
+
+    const label = formElement('label', [ 'class', 'imagetool' ]);
+    label.appendChild(formElement('input',
+        [ 'type', 'radio' ],
+        [ 'name', 'tool' ],
+        [ 'onchange', `ToolHandler.setImageTool('${filename}')` ]
+    ));
+    label.appendChild(formElement('img',
+        [ 'src', assetURL ],
+        [ 'title', title ]
+    ));
+    return label;
 }
 
 
@@ -133,13 +133,12 @@ function sidebarRightToggle() {
 
 // Functions to create HTML elements.
 function createToolPageButton(title, group) {
-    const label = document.createElement('label');
-    label.setAttribute('class', 'tool-page-button');
-    // First Should be checked.
-    const input = document.createElement('input');
-    input.setAttribute('type', 'radio');
-    input.setAttribute('name', 'tool-page-button');
-    input.setAttribute('onchange', `ToolHandler.setSubTools('${group}');`);
+    const label = formElement('label', [ 'class', 'tool-page-button' ]);
+    const input = formElement('input',
+        [ 'type', 'radio' ],
+        [ 'name', 'tool-page-button' ],
+        [ 'onchange', `ToolHandler.setSubTools('${group}');` ]
+    );
     const txt = document.createElement('div');
     txt.innerHTML = title;
     label.appendChild(input);
@@ -147,25 +146,21 @@ function createToolPageButton(title, group) {
     return label;
 }
 function createToolButton(title) {
-    let elem = document.createElement('button');
-    elem.setAttribute('class', 'toolbutton');
-    elem.setAttribute('onclick', `ToolHandler.setTool('${title.toLowerCase()}')`);
+    const elem = formElement('button', [ 'class', 'toolbutton' ],
+        [ 'onclick', `ToolHandler.setTool('${title.toLowerCase()}')` ]);
     elem.innerHTML = title;
     return elem;
 }
-function createHeader(text) {
-    let elem = document.createElement('p');
-    elem.setAttribute('class', 'sidebar-header');
-    elem.innerHTML = text;
+function createHeader(header) {
+    const elem = formElement('p', [ 'class', 'sidebar-header' ]);
+    elem.innerHTML = header;
     return elem;
 }
-function createHR() {
-    let elem = document.createElement('hr');
-    elem.setAttribute('class', 'sidebar-hr');
-    return elem;
-}
-function createFlexTable() {
-    let elem = document.createElement('div');
-    elem.setAttribute('class', 'flex-table');
+const createHR = () => formElement('hr', [ 'class', 'sidebar-hr' ]);
+const createFlexTable = () => formElement('div', [ 'class', 'flex-table' ]);
+
+function formElement(tag, ...attribs) {
+    const elem = document.createElement(tag);
+    attribs.forEach(attrib => elem.setAttribute(attrib[0], attrib[1]));
     return elem;
 }
