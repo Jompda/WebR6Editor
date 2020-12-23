@@ -8,7 +8,6 @@ The simple but useful web-based Rainbow Six: Siege strategy editor.
 - Add Aruni and her gadget.
 - Form contexts around certain modules like the controller and tool-handler
   for hiding a large number of functions under a class.
-- Make the objects have a non-zoom related static size which can be altered in some other way.
 - Optimize the rendering.
 
 ## Features to implement:
@@ -19,3 +18,4 @@ The simple but useful web-based Rainbow Six: Siege strategy editor.
 - Portability to other games.
 - When loading a new map, set the zoom and translation
   so the map fits in the center of the viewport.
+- Ability to change the size/scale of an object.

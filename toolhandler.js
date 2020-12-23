@@ -27,11 +27,11 @@ class ToolHandler {
         this.tool = new function() {
             this.onRelease = function() {
                 if(!onObject) {
-                    const scale = 1, img = preloadedImages.get(name);
+                    const img = preloadedImages.get(name);
                     var aspect_ratio = img.width / img.height;
                     objects.unshift(new ImageObject(
-                        (mouseX - translateX - imageobj_size*aspect_ratio/2)/zoom, (mouseY - translateY - imageobj_size/2)/zoom,
-                        imageobj_size*aspect_ratio*scale, imageobj_size*scale, img, ToolHandler.getTint()
+                        (mouseX - translateX)/zoom - imageobj_size*aspect_ratio/2, (mouseY - translateY)/zoom - imageobj_size/2,
+                        imageobj_size*aspect_ratio, imageobj_size, img, ToolHandler.getTint()
                     ));
                 }
             }

@@ -16,13 +16,11 @@ class ImageObject {
 
   draw() {
     if (this.tint) tint(this.tint);
-    image(this.image, this.sx(), this.sy(), this.w, this.h);
+    image(this.image, this.sx(), this.sy(), this.sw(), this.sh());
   }
 
-  //the AABB changes its size relative to the zoom multiplier
   intersects(x, y) {
-    return (x*zoom > this.sx() && x*zoom < this.sx()+this.w)
-        && (y*zoom > this.sy() && y*zoom < this.sy()+this.h);
+    return (x > this.x && x < this.x+this.w)
+        && (y > this.y && y < this.y+this.h);
   }
 }
-  
