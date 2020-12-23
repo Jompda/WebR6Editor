@@ -19,3 +19,4 @@ The simple but useful web-based Rainbow Six: Siege strategy editor.
 - When loading a new map, set the zoom and translation
   so the map fits in the center of the viewport.
 - Ability to change the size/scale of an object.
+- History for undo/redo.
