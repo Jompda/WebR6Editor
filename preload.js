@@ -1,11 +1,12 @@
 
 const preloadedImages = new Map();
 
+const resourceURL = 'https://jompda.github.io/WebR6Editor/';
+
 var bg_image;
 function changeMap(name) {
     if(!name.includes('-----'))
-        bg_image = loadImage(`assets/maps/${name}.jpg`);
-        update();
+        bg_image = loadImage(`${resourceURL}assets/maps/${name}.jpg`, update);
 }
 
 const sidebar_left = document.getElementById('sidebar-left');
@@ -69,13 +70,13 @@ function loadMapList(xhr) {
         }
         map.floors.forEach((floor) => {
             const option = document.createElement('option');
-            option.setAttribute('value', `${map.name}/${floor[1]}`);
+            option.setAttribute('value', `${map.name.toLowerCase()}/${floor[1]}`);
             if (map.esl) option.setAttribute('class', 'map-pool-esl');
             option.innerHTML = `${map.name} ${floor[0]}`;
             mapchooserElem.appendChild(option);
         });
     });
-    changeMap(`${mapConfig[0].name}/${mapConfig[0].floors[0][1]}`);
+    changeMap(`${mapConfig[0].name.toLowerCase()}/${mapConfig[0].floors[0][1]}`);
 }
 
 function loadAssetList(xhr) {
@@ -105,11 +106,11 @@ function createImageTool(path, title, filename, extension, owner) {
     const r = document.createElement('input');
     r.setAttribute('type', 'radio');
     r.setAttribute('name', 'tool');
-    const filepath = path+filename+extension;
-    preloadedImages.set(filename, loadImage(filepath)); // Preload the images for p5
+    const filepath = path+filename+extension, assetURL = resourceURL + filepath;
+    preloadedImages.set(filename, loadImage(assetURL)); // Preload the images for p5
     r.setAttribute('onchange', `ToolHandler.setImageTool('${filename}')`);
     const i = document.createElement('img');
-    i.setAttribute('src', filepath);
+    i.setAttribute('src', assetURL);
     i.setAttribute('title', title);
     elem.appendChild(r);
     elem.appendChild(i);
