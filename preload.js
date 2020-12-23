@@ -25,22 +25,36 @@ function getHttpResource(url, callback) {
 
 function preload() {
     bg_image = createImage(1,1); // Just to avoid background-image drawing errors.
-    getHttpResource('/UI/sidebar-left.html', (xhr) => {
-        sidebar_left.innerHTML = xhr.responseText;
+    getHttpResource('/UI/sidebar-left.html', (sbleftxhr) => {
+        sidebar_left.innerHTML = sbleftxhr.responseText;
         sidebar_left_toggle = document.getElementById('sidebar-left-toggle');
         getHttpResource('/maps.json', loadMapList);
     });
-    getHttpResource('/UI/sidebar-right.html', (xhr) => {
-        sidebar_right.innerHTML = xhr.responseText;
+    getHttpResource('/UI/sidebar-right.html', (sbrightxhr) => {
+        sidebar_right.innerHTML = sbrightxhr.responseText;
         sidebar_right_toggle = document.getElementById('sidebar-right-toggle');
         ToolHandler.subtools_container = document.getElementById('subtools-container');
-        ToolHandler.attacker_tools = document.createElement('div');
-        ToolHandler.defender_tools = document.createElement('div');
-        
-        // Load the tools
-        createTools();
-        ToolHandler.setSubTools('tools');
-        getHttpResource('/assets.json', loadAssetList);
+        const tool_page_buttons = document.getElementById('tool-page-buttons');
+        {
+            // Hard coded basic tools page.
+            ToolHandler.toolGroups.get('basic').appendChild(createToolButton('Remover'));
+            const basicToolsBtn = createToolPageButton('Basic', 'basic');
+            basicToolsBtn.firstChild.setAttribute('checked', '');
+            tool_page_buttons.appendChild(basicToolsBtn);
+        }
+
+        // Init the toolpage.
+        getHttpResource('/toolpages.json', (toolpagesxhr) => {
+            const toolpagesConfig = JSON.parse(toolpagesxhr.responseText);
+            toolpagesConfig.forEach((page) => {
+                ToolHandler.toolGroups.set(page.group, document.createElement('div'));
+                tool_page_buttons.appendChild(createToolPageButton(page.title, page.group));
+            });
+            
+            // Load the tools
+            ToolHandler.setSubTools('basic');
+            getHttpResource('/assets.json', loadAssetList);
+        });
     });
 }
 
@@ -66,32 +80,22 @@ function loadMapList(xhr) {
 
 function loadAssetList(xhr) {
     const assetConfig = JSON.parse(xhr.responseText);
-    console.log(assetConfig);
-    const attackerGroups = [], defenderGroups = [];
     assetConfig.forEach((group) => {
-        switch (group.page) {
-            case 'attackers': attackerGroups.push(group); break;
-            case 'defenders': defenderGroups.push(group); break;
-            default: console.log('ERROR: Unknown group:', group); break;
-        }
+        const matchingPage = ToolHandler.toolGroups.get(group.page);
+        createImageToolGroup(matchingPage, group);
     });
-    createImageToolPage(ToolHandler.attacker_tools, attackerGroups);
-    createImageToolPage(ToolHandler.defender_tools, defenderGroups);
 }
 
-function createImageToolPage(target, groups) {
-    // Create sections from the groups.
-    groups.forEach((group) => {
-        target.appendChild(createHeader(group.name));
-        const table = createFlexTable();
-        for (let i = 0; i < group.assets.length; i++) {
-            const tempAsset = group.assets[i];
-            const imageTool = createImageTool(group.path, tempAsset[0], tempAsset[1], group.extension, tempAsset[2]);
-            table.appendChild(imageTool);
-        }
-        target.appendChild(table);
-        target.appendChild(createHR());
-    });
+function createImageToolGroup(target, group) {
+    target.appendChild(createHeader(group.name));
+    const table = createFlexTable();
+    for (let i = 0; i < group.assets.length; i++) {
+        const tempAsset = group.assets[i];
+        const imageTool = createImageTool(group.path, tempAsset[0], tempAsset[1], group.extension, tempAsset[2]);
+        table.appendChild(imageTool);
+    }
+    target.appendChild(table);
+    target.appendChild(createHR());
 }
 
 function createImageTool(path, title, filename, extension, owner) {
@@ -127,9 +131,19 @@ function sidebarRightToggle() {
 
 
 // Functions to create HTML elements.
-function createTools() {
-    ToolHandler.basic_tools = document.createElement('div');
-    ToolHandler.basic_tools.appendChild(createToolButton('Remover'));
+function createToolPageButton(title, group) {
+    const label = document.createElement('label');
+    label.setAttribute('class', 'tool-page-button');
+    // First Should be checked.
+    const input = document.createElement('input');
+    input.setAttribute('type', 'radio');
+    input.setAttribute('name', 'tool-page-button');
+    input.setAttribute('onchange', `ToolHandler.setSubTools('${group}');`);
+    const txt = document.createElement('div');
+    txt.innerHTML = title;
+    label.appendChild(input);
+    label.appendChild(txt);
+    return label;
 }
 function createToolButton(title) {
     let elem = document.createElement('button');

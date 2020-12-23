@@ -2,9 +2,9 @@
 class ToolHandler {
 
     static subtools_container;
-    static basic_tools; // Wtf is this name?
-    static attacker_tools;
-    static defender_tools;
+    static toolGroups = new Map([
+        [ 'basic', document.createElement('div') ]
+    ]);
 
     static tool;
     static tools = [];
@@ -38,22 +38,15 @@ class ToolHandler {
         }
     }
 
-    static setSubTools(name) {
+    static setSubTools(group) {
         this.clearSelectedTool();
-        if(this.subtools_container.firstChild) this.subtools_container.removeChild(this.subtools_container.firstChild);
-        let toolsPage;
-        switch (name) {
-            case 'tools': toolsPage = this.basic_tools; break;
-            case 'attacker': toolsPage = this.attacker_tools; break;
-            case 'defender': toolsPage = this.defender_tools; break;
-            default: return;
-        }
-        this.subtools_container.appendChild(toolsPage);
+        if (this.subtools_container.firstChild) this.subtools_container.removeChild(this.subtools_container.firstChild);
+        this.subtools_container.appendChild(this.toolGroups.get(group));
     }
 
     static clearSelectedTool() {
         const elem = document.getElementsByName("tool");
-        for(let i=0;i<elem.length;i++)
+        for (let i=0;i<elem.length;i++)
             elem[i].checked = false;
     }
 }
@@ -61,7 +54,7 @@ class ToolHandler {
 ToolHandler.tools.push(new function() {
     this.name = 'remover';
     this.onRelease = function() {
-        if(onObject && !dragged) {
+        if (onObject && !dragged) {
             let index = objects.indexOf(onObject);
             objects.splice(index, 1);
         }

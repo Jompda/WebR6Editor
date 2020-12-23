@@ -10,8 +10,6 @@ The simple but useful web-based Rainbow Six: Siege strategy editor.
   for hiding a large number of functions under a class.
 - Make the objects have a non-zoom related static size which can be altered in some other way.
 - Optimize the rendering.
-- Generalize everything so this can be used on other games too.
-  So everything should be loaded from config files instead of hard coding.
 
 ## Features to implement:
 - Saving/loading the creation.
@@ -19,3 +17,5 @@ The simple but useful web-based Rainbow Six: Siege strategy editor.
 - Export image.
 - Compress javascript for deployability.
 - Portability to other games.
+- When loading a new map, set the zoom and translation
+  so the map fits in the center of the viewport.

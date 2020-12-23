@@ -6,20 +6,8 @@
 </div>
 <div class="sidebar">
   <div class="sidebar-aligner">
-    <div style="width:100%;display:flex;justify-content:center;">
-      <label class="tool-page-button">
-        <input type="radio" name="tool-page-button" onchange="ToolHandler.setSubTools('tools');" checked>
-        <div>Tools</div>
-      </label>
-      <label class="tool-page-button">
-        <input type="radio" name="tool-page-button" onchange="ToolHandler.setSubTools('attacker');">
-        <div>Attacker Tools</div>
-      </label>
-      <label class="tool-page-button">
-        <input type="radio" name="tool-page-button" onchange="ToolHandler.setSubTools('defender');">
-        <div>Defender Tools</div>
-      </label>
-    </div>
+    <p class="sidebar-header" style="text-align: center;">Tools</p>
+    <div id="tool-page-buttons" style="width:100%;display:flex;justify-content:center;"></div>
     <hr class="sidebar-hr">
     <div id="subtools-container"></div>
     <hr class="sidebar-hr">

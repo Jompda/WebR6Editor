@@ -17,13 +17,9 @@ function setup() {
     canvas.parent('viewport');
 
     ToolHandler.setTint(color(255));
-    //temporary object
-    //objects[objects.length] = new ImageObject(0, 0, imageobj_size, imageobj_size, loadImage('assets/ash.png'), saveTint);
 
-    // To avoid opening the context menu when right clicking on the canvas.
-    document.oncontextmenu = function() {
-        return false;
-    }
+    document.oncontextmenu = () => false;
+    update();
 }
 
 var updateCounter = 2;
