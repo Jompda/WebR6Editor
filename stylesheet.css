@@ -116,6 +116,10 @@ html, body {
 /*
 2.3. RIGHT SIDEBAR SPECIFIC
 */
+#tool-page-buttons {
+    width: 100%;
+    display: flex;
+}
 .tint-color {
     width: 26px;
     height:20px;
@@ -155,6 +159,9 @@ html, body {
 /*
 2.5. TOOLS
 */
+.tool-page-button {
+    flex: 1;
+}
 .tool-page-button > input {
     position: absolute;
     opacity: 0;
@@ -162,7 +169,7 @@ html, body {
     height: 0;
 }
 .tool-page-button > div {
-    display: inline-block;
+    text-align: center;
     padding: 5px;
     font-size: 12px;
     font-family: verdana;
