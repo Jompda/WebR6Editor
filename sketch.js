@@ -2,7 +2,6 @@
 const imageobj_size = 42;
 
 var bg_image;
-var viewport;
 var canvas;
 const objects = [];
 
@@ -11,7 +10,6 @@ const windowResized = () =>
 
 function setup() {
     ToolHandler.setTool('remover');
-    viewport = document.getElementById('viewport');
     canvas = createCanvas(viewport.offsetWidth, viewport.offsetHeight);
     canvas.parent('viewport');
 

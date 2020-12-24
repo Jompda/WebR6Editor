@@ -8,6 +8,7 @@ function changeMap(name) {
         bg_image = loadImage(`${resourceURL}assets/maps/${name}.jpg`, update);
 }
 
+const viewport = document.getElementById('viewport');
 const sidebar_left = document.getElementById('sidebar-left');
 const sidebar_right = document.getElementById('sidebar-right');
 var sidebar_left_toggle;
