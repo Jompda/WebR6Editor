@@ -17,7 +17,7 @@ var sidebar_right_toggle;
 function getHttpResource(url, callback) {
     let xhr = new XMLHttpRequest();
     xhr.open('GET', url); xhr.send();
-    xhr.onerror = () => console.log(`Error ${xhr.status}: ${xhr.statusText}`);
+    xhr.onerror = () => console.log(`Error ${url} => ${xhr.status}: ${xhr.statusText}`);
     xhr.onload = () => {
         if (xhr.status != 200) return xhr.onerror();
         callback(xhr);
