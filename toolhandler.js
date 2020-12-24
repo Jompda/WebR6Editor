@@ -1,29 +1,29 @@
 
-class ToolHandler {
+const ToolHandler = {
 
-    static subtools_container;
-    static toolGroups = new Map([
+    subtools_container: undefined,
+    toolGroups: new Map([
         [ 'basic', document.createElement('div') ]
-    ]);
+    ]),
 
-    static tool;
-    static tools = [];
+    tool: undefined,
+    tools: [],
 
     // Doesn't need setter and getter.
-    static saveTint = undefined;
-    static getTint() {return this.saveTint;}
-    static setTint(tint) {this.saveTint = tint;}
+    saveTint: undefined,
+    getTint() {return this.saveTint},
+    setTint(tint) {this.saveTint = tint},
 
-    static setTool(name) {
+    setTool(name) {
         for(let i = 0; i < this.tools.length; i++) {
             if(this.tools[i].name == name) {
                 this.tool = this.tools[i];
                 //console.log(this.tool);
             }
         }
-    }
+    },
 
-    static setImageTool(name) {
+    setImageTool(name) {
         this.tool = new function() {
             this.onRelease = function() {
                 if(!onObject) {
@@ -36,21 +36,22 @@ class ToolHandler {
                 }
             }
         }
-    }
+    },
 
-    static setSubTools(group) {
+    setSubTools(group) {
         this.clearSelectedTool();
         if (this.subtools_container.firstChild) this.subtools_container.removeChild(this.subtools_container.firstChild);
         this.subtools_container.appendChild(this.toolGroups.get(group));
-    }
+    },
 
-    static clearSelectedTool() {
+    clearSelectedTool() {
         const elem = document.getElementsByName("tool");
         for (let i=0;i<elem.length;i++)
             elem[i].checked = false;
     }
 }
 
+// Temporary way of initializing the remover tool.
 ToolHandler.tools.push(new function() {
     this.name = 'remover';
     this.onRelease = function() {
