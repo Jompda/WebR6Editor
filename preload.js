@@ -3,7 +3,6 @@ const preloadedImages = new Map();
 
 const resourceURL = 'https://jompda.github.io/WebR6Editor/';
 
-var bg_image;
 function changeMap(name) {
     if(!name.includes('-----'))
         bg_image = loadImage(`${resourceURL}assets/maps/${name}.jpg`, update);
@@ -38,8 +37,8 @@ function preload() {
         const tool_page_buttons = document.getElementById('tool-page-buttons');
         {
             // Hard coded basic tools page.
-            ToolHandler.toolGroups.get('basic').appendChild(createToolButton('Remover'));
-            const basicToolsBtn = createToolPageButton('Basic', 'basic');
+            ToolHandler.toolGroups.get('basic').appendChild(GUI.createToolButton('Remover'));
+            const basicToolsBtn = GUI.createToolPageButton('Basic', 'basic');
             basicToolsBtn.firstChild.setAttribute('checked', '');
             tool_page_buttons.appendChild(basicToolsBtn);
         }
@@ -49,7 +48,7 @@ function preload() {
             const toolpagesConfig = JSON.parse(toolpagesxhr.responseText);
             toolpagesConfig.forEach((page) => {
                 ToolHandler.toolGroups.set(page.group, document.createElement('div'));
-                tool_page_buttons.appendChild(createToolPageButton(page.title, page.group));
+                tool_page_buttons.appendChild(GUI.createToolPageButton(page.title, page.group));
             });
             
             // Load the tools
@@ -88,79 +87,13 @@ function loadAssetList(xhr) {
 }
 
 function createImageToolGroup(target, group) {
-    target.appendChild(createHeader(group.name));
-    const table = createFlexTable();
+    target.appendChild(GUI.createHeader(group.name));
+    const table = GUI.createFlexTable();
     for (let i = 0; i < group.assets.length; i++) {
         const tempAsset = group.assets[i];
-        const imageTool = createImageTool(group.path, tempAsset[0], tempAsset[1], group.extension);
+        const imageTool = GUI.createImageTool(group.path, tempAsset[0], tempAsset[1], group.extension);
         table.appendChild(imageTool);
     }
     target.appendChild(table);
-    target.appendChild(createHR());
-}
-
-function createImageTool(path, title, filename, extension) {
-    if(!filename) filename = title.toLowerCase();
-    const filepath = path+filename+extension, assetURL = resourceURL + filepath;
-    preloadedImages.set(filename, loadImage(assetURL)); // Preload the images for p5
-
-    const label = formElement('label', [ 'class', 'imagetool' ]);
-    label.appendChild(formElement('input',
-        [ 'type', 'radio' ],
-        [ 'name', 'tool' ],
-        [ 'onchange', `ToolHandler.setImageTool('${filename}')` ]
-    ));
-    label.appendChild(formElement('img',
-        [ 'src', assetURL ],
-        [ 'title', title ]
-    ));
-    return label;
-}
-
-
-// Sidebar functionality.
-function sidebarLeftToggle() {
-    if(!sidebar_left.style.left) sidebar_left.style.left = '0px';
-    if(sidebar_left.style.left == '0px') sidebar_left.style.left = '-301px';
-    else sidebar_left.style.left = '0px';
-}
-function sidebarRightToggle() {
-    if(!sidebar_right.style.right) sidebar_right.style.right = '0px';
-    if(sidebar_right.style.right == '0px') sidebar_right.style.right = '-301px';
-    else sidebar_right.style.right = '0px';
-}
-
-
-// Functions to create HTML elements.
-function createToolPageButton(title, group) {
-    const label = formElement('label', [ 'class', 'tool-page-button' ]);
-    const input = formElement('input',
-        [ 'type', 'radio' ],
-        [ 'name', 'tool-page-button' ],
-        [ 'onchange', `ToolHandler.setSubTools('${group}');` ]
-    );
-    const txt = document.createElement('div');
-    txt.innerHTML = title;
-    label.appendChild(input);
-    label.appendChild(txt);
-    return label;
-}
-function createToolButton(title) {
-    const elem = formElement('button', [ 'class', 'toolbutton' ],
-        [ 'onclick', `ToolHandler.setTool('${title.toLowerCase()}')` ]);
-    elem.innerHTML = title;
-    return elem;
-}
-function createHeader(header) {
-    const elem = formElement('p', [ 'class', 'sidebar-header' ]);
-    elem.innerHTML = header;
-    return elem;
-}
-const createHR = () => formElement('hr', [ 'class', 'sidebar-hr' ]);
-const createFlexTable = () => formElement('div', [ 'class', 'flex-table' ]);
-
-function formElement(tag, ...attribs) {
-    const elem = document.createElement(tag);
-    attribs.forEach(attrib => elem.setAttribute(attrib[0], attrib[1]));
-    return elem;
+    target.appendChild(GUI.createHR());
 }

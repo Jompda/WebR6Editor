@@ -1,6 +1,7 @@
 
 const imageobj_size = 42;
 
+var bg_image;
 var viewport;
 var canvas;
 const objects = [];
