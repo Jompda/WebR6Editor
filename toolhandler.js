@@ -15,8 +15,8 @@ const ToolHandler = {
     setTint(tint) {this.saveTint = tint},
 
     setTool(name) {
-        for(let i = 0; i < this.tools.length; i++) {
-            if(this.tools[i].name == name) {
+        for (let i = 0; i < this.tools.length; i++) {
+            if (this.tools[i].name == name) {
                 this.tool = this.tools[i];
                 //console.log(this.tool);
             }
@@ -26,7 +26,7 @@ const ToolHandler = {
     setImageTool(name) {
         this.tool = new function() {
             this.onRelease = function() {
-                if(!onObject) {
+                if (!onObject) {
                     const img = preloadedImages.get(name);
                     var aspect_ratio = img.width / img.height;
                     objects.unshift(new ImageObject(

@@ -4,7 +4,7 @@ const preloadedImages = new Map();
 const resourceURL = 'https://jompda.github.io/WebR6Editor/';
 
 function changeMap(name) {
-    if(!name.includes('-----'))
+    if (name !== '-----')
         bg_image = loadImage(`${resourceURL}assets/maps/${name}.jpg`, update);
 }
 

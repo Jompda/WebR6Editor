@@ -1,18 +1,16 @@
 
 // This is not supposed to be a secure server implementation.
-var port = 80;
-var http = require('http');
-var url = require('url');
-var fs = require('fs');
+const port = 80;
+const http = require('http'), url = require('url'), fs = require('fs');
 
-var server = http.createServer(function (request, response) {
+const server = http.createServer(function (request, response) {
     let pathname = url.parse(request.url).pathname.substring(1);
     if(pathname == '') pathname = 'index.html';
     
     //filter GET and HEAD methods
     if(request.method == "GET" || request.method == "HEAD") {
         try {
-            var content = fs.readFileSync(pathname);
+            const content = fs.readFileSync(pathname);
             response.writeHead(200, {'Content-Type': getContentType(pathname)});
             response.write(content);
             response.end();
@@ -37,7 +35,7 @@ var server = http.createServer(function (request, response) {
     
 });
 server.listen(port);
-console.log('Serving http on 0.0.0.0 port ' + port + ' ..');
+console.log('Serving http on all hostnames on port ' + port + ' ..');
 
 function getContentType(filename) {
     if(filename.endsWith('.html') || filename.endsWith('.htm'))

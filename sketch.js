@@ -6,10 +6,8 @@ var viewport;
 var canvas;
 const objects = [];
 
-function windowResized() {
-    resizeCanvas(viewport.offsetWidth, viewport.offsetHeight);
-    update();
-}
+const windowResized = () =>
+    update(resizeCanvas(viewport.offsetWidth, viewport.offsetHeight));
 
 function setup() {
     ToolHandler.setTool('remover');
@@ -31,12 +29,13 @@ function update() {
 function draw() {
     if (updateCounter > 0) updateCounter--;
     else return;
+
     background(17);
     translate(translateX, translateY);
 
     image(bg_image, 0, 0, bg_image.width*zoom, bg_image.height*zoom);
 
-    for(let i = objects.length-1; i > -1; i--) {
+    for (let i = objects.length-1; i > -1; i--) {
         push(); objects[i].draw(); pop();
     }
 }

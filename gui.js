@@ -15,7 +15,7 @@ const GUI = {
 
     // Functions to create HTML elements.
     createImageTool(path, title, filename, extension) {
-        if(!filename) filename = title.toLowerCase();
+        if (!filename) filename = title.toLowerCase();
         const filepath = path+filename+extension, assetURL = resourceURL + filepath;
         preloadedImages.set(filename, loadImage(assetURL)); // Preload the images for p5
     

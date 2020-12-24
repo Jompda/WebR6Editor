@@ -6,8 +6,7 @@ The simple but useful web-based Rainbow Six: Siege strategy editor.
 - Add comments and overall documentation to the code.
 - Remove the tint feature and replace it with a colored rectangle around the object.
 - Add Aruni and her gadget.
-- Form contexts around certain modules like the controller and tool-handler
-  for hiding a large number of functions under a class.
+- Form more namespaces.
 - Optimize the rendering.
 
 ## Features to implement:
