@@ -1,16 +1,22 @@
 
 class ImageObject {
 
-    constructor(x, y, w, h, image, tint) {
+    constructor(x, y, w, h, image, outline) {
         this.x = x; this.y = y;
         this.w = w; this.h = h;
         this.image = image;
-        this.tint = tint;
+        this.outline = outline;
+        //this.update = false;
     }
 
     draw() {
-        if (this.tint) tint(this.tint);
-        image(this.image, this.x, this.y, this.w, this.h);
+        if (this.outline) {
+            noFill();
+            strokeWeight(2);
+            stroke(this.outline);
+            rect(this.x, this.y, this.w, this.h);
+        }
+        copy(this.image, 0, 0, this.image.width, this.image.height, this.x, this.y, this.w, this.h);
     }
 
     intersects(x, y) {

@@ -120,14 +120,14 @@ html, body {
     width: 100%;
     display: flex;
 }
-.tint-color {
+.outline-color {
     width: 26px;
     height:20px;
     border: none;
     -webkit-appearance: none;
     outline: none;
 }
-.tint-color:checked {
+.outline-color:checked {
     border: 2px solid gray;
 }
 /*

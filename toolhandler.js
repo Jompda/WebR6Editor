@@ -10,9 +10,7 @@ const ToolHandler = {
     tools: [],
 
     // Doesn't need setter and getter.
-    saveTint: undefined,
-    getTint() {return this.saveTint},
-    setTint(tint) {this.saveTint = tint},
+    outline: undefined,
 
     setTool(name) {
         for (let i = 0; i < this.tools.length; i++) {
@@ -31,7 +29,7 @@ const ToolHandler = {
                     var aspect_ratio = img.width / img.height;
                     objects.unshift(new ImageObject(
                         (mouseX - translateX)/zoom - imageobj_size*aspect_ratio/2, (mouseY - translateY)/zoom - imageobj_size/2,
-                        imageobj_size*aspect_ratio, imageobj_size, img, ToolHandler.getTint()
+                        imageobj_size*aspect_ratio, imageobj_size, img, ToolHandler.outline
                     ));
                 }
             }

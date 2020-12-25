@@ -13,8 +13,6 @@ function setup() {
     canvas = createCanvas(viewport.offsetWidth, viewport.offsetHeight);
     canvas.parent('viewport');
 
-    ToolHandler.setTint(color(255));
-
     document.oncontextmenu = () => false;
     update();
 }
@@ -28,6 +26,7 @@ function draw() {
     if (updateCounter > 0) updateCounter--;
     else return;
 
+    const sdate = new Date();
     background(17);
     translate(translateX, translateY);
 
@@ -37,6 +36,7 @@ function draw() {
     for (let i = objects.length-1; i > -1; i--) {
         push(); objects[i].draw(); pop();
     }
+    console.log(`${new Date()-sdate} milliseconds render time.`);
 }
 
 function showObjectProperties(obj) {
