@@ -26,7 +26,7 @@ function draw() {
     if (updateCounter > 0) updateCounter--;
     else return;
 
-    const sdate = new Date();
+    //const srdate = new Date();
     background(17);
     translate(translateX, translateY);
 
@@ -36,5 +36,6 @@ function draw() {
     for (let i = objects.length-1; i > -1; i--) {
         push(); objects[i].draw(); pop();
     }
-    console.log(`${new Date()-sdate} milliseconds render time.`);
+    //const renderTime = new Date()-srdate;
+    //console.log(`${renderTime} millisecond${renderTime==1?'':'s'} render time.`);
 }
