@@ -4,8 +4,28 @@ const preloadedImages = new Map();
 const resourceURL = 'https://jompda.github.io/WebR6Editor/';
 
 function changeMap(name) {
-    if (name !== '-----')
-        bg_image = loadImage(`${resourceURL}assets/maps/${name}.jpg`, update);
+    if (name !== '-----') {
+        bg_image = loadImage(`${resourceURL}assets/maps/${name}.jpg`, focusToImage);
+        
+        function focusToImage(img) {
+            // Focus the viewport to the background-image.
+            translateX = -(img.width/2 - width/2);
+            translateY = 0;
+
+            // Alter the zoom.
+            zoom = 1;
+            let zoomDelta = (height / img.height)-zoom;
+            if (zoom + zoomDelta < minZoom)
+                zoomDelta += minZoom-(zoom+zoomDelta);
+
+            // Keep the translation focused onto the
+            // same point with the new zoom.
+            translateX -= (width/2-translateX)/zoom * zoomDelta;
+            zoom += zoomDelta;
+
+            update();
+        }
+    }
 }
 
 const viewport = document.getElementById('viewport');

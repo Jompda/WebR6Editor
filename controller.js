@@ -9,6 +9,7 @@ var dragged = false;
 
 function mousePressed(event) {
     onObject = false;
+    dragged = false;
     update(updateMousePosition());
     if (bounds()) return;
     // Check for intersection.
@@ -83,6 +84,11 @@ function mouseWheel(event) {
     if (bounds()) return;
 
     let zoomDelta = -event.delta*zoom/750;
+    if (zoom + zoomDelta < minZoom)
+        zoomDelta += minZoom-(zoom+zoomDelta);
+
+    adjustTranslation();
+    zoom += zoomDelta;
 
     function adjustTranslation() {
         // Relative to cursor.
@@ -92,13 +98,6 @@ function mouseWheel(event) {
         //translateX -= (width/2-translateX)/zoom * zoomDelta;
         //translateY -= (height/2-translateY)/zoom * zoomDelta;
     }
-
-    if (zoom + zoomDelta < minZoom)
-        zoomDelta += minZoom-(zoom+zoomDelta);
-
-    adjustTranslation();
-    //console.log(zoom, '+', zoomDelta, '=', zoom + zoomDelta);
-    zoom += zoomDelta;
 }
 
 function bounds() {
