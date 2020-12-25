@@ -9,7 +9,6 @@ const ToolHandler = {
     tool: undefined,
     tools: [],
 
-    // Doesn't need setter and getter.
     outline: undefined,
 
     setTool(name) {

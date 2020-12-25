@@ -6,7 +6,6 @@ class ImageObject {
         this.w = w; this.h = h;
         this.image = image;
         this.outline = outline;
-        //this.update = false;
     }
 
     draw() {

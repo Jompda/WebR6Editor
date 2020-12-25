@@ -38,7 +38,3 @@ function draw() {
     }
     console.log(`${new Date()-sdate} milliseconds render time.`);
 }
-
-function showObjectProperties(obj) {
-    console.log('showObjectProperties:', obj);
-}

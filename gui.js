@@ -1,6 +1,11 @@
 
 const GUI = {
 
+    // Still unimplemented functionality.
+    showObjectProperties(obj) {
+        console.log('showObjectProperties:', obj);
+    },
+
     // Sidebar functionality.
     sidebarLeftToggle() {
         if (!sidebar_left.style.left) sidebar_left.style.left = '0px';

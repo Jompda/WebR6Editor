@@ -10,7 +10,7 @@ The simple but useful web-based Rainbow Six: Siege strategy editor.
 
 ## Features to implement:
 - Saving/loading the creation.
-- Ability to hide and show objects based on group or tint.
+- Ability to hide and show objects based on grouping or some kind of filtering.
 - Export image.
 - Portability to other games.
 - When loading a new map, set the zoom and translation

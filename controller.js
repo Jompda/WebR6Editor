@@ -2,14 +2,14 @@
 // This whole thing is a mess.
 
 var translateX = 0, translateY = 0;
-var zoom = 1;
-var minZoom = 0.2;
-var lastX, lastY;
+var zoom = 1, minZoom = 0.2;
+var lastMouseX, lastMouseY;
 var onObject = false;
 var dragged = false;
 
 function mousePressed(event) {
     onObject = false;
+    lastMouseX = mouseX; lastMouseY = mouseY;
     update();
     if (bounds()) return;
     // Check for intersection.
@@ -25,7 +25,7 @@ function mousePressed(event) {
     
     switch (mouseButton) {
         case CENTER: break;
-        case RIGHT: showObjectProperties(onObject); break;
+        case RIGHT: GUI.showObjectProperties(onObject); break;
         case LEFT:
             if (ToolHandler.tool && ToolHandler.tool.onPress)
                 ToolHandler.tool.onPress();
@@ -35,45 +35,45 @@ function mousePressed(event) {
 }
 
 function mouseDragged(event) {
-    update();
     dragged = true;
 
     switch (mouseButton) {
         case CENTER:
             // Drag the viewport.
-            if(!lastX || !lastY) {lastX = mouseX; lastY = mouseY}
-            let deltaX = mouseX - lastX, deltaY = mouseY - lastY;
+            const deltaX = mouseX - lastMouseX, deltaY = mouseY - lastMouseY;
             translateX += deltaX; translateY += deltaY;
-            lastX = mouseX; lastY = mouseY;
             break;
         case RIGHT: /*if (bounds()) return;*/ break;
         case LEFT:
-            if (bounds()) return;
+            if (bounds()) break;
             if (ToolHandler.tool && ToolHandler.tool.onDrag)
                 ToolHandler.tool.onDrag();
             else dragObject();
             break;
         default: break;
     }
+    
+    lastMouseX = mouseX; lastMouseY = mouseY;
+    update();
 }
 
 function mouseReleased(event) {
-    update();
+    dragged = false;
 
     switch (mouseButton) {
         case CENTER: break;
         case RIGHT: /*if (bounds()) return;*/ break;
         case LEFT:
-            if (bounds()) return;
+            if (bounds()) break;
             if (ToolHandler.tool && ToolHandler.tool.onRelease)
                 ToolHandler.tool.onRelease();
             break;
         default: break;
     }
 
-    lastX = undefined; lastY = undefined;
     onObject = false;
-    dragged = false;
+    lastMouseX = mouseX; lastMouseY = mouseY;
+    update();
 }
 
 /*function mouseMoved() {
@@ -89,11 +89,11 @@ function mouseWheel(event) {
 
     function adjustTranslation() {
         // Relative to cursor.
-        translateX += -((mouseX-translateX)/zoom * zoomDelta);
-        translateY += -((mouseY-translateY)/zoom * zoomDelta);
+        translateX -= (mouseX-translateX)/zoom * zoomDelta;
+        translateY -= (mouseY-translateY)/zoom * zoomDelta;
         // Relative to the camera position AKA center of the viewport.
-        //translateX += -((width/2-translateX)/zoom * zoomDelta);
-        //translateY += -((height/2-translateY)/zoom * zoomDelta);
+        //translateX -= (width/2-translateX)/zoom * zoomDelta;
+        //translateY -= (height/2-translateY)/zoom * zoomDelta;
     }
 
     if (zoom + zoomDelta < minZoom)
@@ -117,8 +117,7 @@ function bounds() {
 
 function dragObject() {
     if (!onObject) return;
-    if (!lastX || !lastY) {lastX = mouseX; lastY = mouseY}
-    let deltaX = mouseX - lastX, deltaY = mouseY - lastY;
+    const deltaX = mouseX - lastMouseX, deltaY = mouseY - lastMouseY;
     onObject.x += deltaX/zoom; onObject.y += deltaY/zoom;
-    lastX = mouseX; lastY = mouseY;
+    lastMouseX = mouseX; lastMouseY = mouseY;
 }
