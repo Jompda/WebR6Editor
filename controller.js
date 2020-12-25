@@ -9,8 +9,7 @@ var dragged = false;
 
 function mousePressed(event) {
     onObject = false;
-    lastMouseX = mouseX; lastMouseY = mouseY;
-    update();
+    update(updateMousePosition());
     if (bounds()) return;
     // Check for intersection.
     for (let i = 0; i < objects.length; i++) {
@@ -48,13 +47,12 @@ function mouseDragged(event) {
             if (bounds()) break;
             if (ToolHandler.tool && ToolHandler.tool.onDrag)
                 ToolHandler.tool.onDrag();
-            else dragObject();
+            else if (onObject) dragObject(onObject);
             break;
         default: break;
     }
     
-    lastMouseX = mouseX; lastMouseY = mouseY;
-    update();
+    update(updateMousePosition());
 }
 
 function mouseReleased(event) {
@@ -72,8 +70,7 @@ function mouseReleased(event) {
     }
 
     onObject = false;
-    lastMouseX = mouseX; lastMouseY = mouseY;
-    update();
+    update(updateMousePosition());
 }
 
 /*function mouseMoved() {
@@ -115,9 +112,9 @@ function bounds() {
     return false;
 }
 
-function dragObject() {
-    if (!onObject) return;
+function dragObject(obj) {
     const deltaX = mouseX - lastMouseX, deltaY = mouseY - lastMouseY;
-    onObject.x += deltaX/zoom; onObject.y += deltaY/zoom;
-    lastMouseX = mouseX; lastMouseY = mouseY;
+    obj.x += deltaX/zoom; obj.y += deltaY/zoom;
 }
+
+const updateMousePosition = () => { lastMouseX = mouseX; lastMouseY = mouseY; };
