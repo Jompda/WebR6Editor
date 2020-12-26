@@ -32,7 +32,7 @@ function createImageTool(path, title, filename, extension) {
     label.appendChild(formElement('input',
         [ 'type', 'radio' ],
         [ 'name', 'tool' ],
-        [ 'onchange', `setImageTool('${filename}')` ]
+        [ 'onchange', `setTool('imageplacer', ['${filename}'])` ]
     ));
     label.appendChild(formElement('img',
         [ 'src', assetURL ],

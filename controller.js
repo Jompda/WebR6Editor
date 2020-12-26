@@ -73,8 +73,6 @@ window.mouseDragged = function mouseDragged(event) {
 }
 
 window.mouseReleased = function mouseReleased(event) {
-    dragged = false;
-
     switch (mouseButton) {
         case CENTER: break;
         case RIGHT: /*if (bounds()) return;*/ break;
@@ -88,6 +86,7 @@ window.mouseReleased = function mouseReleased(event) {
     }
 
     onObject = false;
+    dragged = false;
     update(updateMousePosition());
 }
 

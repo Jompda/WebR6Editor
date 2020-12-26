@@ -8,48 +8,16 @@ import { preloadedImages } from './preload.js';
 import { objects, imageobj_size } from './sketch.js';
 import ImageObject from './imageobject.js';
 
-var subtools_container;
-function setSubToolsContainer(element) {
-    subtools_container = element;
-}
 
+// Toolpages functionality
 const toolGroups = new Map([
     [ 'basic', document.createElement('div') ]
 ]);
 
-const tools = [];
-var tool = undefined;
-const getTool = () => tool;
-function setTool(name) {
-    for (let i = 0; i < tools.length; i++) {
-        if (tools[i].name == name) {
-            tool = tools[i];
-        }
-    }
+var subtools_container;
+function setSubToolsContainer(element) {
+    subtools_container = element;
 }
-window.setTool = setTool;
-
-var outline = undefined;
-const getOutline = () => outline;
-function setOutline(newOutline) { outline = newOutline }
-window.setOutline = setOutline;
-
-
-function setImageTool(name) {
-    tool = new function() {
-        this.onRelease = function() {
-            if (!isOnObject()) {
-                const img = preloadedImages.get(name);
-                const aspect_ratio = img.width / img.height;
-                objects.unshift(new ImageObject(
-                    (mouseX - getTranslateX())/getZoom() - imageobj_size*aspect_ratio/2, (mouseY - getTranslateY())/getZoom() - imageobj_size/2,
-                    imageobj_size*aspect_ratio, imageobj_size, img, outline
-                ));
-            }
-        }
-    }
-}
-window.setImageTool = setImageTool;
 
 function setSubTools(group) {
     clearSelectedTool();
@@ -64,23 +32,55 @@ function clearSelectedTool() {
         elem[i].checked = false;
 }
 
-// Temporary way of initializing the remover tool.
-tools.push(new function() {
-    this.name = 'remover';
-    this.onRelease = function() {
-        const onObject = isOnObject();
-        if (onObject && !isDragged()) {
-            let index = objects.indexOf(onObject);
-            objects.splice(index, 1);
+
+// Tool functionality.
+const tools = new Map();
+var tool = undefined;
+const getTool = () => tool;
+function setTool(name, args) {
+    const ctool = tools.get(name);
+    if (!ctool) return;
+    ctool.args = args;
+    return tool = ctool;
+}
+window.setTool = setTool;
+
+
+// Outline functionality.
+var outline = undefined;
+const getOutline = () => outline;
+function setOutline(newOutline) { outline = newOutline }
+window.setOutline = setOutline;
+
+
+{   // Temporary way of initializing the tools.
+    tools.set('remover', {
+        onRelease: () => {
+            const onObject = isOnObject();
+            if (onObject && !isDragged()) {
+                let index = objects.indexOf(onObject);
+                objects.splice(index, 1);
+            }
+        }
+    });
+    const imagePlacer = {
+        onRelease: () => {
+            if (isOnObject()) return;
+            const img = preloadedImages.get(imagePlacer.args[0]);
+            const aspect_ratio = img.width / img.height;
+            objects.unshift(new ImageObject(
+                (mouseX - getTranslateX())/getZoom() - imageobj_size*aspect_ratio/2, (mouseY - getTranslateY())/getZoom() - imageobj_size/2,
+                imageobj_size*aspect_ratio, imageobj_size, img, outline
+            ));
         }
     }
-});
+    tools.set('imageplacer', imagePlacer);
+}
 
 export {
     setSubToolsContainer,
     toolGroups,
     getTool, setTool,
     getOutline, setOutline,
-    setImageTool,
     setSubTools
 };
