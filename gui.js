@@ -1,4 +1,4 @@
-import { resourceURL, preloadedImages } from './preload.js';
+import { resourceURL, preloadedImages, sidebar_left, sidebar_right } from './preload.js';
 
 // Still unimplemented functionality.
 function showObjectProperties(obj) {
