@@ -38,7 +38,7 @@ class ImageObject {
                 'p', [['class', 'sidebar-header']], 'Image Object properties:'
             ),
             formElement(
-                'p', undefined, 'Scale:'
+                'p', [[ 'style', 'display: inline-block' ]], 'Scale:'
             ),
             formElement(
                 'input', [
@@ -46,15 +46,35 @@ class ImageObject {
                     [ 'value', this.scale ],
                     [ 'onchange', 'getSelectedObject().setScale(this.value);update();' ]
                 ]
+            ),
+            document.createElement('br'),
+            formElement(
+                'p', [[ 'style', 'display: inline-block' ]], 'Outline:'
+            ),
+            formElement(
+                'input', [
+                    [ 'type', 'text' ],
+                    [ 'value', this.outline ? this.outline.toString() : '' ],
+                    [ 'onchange', 'getSelectedObject().setOutline(this.value);update();' ]
+                ]
             )
         );
         return div;
     }
 
     setScale(scale) {
-        const newScale = parseFloat(scale);
-        if (isNaN(newScale)) return false;
-        this.scale = newScale;
+        const parsed = parseFloat(scale);
+        if (isNaN(parsed)) return false;
+        this.scale = parsed;
+        return true;
+    }
+
+    setOutline(outline) {
+        if (outline === '') {
+            this.outline = undefined;
+            return true;
+        }
+        this.outline = color(outline);
         return true;
     }
 

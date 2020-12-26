@@ -6,7 +6,7 @@ import {
 } from './controller.js';
 import { preloadedImages } from './preload.js';
 import { objects, imageobj_size } from './sketch.js';
-import { showObjectProperties } from './gui.js';
+import { setSelectedObject, showObjectProperties } from './gui.js';
 import ImageObject from './imageobject.js';
 
 
@@ -61,6 +61,7 @@ window.setOutline = setOutline;
             if (!onObject || isDragged()) return;
             let index = objects.indexOf(onObject);
             objects.splice(index, 1);
+            setSelectedObject(undefined);
             showObjectProperties(undefined);
         }
     });
@@ -74,6 +75,7 @@ window.setOutline = setOutline;
                 imageobj_size*aspect_ratio, imageobj_size, img, outline
             );
             objects.unshift(imgobj);
+            setSelectedObject(imgobj);
             showObjectProperties(imgobj);
         }
     }
