@@ -1,7 +1,7 @@
 import { sidebar_left, sidebar_right, sidebar_left_toggle, sidebar_right_toggle } from './preload.js';
-import { objects } from './sketch.js';
+import { objects, getIntersectingObject } from './sketch.js';
 import { getTool } from './toolhandler.js';
-import { showObjectProperties } from './gui.js';
+import { setSelectedObject, showObjectProperties } from './gui.js';
 
 // This whole thing is a mess.
 
@@ -26,15 +26,15 @@ window.mousePressed = function mousePressed(event) {
     dragged = false;
     update(updateMousePosition());
     if (bounds()) return;
+
     // Check for intersection.
-    for (let i = 0; i < objects.length; i++) {
-        if (objects[i].intersects((mouseX - translateX)/zoom, (mouseY - translateY)/zoom)) {
-            onObject = objects[i];
-            // Move to first.
-            objects.splice(i, 1);
-            objects.unshift(onObject);
-            break;
-        }
+    setSelectedObject(undefined);
+    const intersecting = getIntersectingObject((mouseX - translateX)/zoom, (mouseY - translateY)/zoom);
+    if (intersecting) {
+        setSelectedObject(onObject = intersecting.object);
+        // Move to first for rendering purposes.
+        objects.splice(intersecting.i, 1);
+        objects.unshift(onObject);
     }
     
     switch (mouseButton) {

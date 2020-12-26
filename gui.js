@@ -1,8 +1,18 @@
 import { resourceURL, preloadedImages, sidebar_left, sidebar_right } from './preload.js';
 
-// Still unimplemented functionality.
+// Object selection functionality.
+var selectedObject;
+const getSelectedObject = () => selectedObject;
+window.getSelectedObject = getSelectedObject;
+function setSelectedObject(obj) {
+    selectedObject = obj;
+}
+window.setSelectedObject = setSelectedObject;
+
 function showObjectProperties(obj) {
-    console.log('showObjectProperties:', obj);
+    const object_properties = document.getElementById('object-properties');
+    if (object_properties.firstChild) object_properties.removeChild(object_properties.firstChild);
+    if (obj) object_properties.appendChild(obj.getObjectPropertiesGUI());
 }
 
 
@@ -78,6 +88,7 @@ function formElement(tag, ...attribs) {
 }
 
 export {
+    getSelectedObject, setSelectedObject,
     showObjectProperties,
     sidebarLeftToggle, sidebarRightToggle,
     createImageTool,

@@ -1,11 +1,16 @@
 
 class ImageObject {
 
+    sw() {return this.w*this.scale}
+    sh() {return this.h*this.scale}
+
     constructor(x, y, w, h, image, outline) {
         this.x = x; this.y = y;
         this.w = w; this.h = h;
         this.image = image;
         this.outline = outline;
+
+        this.scale = 1;
     }
 
     draw() {
@@ -13,14 +18,29 @@ class ImageObject {
             noFill();
             strokeWeight(2);
             stroke(this.outline);
-            rect(this.x, this.y, this.w, this.h);
+            rect(this.x, this.y, this.sw(), this.sh());
         }
-        copy(this.image, 0, 0, this.image.width, this.image.height, this.x, this.y, this.w, this.h);
+        // I noticed that this is apparently less resource-demanding than image() ..
+        copy(this.image, 0, 0, this.image.width, this.image.height, this.x, this.y, this.sw(), this.sh());
     }
 
     intersects(x, y) {
-        return (x > this.x && x < this.x+this.w)
-            && (y > this.y && y < this.y+this.h);
+        return (x > this.x && x < this.x+this.sw())
+            && (y > this.y && y < this.y+this.sh());
+    }
+
+    getObjectPropertiesGUI() {
+        // Temporary implementation.
+        const div = document.createElement('div');
+        div.innerHTML = `<p>scale:</p><input type="text" value="${this.scale}" onchange="getSelectedObject().setScale(this.value);update();" />`;
+        return div;
+    }
+
+    setScale(scale) {
+        const newScale = parseInt(scale);
+        if (isNaN(newScale)) return false;
+        this.scale = newScale;
+        return true;
     }
 
 }

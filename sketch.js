@@ -45,6 +45,12 @@ window.draw = function draw() {
     //console.log(`${renderTime} millisecond${renderTime==1?'':'s'} render time.`);
 }
 
+function getIntersectingObject(x, y) {
+    for (let i = 0; i < objects.length; i++)
+        if (objects[i].intersects(x, y))
+            return { object: objects[i], i };
+}
+
 function changeMap(name) {
     if (name !== '-----') {
         bg_image = loadImage(`${resourceURL}assets/maps/${name}.jpg`, focusToImage);
@@ -75,5 +81,6 @@ window.changeMap = changeMap;
 export {
     imageobj_size,
     objects,
+    getIntersectingObject,
     changeMap
 };

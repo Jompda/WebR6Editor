@@ -6,6 +6,7 @@ import {
 } from './controller.js';
 import { preloadedImages } from './preload.js';
 import { objects, imageobj_size } from './sketch.js';
+import { showObjectProperties } from './gui.js';
 import ImageObject from './imageobject.js';
 
 
@@ -57,10 +58,10 @@ window.setOutline = setOutline;
     tools.set('remover', {
         onRelease: () => {
             const onObject = isOnObject();
-            if (onObject && !isDragged()) {
-                let index = objects.indexOf(onObject);
-                objects.splice(index, 1);
-            }
+            if (!onObject || isDragged()) return;
+            let index = objects.indexOf(onObject);
+            objects.splice(index, 1);
+            showObjectProperties(undefined);
         }
     });
     const imagePlacer = {
@@ -68,10 +69,12 @@ window.setOutline = setOutline;
             if (isOnObject()) return;
             const img = preloadedImages.get(imagePlacer.args[0]);
             const aspect_ratio = img.width / img.height;
-            objects.unshift(new ImageObject(
+            const imgobj = new ImageObject(
                 (mouseX - getTranslateX())/getZoom() - imageobj_size*aspect_ratio/2, (mouseY - getTranslateY())/getZoom() - imageobj_size/2,
                 imageobj_size*aspect_ratio, imageobj_size, img, outline
-            ));
+            );
+            objects.unshift(imgobj);
+            showObjectProperties(imgobj);
         }
     }
     tools.set('imageplacer', imagePlacer);
