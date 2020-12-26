@@ -38,26 +38,28 @@ function createImageTool(path, title, filename, extension) {
     const filepath = path+filename+extension, assetURL = resourceURL + filepath;
     preloadedImages.set(filename, loadImage(assetURL)); // Preload the images for p5
 
-    const label = formElement('label', [ 'class', 'imagetool' ]);
-    label.appendChild(formElement('input',
-        [ 'type', 'radio' ],
-        [ 'name', 'tool' ],
-        [ 'onchange', `setTool('imageplacer', ['${filename}'])` ]
-    ));
-    label.appendChild(formElement('img',
-        [ 'src', assetURL ],
-        [ 'title', title ]
-    ));
+    const label = formElement('label', [[ 'class', 'imagetool' ]]);
+    label.append(
+        formElement('input', [
+            [ 'type', 'radio' ],
+            [ 'name', 'tool' ],
+            [ 'onchange', `setTool('imageplacer', ['${filename}'])` ]
+        ]),
+        formElement('img', [
+            [ 'src', assetURL ],
+            [ 'title', title ]
+        ])
+    );
     return label;
 }
 
 function createToolPageButton(title, group) {
-    const label = formElement('label', [ 'class', 'tool-page-button' ]);
-    const input = formElement('input',
+    const label = formElement('label', [[ 'class', 'tool-page-button' ]]);
+    const input = formElement('input', [
         [ 'type', 'radio' ],
         [ 'name', 'tool-page-button' ],
         [ 'onchange', `setSubTools('${group}');` ]
-    );
+    ]);
     const txt = document.createElement('div');
     txt.innerHTML = title;
     label.appendChild(input);
@@ -66,24 +68,20 @@ function createToolPageButton(title, group) {
 }
 
 function createToolButton(title) {
-    const elem = formElement('button', [ 'class', 'toolbutton' ],
-        [ 'onclick', `setTool('${title.toLowerCase()}')` ]);
-    elem.innerHTML = title;
-    return elem;
+    return formElement('button', [
+        [ 'class', 'toolbutton' ],
+        [ 'onclick', `setTool('${title.toLowerCase()}')` ]
+    ], title);
 }
 
-function createHeader(header) {
-    const elem = formElement('p', [ 'class', 'sidebar-header' ]);
-    elem.innerHTML = header;
-    return elem;
-}
+const createHeader = (header) => formElement('p', [[ 'class', 'sidebar-header' ]], header);
+const createHR = () => formElement('hr', [[ 'class', 'sidebar-hr' ]]);
+const createFlexTable = () => formElement('div', [[ 'class', 'flex-table' ]]);
 
-const createHR = () => formElement('hr', [ 'class', 'sidebar-hr' ]);
-const createFlexTable = () => formElement('div', [ 'class', 'flex-table' ]);
-
-function formElement(tag, ...attribs) {
+function formElement(tag, attribs, innerHTML) {
     const elem = document.createElement(tag);
-    attribs.forEach(attrib => elem.setAttribute(attrib[0], attrib[1]));
+    if (attribs) attribs.forEach(attrib => elem.setAttribute(attrib[0], attrib[1]));
+    if (innerHTML) elem.innerHTML = innerHTML;
     return elem;
 }
 

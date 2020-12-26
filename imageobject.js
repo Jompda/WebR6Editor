@@ -1,3 +1,4 @@
+import { formElement } from './gui.js';
 
 class ImageObject {
 
@@ -32,12 +33,26 @@ class ImageObject {
     getObjectPropertiesGUI() {
         // Temporary implementation.
         const div = document.createElement('div');
-        div.innerHTML = `<p>scale:</p><input type="text" value="${this.scale}" onchange="getSelectedObject().setScale(this.value);update();" />`;
+        div.append(
+            formElement(
+                'p', [['class', 'sidebar-header']], 'Image Object properties:'
+            ),
+            formElement(
+                'p', undefined, 'Scale:'
+            ),
+            formElement(
+                'input', [
+                    [ 'type', 'text' ],
+                    [ 'value', this.scale ],
+                    [ 'onchange', 'getSelectedObject().setScale(this.value);update();' ]
+                ]
+            )
+        );
         return div;
     }
 
     setScale(scale) {
-        const newScale = parseInt(scale);
+        const newScale = parseFloat(scale);
         if (isNaN(newScale)) return false;
         this.scale = newScale;
         return true;
