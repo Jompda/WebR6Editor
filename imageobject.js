@@ -24,3 +24,5 @@ class ImageObject {
     }
 
 }
+
+export default ImageObject;

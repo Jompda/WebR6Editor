@@ -1,34 +1,17 @@
-
-const preloadedImages = new Map();
+import { changeMap } from './sketch.js';
+import { setSubToolsContainer, setSubTools, toolGroups } from './toolhandler.js';
+import {
+    createToolButton,
+    createToolPageButton,
+    createHeader,
+    createFlexTable,
+    createImageTool,
+    createHR
+} from './gui.js';
 
 const resourceURL = 'https://jompda.github.io/WebR6Editor/';
+const preloadedImages = new Map();
 
-function changeMap(name) {
-    if (name !== '-----') {
-        bg_image = loadImage(`${resourceURL}assets/maps/${name}.jpg`, focusToImage);
-        
-        function focusToImage(img) {
-            // Focus the viewport to the background-image.
-            translateX = -(img.width/2 - width/2);
-            translateY = 0;
-
-            // Alter the zoom.
-            zoom = 1;
-            let zoomDelta = (height / img.height)-zoom;
-            if (zoom + zoomDelta < minZoom)
-                zoomDelta += minZoom-(zoom+zoomDelta);
-
-            // Keep the translation focused onto the
-            // same point with the new zoom.
-            translateX -= (width/2-translateX)/zoom * zoomDelta;
-            zoom += zoomDelta;
-
-            update();
-        }
-    }
-}
-
-const viewport = document.getElementById('viewport');
 const sidebar_left = document.getElementById('sidebar-left');
 const sidebar_right = document.getElementById('sidebar-right');
 var sidebar_left_toggle;
@@ -44,8 +27,7 @@ function getHttpResource(url, callback) {
     }
 }
 
-function preload() {
-    bg_image = createImage(1,1); // Just to avoid background-image drawing errors.
+window.preload = function preload() {
     getHttpResource('/UI/sidebar-left.html', (sbleftxhr) => {
         sidebar_left.innerHTML = sbleftxhr.responseText;
         sidebar_left_toggle = document.getElementById('sidebar-left-toggle');
@@ -54,12 +36,12 @@ function preload() {
     getHttpResource('/UI/sidebar-right.html', (sbrightxhr) => {
         sidebar_right.innerHTML = sbrightxhr.responseText;
         sidebar_right_toggle = document.getElementById('sidebar-right-toggle');
-        ToolHandler.subtools_container = document.getElementById('subtools-container');
+        setSubToolsContainer(document.getElementById('subtools-container'));
         const tool_page_buttons = document.getElementById('tool-page-buttons');
         {
             // Hard coded basic tools page.
-            ToolHandler.toolGroups.get('basic').appendChild(GUI.createToolButton('Remover'));
-            const basicToolsBtn = GUI.createToolPageButton('Basic', 'basic');
+            toolGroups.get('basic').appendChild(createToolButton('Remover'));
+            const basicToolsBtn = createToolPageButton('Basic', 'basic');
             basicToolsBtn.firstChild.setAttribute('checked', '');
             tool_page_buttons.appendChild(basicToolsBtn);
         }
@@ -68,12 +50,12 @@ function preload() {
         getHttpResource('/toolpages.json', (toolpagesxhr) => {
             const toolpagesConfig = JSON.parse(toolpagesxhr.responseText);
             toolpagesConfig.forEach((page) => {
-                ToolHandler.toolGroups.set(page.group, document.createElement('div'));
-                tool_page_buttons.appendChild(GUI.createToolPageButton(page.title, page.group));
+                toolGroups.set(page.group, document.createElement('div'));
+                tool_page_buttons.appendChild(createToolPageButton(page.title, page.group));
             });
             
             // Load the tools
-            ToolHandler.setSubTools('basic');
+            setSubTools('basic');
             getHttpResource('/assets.json', loadAssetList);
         });
     });
@@ -102,19 +84,27 @@ function loadMapList(xhr) {
 function loadAssetList(xhr) {
     const assetConfig = JSON.parse(xhr.responseText);
     assetConfig.forEach((group) => {
-        const matchingPage = ToolHandler.toolGroups.get(group.page);
+        const matchingPage = toolGroups.get(group.page);
         createImageToolGroup(matchingPage, group);
     });
 }
 
 function createImageToolGroup(target, group) {
-    target.appendChild(GUI.createHeader(group.name));
-    const table = GUI.createFlexTable();
+    target.appendChild(createHeader(group.name));
+    const table = createFlexTable();
     for (let i = 0; i < group.assets.length; i++) {
         const tempAsset = group.assets[i];
-        const imageTool = GUI.createImageTool(group.path, tempAsset[0], tempAsset[1], group.extension);
+        const imageTool = createImageTool(group.path, tempAsset[0], tempAsset[1], group.extension);
         table.appendChild(imageTool);
     }
     target.appendChild(table);
-    target.appendChild(GUI.createHR());
+    target.appendChild(createHR());
 }
+
+export {
+    resourceURL,
+    preloadedImages,
+    getHttpResource,
+    sidebar_left, sidebar_right,
+    sidebar_left_toggle, sidebar_right_toggle
+};

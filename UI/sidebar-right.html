@@ -15,20 +15,20 @@
     <div class="flex-table">
       <!-- Hard coded :( -->
       <input type="radio" class="outline-color" name="outline-color"
-      style="background-color:white;" onclick="ToolHandler.outline = undefined">
+      style="background-color:white;" onclick="setOutline(undefined)">
       <input type="radio" class="outline-color" name="outline-color"
-      style="background-color:red;" onclick="ToolHandler.outline = color(255,0,0)">
+      style="background-color:red;" onclick="setOutline(color(255,0,0))">
       <input type="radio" class="outline-color" name="outline-color"
-      style="background-color:green;" onclick="ToolHandler.outline = color(0,255,0)">
+      style="background-color:green;" onclick="setOutline(color(0,255,0))">
       <input type="radio" class="outline-color" name="outline-color"
-      style="background-color:blue;" onclick="ToolHandler.outline = color(0,0,255)">
+      style="background-color:blue;" onclick="setOutline(color(0,0,255))">
       <input type="radio" class="outline-color" name="outline-color"
-      style="background-color:orange;" onclick="ToolHandler.outline = color(255,165,0)">
+      style="background-color:orange;" onclick="setOutline(color(255,165,0))">
       <input type="radio" class="outline-color" name="outline-color"
-      style="background-color:yellow;" onclick="ToolHandler.outline = color(255,255,0)">
+      style="background-color:yellow;" onclick="setOutline(color(255,255,0))">
       <input type="radio" class="outline-color" name="outline-color"
-      style="background-color:rgb(196, 57, 238);" onclick="ToolHandler.outline = color(196,57,238)">
-      <input class="outline-color" type="color" value="#ffffff" onchange="ToolHandler.outline = color(this.value)">
+      style="background-color:rgb(196, 57, 238);" onclick="setOutline(color(196,57,238))">
+      <input class="outline-color" type="color" value="#ffffff" onchange="setOutline(color(this.value))">
     </div>
   </div>
 </div>

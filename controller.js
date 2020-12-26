@@ -1,13 +1,27 @@
+import { sidebar_left, sidebar_right, sidebar_left_toggle, sidebar_right_toggle } from './preload.js';
+import { objects } from './sketch.js';
+import { getTool } from './toolhandler.js';
+import { showObjectProperties } from './gui.js';
 
 // This whole thing is a mess.
 
 var translateX = 0, translateY = 0;
+const getTranslateX = () => translateX;
+function setTranslateX(tx) { translateX = tx }
+const getTranslateY = () => translateY;
+function setTranslateY(ty) { translateY = ty }
+
 var zoom = 1, minZoom = 0.2;
+const getZoom = () => zoom;
+function setZoom(z) { zoom = z }
+
 var lastMouseX, lastMouseY;
 var onObject = false;
+const isOnObject = () => onObject;
 var dragged = false;
+const isDragged = () => dragged;
 
-function mousePressed(event) {
+window.mousePressed = function mousePressed(event) {
     onObject = false;
     dragged = false;
     update(updateMousePosition());
@@ -25,16 +39,17 @@ function mousePressed(event) {
     
     switch (mouseButton) {
         case CENTER: break;
-        case RIGHT: GUI.showObjectProperties(onObject); break;
+        case RIGHT: showObjectProperties(onObject); break;
         case LEFT:
-            if (ToolHandler.tool && ToolHandler.tool.onPress)
-                ToolHandler.tool.onPress();
+            const tool = getTool();
+            if (tool && tool.onPress)
+                tool.onPress();
             break;
         default: break;
     }
 }
 
-function mouseDragged(event) {
+window.mouseDragged = function mouseDragged(event) {
     dragged = true;
 
     switch (mouseButton) {
@@ -46,8 +61,9 @@ function mouseDragged(event) {
         case RIGHT: /*if (bounds()) return;*/ break;
         case LEFT:
             if (bounds()) break;
-            if (ToolHandler.tool && ToolHandler.tool.onDrag)
-                ToolHandler.tool.onDrag();
+            const tool = getTool();
+            if (tool && tool.onDrag)
+                tool.onDrag();
             else if (onObject) dragObject(onObject);
             break;
         default: break;
@@ -56,7 +72,7 @@ function mouseDragged(event) {
     update(updateMousePosition());
 }
 
-function mouseReleased(event) {
+window.mouseReleased = function mouseReleased(event) {
     dragged = false;
 
     switch (mouseButton) {
@@ -64,8 +80,9 @@ function mouseReleased(event) {
         case RIGHT: /*if (bounds()) return;*/ break;
         case LEFT:
             if (bounds()) break;
-            if (ToolHandler.tool && ToolHandler.tool.onRelease)
-                ToolHandler.tool.onRelease();
+            const tool = getTool();
+            if (tool && tool.onRelease)
+                tool.onRelease();
             break;
         default: break;
     }
@@ -79,7 +96,7 @@ function mouseReleased(event) {
     if(tool.onMove) tool.onMove();
 }*/
 
-function mouseWheel(event) {
+window.mouseWheel = function mouseWheel(event) {
     update();
     if (bounds()) return;
 
@@ -117,3 +134,11 @@ function dragObject(obj) {
 }
 
 const updateMousePosition = () => { lastMouseX = mouseX; lastMouseY = mouseY; };
+
+export {
+    getTranslateX, setTranslateX,
+    getTranslateY, setTranslateY,
+    getZoom, setZoom,
+    isOnObject,
+    isDragged
+};
