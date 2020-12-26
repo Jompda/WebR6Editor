@@ -42,6 +42,8 @@ function getContentType(filename) {
         return "text/html";
     else if(filename.endsWith('.js'))
         return "text/javascript";
+    else if(filename.endsWith('.json'))
+        return "application/json";
     else if(filename.endsWith('.css'))
         return "text/css";
     else
