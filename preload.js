@@ -10,13 +10,17 @@ import {
 } from './gui.js';
 
 const resourceURL = 'https://jompda.github.io/WebR6Editor/';
-const preloadedImages = new Map();
+/**@type {Map<String, image>}*/ const preloadedImages = new Map();
 
 const sidebar_left = document.getElementById('sidebar-left');
 const sidebar_right = document.getElementById('sidebar-right');
-var sidebar_left_toggle;
-var sidebar_right_toggle;
+/**@type {HTMLElement}*/ var sidebar_left_toggle;
+/**@type {HTMLElement}*/ var sidebar_right_toggle;
 
+/**
+ * @param {String} url 
+ * @param {handleXMLHttpRequestResource} callback 
+ */
 function getHttpResource(url, callback) {
     let xhr = new XMLHttpRequest();
     xhr.open('GET', url); xhr.send();
@@ -26,7 +30,14 @@ function getHttpResource(url, callback) {
         callback(xhr);
     }
 }
+/**@param {XMLHttpRequest} xhr*/
+function handleXMLHttpRequestResource(xhr) {}
 
+/**
+ * Preload function called by the p5js library before setup.
+ * Is in charge of building the GUI (sidebars), setting up the tools,
+ * and preloading the resources such as the images.
+ */
 window.preload = function preload() {
     getHttpResource('/UI/sidebar-left.html', (sbleftxhr) => {
         sidebar_left.innerHTML = sbleftxhr.responseText;
@@ -38,8 +49,8 @@ window.preload = function preload() {
         sidebar_right_toggle = document.getElementById('sidebar-right-toggle');
         setSubToolsContainer(document.getElementById('subtools-container'));
         const tool_page_buttons = document.getElementById('tool-page-buttons');
-        {
-            // Hard coded basic tools page.
+
+        {   // Hard coded basic tools page.
             toolGroups.get('basic').appendChild(createToolButton('Remover'));
             const basicToolsBtn = createToolPageButton('Basic', 'basic');
             basicToolsBtn.firstChild.setAttribute('checked', '');
@@ -61,6 +72,7 @@ window.preload = function preload() {
     });
 }
 
+/**@param {XMLHttpRequest} xhr*/
 function loadMapList(xhr) {
     const mapConfig = JSON.parse(xhr.responseText);
     const mapchooserElem = document.getElementById('mapchooser');
@@ -81,15 +93,20 @@ function loadMapList(xhr) {
     changeMap(`${mapConfig[0].name.toLowerCase()}/${mapConfig[0].floors[0][1]}`);
 }
 
+/**@param {XMLHttpRequest} xhr*/
 function loadAssetList(xhr) {
     const assetConfig = JSON.parse(xhr.responseText);
     assetConfig.forEach((group) => {
         const matchingPage = toolGroups.get(group.page);
-        createImageToolGroup(matchingPage, group);
+        createImagePlacerGroup(matchingPage, group);
     });
 }
 
-function createImageToolGroup(target, group) {
+/**
+ * @param {HTMLElement} target
+ * @param {Object} group
+ */
+function createImagePlacerGroup(target, group) {
     target.appendChild(createHeader(group.name));
     const table = createFlexTable();
     for (let i = 0; i < group.assets.length; i++) {

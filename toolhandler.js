@@ -7,7 +7,7 @@ import {
 import { preloadedImages } from './preload.js';
 import { objects, imageobj_size } from './sketch.js';
 import { setSelectedObject, showObjectProperties } from './gui.js';
-import ImageObject from './imageobject.js';
+import ImageObj from './objects/imageobj.js';
 
 
 // Toolpages functionality
@@ -70,7 +70,7 @@ window.setOutline = setOutline;
             if (isOnObject()) return;
             const img = preloadedImages.get(imagePlacer.args[0]);
             const aspect_ratio = img.width / img.height;
-            const imgobj = new ImageObject(
+            const imgobj = new ImageObj(
                 (mouseX - getTranslateX())/getZoom() - imageobj_size*aspect_ratio/2, (mouseY - getTranslateY())/getZoom() - imageobj_size/2,
                 imageobj_size*aspect_ratio, imageobj_size, img, outline
             );

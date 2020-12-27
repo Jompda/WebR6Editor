@@ -1,12 +1,14 @@
 import { setTool } from './toolhandler.js';
 import { getTranslateX, setTranslateX, getTranslateY, setTranslateY, getZoom, setZoom } from './controller.js';
 import { resourceURL } from './preload.js';
+import Obj from './objects/obj.js';
 
 const imageobj_size = 42;
 
 var bg_image;
 var canvas;
 const viewport = document.getElementById('viewport');
+/**@type {Obj[]}*/
 const objects = [];
 
 window.windowResized = () =>

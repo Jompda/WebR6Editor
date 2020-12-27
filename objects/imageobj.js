@@ -1,17 +1,16 @@
-import { formElement } from './gui.js';
+import { formElement } from '../gui.js';
+import Obj from './obj.js';
 
-class ImageObject {
+class ImageObj extends Obj {
 
     sw() {return this.w*this.scale}
     sh() {return this.h*this.scale}
 
     constructor(x, y, w, h, image, outline) {
-        this.x = x; this.y = y;
+        super(x, y);
         this.w = w; this.h = h;
         this.image = image;
         this.outline = outline;
-
-        this.scale = 1;
     }
 
     draw() {
@@ -62,13 +61,6 @@ class ImageObject {
         return div;
     }
 
-    setScale(scale) {
-        const parsed = parseFloat(scale);
-        if (isNaN(parsed)) return false;
-        this.scale = parsed;
-        return true;
-    }
-
     setOutline(outline) {
         if (outline === '') {
             this.outline = undefined;
@@ -80,4 +72,4 @@ class ImageObject {
 
 }
 
-export default ImageObject;
+export default ImageObj;
