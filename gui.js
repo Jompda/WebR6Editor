@@ -58,7 +58,7 @@ function createToolPageButton(title, group) {
     const input = formElement('input', [
         [ 'type', 'radio' ],
         [ 'name', 'tool-page-button' ],
-        [ 'onchange', `setSubTools('${group}');` ]
+        [ 'onchange', `setToolPage('${group}');` ]
     ]);
     const txt = document.createElement('div');
     txt.innerHTML = title;

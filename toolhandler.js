@@ -10,22 +10,27 @@ import { setSelectedObject, showObjectProperties } from './gui.js';
 import ImageObj from './objects/imageobj.js';
 
 
-// Toolpages functionality
+/**
+ * Toolpages functionality
+ * @type {Map<String, HTMLElement>}
+ */
 const toolGroups = new Map([
     [ 'basic', document.createElement('div') ]
 ]);
 
-var subtools_container;
-function setSubToolsContainer(element) {
+/**@type {HTMLElement}*/ var subtools_container;
+/**@param {HTMLElement} element */
+function setToolPageContainer(element) {
     subtools_container = element;
 }
 
-function setSubTools(group) {
+/**@param {String} group the group name in toolGroups*/
+function setToolPage(group) {
     clearSelectedTool();
     if (subtools_container.firstChild) subtools_container.removeChild(subtools_container.firstChild);
     subtools_container.appendChild(toolGroups.get(group));
 }
-window.setSubTools = setSubTools;
+window.setToolPage = setToolPage;
 
 function clearSelectedTool() {
     const elem = document.getElementsByName("tool");
@@ -35,9 +40,15 @@ function clearSelectedTool() {
 
 
 // Tool functionality.
-const tools = new Map();
-var tool = undefined;
+/**@type {Map<String, Tool>}*/ const tools = new Map();
+/**@type {Tool}*/ var tool = undefined;
+/**@returns {Tool}*/
 const getTool = () => tool;
+/**
+ * @param {String} name 
+ * @param {String[]} args 
+ * @returns {Tool|undefined}
+ */
 function setTool(name, args) {
     const ctool = tools.get(name);
     if (!ctool) return;
@@ -48,9 +59,14 @@ window.setTool = setTool;
 
 
 // Outline functionality.
-var outline = undefined;
+/**@type {color}*/ var outline = undefined;
+/**@returns {color}*/
 const getOutline = () => outline;
-function setOutline(newOutline) { outline = newOutline }
+/**
+ * @param {color|undefined} newOutline 
+ * @returns {color|undefined}
+ */
+const setOutline = (newOutline) => outline = newOutline;
 window.setOutline = setOutline;
 
 
@@ -83,9 +99,9 @@ window.setOutline = setOutline;
 }
 
 export {
-    setSubToolsContainer,
+    setToolPageContainer,
     toolGroups,
     getTool, setTool,
     getOutline, setOutline,
-    setSubTools
+    setToolPage
 };

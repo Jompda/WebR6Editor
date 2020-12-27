@@ -1,5 +1,5 @@
 import { changeMap } from './sketch.js';
-import { setSubToolsContainer, setSubTools, toolGroups } from './toolhandler.js';
+import { setToolPageContainer, setToolPage, toolGroups } from './toolhandler.js';
 import {
     createToolButton,
     createToolPageButton,
@@ -47,7 +47,7 @@ window.preload = function preload() {
     getHttpResource('/UI/sidebar-right.html', (sbrightxhr) => {
         sidebar_right.innerHTML = sbrightxhr.responseText;
         sidebar_right_toggle = document.getElementById('sidebar-right-toggle');
-        setSubToolsContainer(document.getElementById('subtools-container'));
+        setToolPageContainer(document.getElementById('subtools-container'));
         const tool_page_buttons = document.getElementById('tool-page-buttons');
 
         {   // Hard coded basic tools page.
@@ -66,7 +66,7 @@ window.preload = function preload() {
             });
             
             // Load the tools
-            setSubTools('basic');
+            setToolPage('basic');
             getHttpResource('/assets.json', loadAssetList);
         });
     });
