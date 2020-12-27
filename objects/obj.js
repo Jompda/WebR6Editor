@@ -1,4 +1,6 @@
-
+/**
+ * Obj representing any object on the canvas.
+ */
 class Obj {
 
     constructor(x, y, outline) {
@@ -7,10 +9,22 @@ class Obj {
         this.scale = 1;
     }
 
+    /**
+     * Draw this object on the canvas.
+     */
     draw() {}
 
+    /**
+     * Checks if a point is intersecting this object.
+     * @param {Number} x 
+     * @param {Number} y 
+     * @returns {Boolean}
+     */
     intersects(x, y) {}
 
+    /**
+     * @returns {HTMLElement}
+     */
     getObjectPropertiesGUI() {}
 
     setScale(scale) {

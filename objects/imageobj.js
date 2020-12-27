@@ -1,6 +1,9 @@
 import { formElement } from '../gui.js';
 import Obj from './obj.js';
 
+/**
+ * ImageObj representing a image on the canvas.
+ */
 class ImageObj extends Obj {
 
     sw() {return this.w*this.scale}
