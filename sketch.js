@@ -1,7 +1,8 @@
 import { getOutline, setTool } from './toolhandler.js';
 import {
-    mousePressed, mouseDragged, mouseReleased, mouseWheel,
-    getTranslateX, setTranslateX, getTranslateY, setTranslateY, getZoom, setZoom
+    getTranslateX, setTranslateX,
+    getTranslateY, setTranslateY,
+    getZoom, setZoom
 } from './controller.js';
 import { preloadedImages, resourceURL } from './preload.js';
 import { getSelectedObject, setSelectedObject, showObjectProperties } from './gui.js';
@@ -52,37 +53,6 @@ window.dropHandler = function dropHandler(event) {
 }
 
 const viewport = document.getElementById('viewport');
-{   // Set the viewport events so the controller works.
-    let dragOriginatedFromViewport = false, dragging = false;
-    let mouseOnViewport = true;
-
-    viewport.onmouseenter = () => mouseOnViewport = true;
-    viewport.onmouseleave = () => mouseOnViewport = false;
-    window.onmousedown = (e) => {
-        if (mouseOnViewport) {
-            dragOriginatedFromViewport = true;
-            mousePressed(e);
-        }
-        else dragOriginatedFromViewport = false;
-    }
-    window.onmouseup = (e) => {
-        dragging = false;
-        if (mouseOnViewport) mouseReleased(e);
-    };
-    window.mouseDragged = (e) => {
-        dragging = true;
-        if (!mouseOnViewport && !dragOriginatedFromViewport) return;
-        e.preventDefault();
-        mouseDragged(e);
-    }
-    window.mouseWheel = (e) => {
-        if (!mouseOnViewport) return;
-        e.preventDefault();
-        mouseWheel(e);
-    }
-}
-
-
 const imageobj_size = 100;
 var bg_image;
 var canvas;
@@ -170,7 +140,6 @@ window.changeMap = changeMap;
 export {
     imageobj_size,
     objects,
-    viewport,
     getIntersectingObject,
     changeMap
 };

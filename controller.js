@@ -2,7 +2,42 @@ import { objects, getIntersectingObject } from './sketch.js';
 import { getTool } from './toolhandler.js';
 import { setSelectedObject, showObjectProperties } from './gui.js';
 
-// This whole thing is a mess.
+// Filtering events outside the viewport.
+var dragOriginatedFromViewport = false
+const isDragOriginatedFromViewport = () => dragOriginatedFromViewport;
+{   // 
+    let dragging = false;
+    let mouseOnViewport = true;
+
+    const viewport = document.getElementById('viewport');
+    viewport.onmouseenter = () => mouseOnViewport = true;
+    viewport.onmouseleave = () => mouseOnViewport = false;
+    window.onmousedown = (e) => {
+        if (mouseOnViewport) {
+            dragOriginatedFromViewport = true;
+            mousePressed(e);
+        }
+        else dragOriginatedFromViewport = false;
+    }
+    window.onmouseup = (e) => {
+        dragging = false;
+        if (mouseOnViewport) mouseReleased(e);
+    };
+    window.mouseDragged = (e) => {
+        dragging = true;
+        if (!mouseOnViewport && !dragOriginatedFromViewport) return;
+        e.preventDefault();
+        mouseDragged(e);
+    }
+    window.mouseWheel = (e) => {
+        if (!mouseOnViewport) return;
+        e.preventDefault();
+        mouseWheel(e);
+    }
+}
+
+
+// Viewport controls
 
 var translateX = 0, translateY = 0;
 const getTranslateX = () => translateX;
@@ -91,6 +126,7 @@ function dragObject(obj) {
 const updateLastMousePosition = () => { lastMouseX = mouseX; lastMouseY = mouseY; };
 
 export {
+    isDragOriginatedFromViewport,
     mousePressed, mouseDragged, mouseReleased, mouseWheel,
     getTranslateX, setTranslateX,
     getTranslateY, setTranslateY,

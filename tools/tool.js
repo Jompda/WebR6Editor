@@ -1,4 +1,4 @@
-import { dragObject, dragViewport, isOnObject } from "../controller.js";
+import { dragObject, dragViewport, isDragOriginatedFromViewport, isOnObject } from "../controller.js";
 
 /**
  * Representing a default tool.
@@ -16,7 +16,7 @@ class Tool {
     mouseDragged(event) {
         const onObject = isOnObject();
         if (onObject) dragObject(onObject);
-        else dragViewport();
+        else if (isDragOriginatedFromViewport()) dragViewport();
     }
 
     mouseReleased(event) {

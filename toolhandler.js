@@ -77,7 +77,7 @@ window.setOutline = setOutline;
     const remover = new Tool();
     remover.mouseReleased = () => {
         const onObject = isOnObject();
-        if (!onObject || isDragged()) return;
+        if (!onObject || isDragged() || mouseButton !== LEFT) return;
         let index = objects.indexOf(onObject);
         objects.splice(index, 1);
         setSelectedObject(undefined);
@@ -87,7 +87,7 @@ window.setOutline = setOutline;
 
     const imagePlacer = new Tool();
     imagePlacer.mouseReleased = () => {
-        if (isOnObject() || isDragged()) return;
+        if (isOnObject() || isDragged() || mouseButton !== LEFT) return;
         const img = preloadedImages.get(imagePlacer.args[0]);
         const aspect_ratio = img.width / img.height;
         const imgobj = new ImageObj(
