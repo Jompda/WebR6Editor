@@ -5,7 +5,7 @@ import { setSelectedObject, showObjectProperties } from './gui.js';
 // Filtering events outside the viewport.
 var dragOriginatedFromViewport = false
 const isDragOriginatedFromViewport = () => dragOriginatedFromViewport;
-{   // 
+{
     let dragging = false;
     let mouseOnViewport = true;
 

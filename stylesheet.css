@@ -13,6 +13,7 @@
     position: relative;
     padding: 0px;
     margin: 0px;
+    font-family: verdana;
 }
 html, body {
     width: 100%;
@@ -92,7 +93,6 @@ html, body {
 .sidebar-header {
     margin-bottom: 10px;
     font-size: 18px;
-    font-family: verdana;
     color: white;
     user-select: none;
 }

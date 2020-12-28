@@ -82,16 +82,21 @@ window.draw = function draw() {
     else return;
 
     //const srdate = new Date();
+
+    // Basic setup.
     clear();
     translate(getTranslateX(), getTranslateY());
-
     scale(getZoom());
+    
+    // Background image.
     image(bg_image, 0, 0);
 
+    // Objects.
     for (let i = objects.length-1; i > -1; i--) {
         push(); objects[i].draw(); pop();
     }
 
+    // Selected object's highlight.
     const selobj = getSelectedObject();
     if (selobj) { // Highlight the intersecting object
         noFill();
