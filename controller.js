@@ -28,10 +28,10 @@ window.mousePressed = function mousePressed(event) {
     if (bounds()) return;
 
     // Check for intersection.
-    setSelectedObject(undefined);
+    showObjectProperties(setSelectedObject(undefined));
     const intersecting = getIntersectingObject((mouseX - translateX)/zoom, (mouseY - translateY)/zoom);
     if (intersecting) {
-        setSelectedObject(onObject = intersecting.obj);
+        showObjectProperties(setSelectedObject(onObject = intersecting.obj));
         // Move to first for rendering purposes.
         objects.splice(intersecting.i, 1);
         objects.unshift(onObject);
@@ -39,7 +39,7 @@ window.mousePressed = function mousePressed(event) {
     
     switch (mouseButton) {
         case CENTER: break;
-        case RIGHT: showObjectProperties(onObject); break;
+        case RIGHT: break;
         case LEFT:
             const tool = getTool();
             if (tool && tool.onPress)

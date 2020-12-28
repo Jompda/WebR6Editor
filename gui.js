@@ -6,12 +6,16 @@ var selectedObject;
 /**@returns {Obj}*/
 const getSelectedObject = () => selectedObject;
 window.getSelectedObject = getSelectedObject;
-/**@param {Obj} obj*/
-function setSelectedObject(obj) {
-    selectedObject = obj;
-}
+/**
+ * @param {Obj} obj
+ * @returns {Obj}
+ */
+const setSelectedObject = (obj) => selectedObject = obj;
 window.setSelectedObject = setSelectedObject;
 
+/**
+ * @param {Obj} obj 
+ */
 function showObjectProperties(obj) {
     const object_properties = document.getElementById('object-properties');
     if (object_properties.firstChild) object_properties.removeChild(object_properties.firstChild);

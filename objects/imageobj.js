@@ -25,15 +25,15 @@ class ImageObj extends Obj {
             noFill();
             strokeWeight(2);
             stroke(this.outline);
-            rect(this.x, this.y, this.sw(), this.sh());
+            rect(this.x, this.y, this.w, this.h);
         }
         // I noticed that this is apparently less resource-demanding than image() ..
-        copy(this.image, 0, 0, this.image.width, this.image.height, this.x, this.y, this.sw(), this.sh());
+        copy(this.image, 0, 0, this.image.width, this.image.height, this.x, this.y, this.w, this.h);
     }
 
     intersects(x, y) {
-        return (x > this.x && x < this.x+this.sw())
-            && (y > this.y && y < this.y+this.sh());
+        return (x > this.x && x < this.x+this.w)
+            && (y > this.y && y < this.y+this.h);
     }
 
     getObjectPropertiesGUI() {
@@ -43,14 +43,26 @@ class ImageObj extends Obj {
             formElement(
                 'p', [['class', 'sidebar-header']], 'Image Object properties:'
             ),
+            document.createElement('br'),
             formElement(
-                'p', [[ 'style', 'display: inline-block' ]], 'Scale:'
+                'p', [[ 'style', 'display: inline-block' ]], 'Width:'
             ),
             formElement(
                 'input', [
                     [ 'type', 'text' ],
-                    [ 'value', this.scale ],
-                    [ 'onchange', 'getSelectedObject().parseScale(this.value);update();' ]
+                    [ 'value', this.w ],
+                    [ 'onchange', 'getSelectedObject().parseWidth(this.value);update();' ]
+                ]
+            ),
+            document.createElement('br'),
+            formElement(
+                'p', [[ 'style', 'display: inline-block' ]], 'Height:'
+            ),
+            formElement(
+                'input', [
+                    [ 'type', 'text' ],
+                    [ 'value', this.h ],
+                    [ 'onchange', 'getSelectedObject().parseHeight(this.value);update();' ]
                 ]
             ),
             document.createElement('br'),

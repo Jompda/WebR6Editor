@@ -14,7 +14,6 @@ class Obj {
         this.x = x; this.y = y;
         this.w = w; this.h = h;
         this.outline = outline;
-        this.scale = 1;
     }
 
     /**
@@ -36,13 +35,24 @@ class Obj {
     getObjectPropertiesGUI() {}
 
     /**
-     * @param {String} scale 
+     * @param {String} width 
      * @returns {Boolean}
      */
-    parseScale(scale) {
-        const parsed = parseFloat(scale);
+    parseWidth(width) {
+        const parsed = parseInt(width);
         if (isNaN(parsed)) return false;
-        this.scale = parsed;
+        this.w = parsed;
+        return true;
+    }
+
+    /**
+     * @param {String} height 
+     * @returns {Boolean}
+     */
+    parseHeight(height) {
+        const parsed = parseInt(height);
+        if (isNaN(parsed)) return false;
+        this.h = parsed;
         return true;
     }
 
@@ -58,11 +68,6 @@ class Obj {
         this.outline = color(outline);
         return true;
     }
-
-    /**@returns {Number} scaled width */
-    sw() {return this.w*this.scale}
-    /**@returns {Number} scaled height */
-    sh() {return this.h*this.scale}
 
 }
 

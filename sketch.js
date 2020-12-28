@@ -52,7 +52,7 @@ window.draw = function draw() {
         let sweight = 3/getZoom()
         if (sweight > 3) sweight = 3;
         strokeWeight(sweight);
-        rect(selobj.x-1, selobj.y-1, selobj.sw()+2, selobj.sh()+2);
+        rect(selobj.x-1, selobj.y-1, selobj.w+2, selobj.h+2);
     }
 
     //const renderTime = new Date()-srdate;
