@@ -4,7 +4,6 @@ The simple but useful web-based Rainbow Six: Siege strategy editor.
 
 ## TODO:
 - Add comments and overall documentation to the code.
-- Create a proper toolsystem.
 - Create images for the basic tools.
 - My "OCD" wants the icons' sizes to be powers of two.
 - Add Aruni and her gadget.

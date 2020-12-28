@@ -23,7 +23,7 @@ const isDragged = () => dragged;
 function mousePressed(event) {
     onObject = false;
     dragged = false;
-    update(updateMousePosition());
+    update(updateLastMousePosition());
 
     // Check for intersection.
     showObjectProperties(setSelectedObject(undefined));
@@ -35,58 +35,23 @@ function mousePressed(event) {
         objects.unshift(onObject);
     }
     
-    const tool = getTool();
-    switch (mouseButton) {
-        case CENTER: break;
-        case RIGHT:
-            if (tool && tool.onRPress) tool.onRPress();
-            break;
-        case LEFT:
-            if (tool && tool.onLPress) tool.onLPress();
-            break;
-        default: break;
-    }
+    getTool().mousePressed(event);
 }
 
 function mouseDragged(event) {
     dragged = true;
 
-    const tool = getTool();
-    switch (mouseButton) {
-        case CENTER:
-            // Drag the viewport.
-            const deltaX = mouseX - lastMouseX, deltaY = mouseY - lastMouseY;
-            translateX += deltaX; translateY += deltaY;
-            break;
-        case RIGHT:
-            if (tool && tool.onRDrag) tool.onRDrag();
-            break;
-        case LEFT:
-            if (tool && tool.onLDrag) tool.onLDrag();
-            else if (onObject) dragObject(onObject);
-            break;
-        default: break;
-    }
+    if (mouseButton === CENTER) dragViewport();
+    else getTool().mouseDragged(event);
     
-    update(updateMousePosition());
+    update(updateLastMousePosition());
 }
 
 function mouseReleased(event) {
-    const tool = getTool();
-    switch (mouseButton) {
-        case CENTER: break;
-        case RIGHT:
-            if (tool && tool.onRRelease) tool.onRRelease();
-            break;
-        case LEFT:
-            if (tool && tool.onLRelease) tool.onLRelease();
-            break;
-        default: break;
-    }
-
+    getTool().mouseReleased(event);
     onObject = false;
     dragged = false;
-    update(updateMousePosition());
+    update(updateLastMousePosition());
 }
 
 /*function mouseMoved() {
@@ -113,12 +78,17 @@ function mouseWheel(event) {
     }
 }
 
+function dragViewport() {
+    const deltaX = mouseX - lastMouseX, deltaY = mouseY - lastMouseY;
+    translateX += deltaX; translateY += deltaY;
+}
+
 function dragObject(obj) {
     const deltaX = mouseX - lastMouseX, deltaY = mouseY - lastMouseY;
     obj.x += deltaX/zoom; obj.y += deltaY/zoom;
 }
 
-const updateMousePosition = () => { lastMouseX = mouseX; lastMouseY = mouseY; };
+const updateLastMousePosition = () => { lastMouseX = mouseX; lastMouseY = mouseY; };
 
 export {
     mousePressed, mouseDragged, mouseReleased, mouseWheel,
@@ -127,6 +97,7 @@ export {
     getZoom, setZoom,
     isOnObject,
     isDragged,
+    dragViewport,
     dragObject,
-    updateMousePosition
+    updateLastMousePosition
 };
