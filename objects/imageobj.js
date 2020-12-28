@@ -6,6 +6,14 @@ import Obj from './obj.js';
  */
 class ImageObj extends Obj {
 
+    /**
+     * @param {Number} x 
+     * @param {Number} y 
+     * @param {Number} w 
+     * @param {Number} h 
+     * @param {image} image 
+     * @param {color|undefined} outline 
+     */
     constructor(x, y, w, h, image, outline) {
         super(x, y, w, h);
         this.image = image;
@@ -42,7 +50,7 @@ class ImageObj extends Obj {
                 'input', [
                     [ 'type', 'text' ],
                     [ 'value', this.scale ],
-                    [ 'onchange', 'getSelectedObject().setScale(this.value);update();' ]
+                    [ 'onchange', 'getSelectedObject().parseScale(this.value);update();' ]
                 ]
             ),
             document.createElement('br'),
@@ -53,20 +61,11 @@ class ImageObj extends Obj {
                 'input', [
                     [ 'type', 'text' ],
                     [ 'value', this.outline ? this.outline.toString() : '' ],
-                    [ 'onchange', 'getSelectedObject().setOutline(this.value);update();' ]
+                    [ 'onchange', 'getSelectedObject().parseOutline(this.value);update();' ]
                 ]
             )
         );
         return div;
-    }
-
-    setOutline(outline) {
-        if (outline === '') {
-            this.outline = undefined;
-            return true;
-        }
-        this.outline = color(outline);
-        return true;
     }
 
 }
