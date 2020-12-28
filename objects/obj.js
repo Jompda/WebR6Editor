@@ -3,8 +3,9 @@
  */
 class Obj {
 
-    constructor(x, y, outline) {
+    constructor(x, y, w, h, outline) {
         this.x = x; this.y = y;
+        this.w = w; this.h = h;
         this.outline = outline;
         this.scale = 1;
     }
@@ -33,6 +34,9 @@ class Obj {
         this.scale = parsed;
         return true;
     }
+
+    sw() {return this.w*this.scale}
+    sh() {return this.h*this.scale}
 
 }
 

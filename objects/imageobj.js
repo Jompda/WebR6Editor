@@ -6,12 +6,8 @@ import Obj from './obj.js';
  */
 class ImageObj extends Obj {
 
-    sw() {return this.w*this.scale}
-    sh() {return this.h*this.scale}
-
     constructor(x, y, w, h, image, outline) {
-        super(x, y);
-        this.w = w; this.h = h;
+        super(x, y, w, h);
         this.image = image;
         this.outline = outline;
     }

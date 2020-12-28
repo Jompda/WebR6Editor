@@ -31,7 +31,7 @@ window.mousePressed = function mousePressed(event) {
     setSelectedObject(undefined);
     const intersecting = getIntersectingObject((mouseX - translateX)/zoom, (mouseY - translateY)/zoom);
     if (intersecting) {
-        setSelectedObject(onObject = intersecting.object);
+        setSelectedObject(onObject = intersecting.obj);
         // Move to first for rendering purposes.
         objects.splice(intersecting.i, 1);
         objects.unshift(onObject);

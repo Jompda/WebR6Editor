@@ -1,9 +1,12 @@
+import Obj from './objects/obj.js';
 import { resourceURL, preloadedImages, sidebar_left, sidebar_right } from './preload.js';
 
 // Object selection functionality.
 var selectedObject;
+/**@returns {Obj}*/
 const getSelectedObject = () => selectedObject;
 window.getSelectedObject = getSelectedObject;
+/**@param {Obj} obj*/
 function setSelectedObject(obj) {
     selectedObject = obj;
 }
@@ -78,6 +81,12 @@ const createHeader = (header) => formElement('p', [[ 'class', 'sidebar-header' ]
 const createHR = () => formElement('hr', [[ 'class', 'sidebar-hr' ]]);
 const createFlexTable = () => formElement('div', [[ 'class', 'flex-table' ]]);
 
+/**
+ * @param {String} tag 
+ * @param {String[][]} attribs 
+ * @param {HTMLElement} innerHTML 
+ * @returns {HTMLElement}
+ */
 function formElement(tag, attribs, innerHTML) {
     const elem = document.createElement(tag);
     if (attribs) attribs.forEach(attrib => elem.setAttribute(attrib[0], attrib[1]));
