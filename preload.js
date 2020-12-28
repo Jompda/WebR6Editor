@@ -1,7 +1,6 @@
 import { changeMap } from './sketch.js';
 import { setToolPageContainer, setToolPage, toolGroups } from './toolhandler.js';
 import {
-    createToolButton,
     createToolPageButton,
     createHeader,
     createFlexTable,
@@ -52,10 +51,9 @@ window.preload = function preload() {
 
         {   // Hard coded basic tools page.
             const basic = toolGroups.get('basic');
-            basic.append(
-                createImageToolButton('No tool', undefined, `setTool('no tool');update();`),
-                createImageToolButton('Remover', undefined, `setTool('remover');update();`)
-            );
+            const no_tool = createImageToolButton('No tool', '', `setTool('no tool');update();`);
+            no_tool.firstChild.setAttribute('checked', '');
+            basic.append(no_tool, createImageToolButton('Remover', '', `setTool('remover');update();`));
             const basicToolsBtn = createToolPageButton('Basic', 'basic');
             basicToolsBtn.firstChild.setAttribute('checked', '');
             tool_page_buttons.appendChild(basicToolsBtn);

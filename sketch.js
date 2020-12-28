@@ -31,7 +31,7 @@ window.dropHandler = function dropHandler(event) {
      * @param {File} file 
      */
     function handleFile(file) {
-        console.log('Processing:', file.name);
+        console.log(`Processing file '${file.name}'.`);
 
         const reader = new FileReader();
         reader.onload = (event) => {
@@ -47,7 +47,7 @@ window.dropHandler = function dropHandler(event) {
                 update();
             }));
         }
-        reader.readAsDataURL(file);  
+        reader.readAsDataURL(file);
     }
 }
 
@@ -84,7 +84,7 @@ window.windowResized = () =>
 
 window.setup = function setup() {
     bg_image = createImage(1,1); // Just to avoid background-image drawing errors.
-    setTool('remover');
+    setTool('no tool');
     canvas = createCanvas(viewport.offsetWidth, viewport.offsetHeight);
     canvas.parent(viewport);
 
