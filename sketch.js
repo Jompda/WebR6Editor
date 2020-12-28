@@ -29,7 +29,7 @@ window.mouseWheel = (e) => {
 }
 
 
-const imageobj_size = 42;
+const imageobj_size = 100;
 var bg_image;
 var canvas;
 /**@type {Obj[]}*/

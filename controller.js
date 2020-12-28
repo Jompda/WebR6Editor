@@ -1,4 +1,3 @@
-import { sidebar_left, sidebar_right, sidebar_left_toggle, sidebar_right_toggle } from './preload.js';
 import { objects, getIntersectingObject } from './sketch.js';
 import { getTool } from './toolhandler.js';
 import { setSelectedObject, showObjectProperties } from './gui.js';
