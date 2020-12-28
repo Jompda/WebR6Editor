@@ -51,25 +51,35 @@ window.dropHandler = function dropHandler(event) {
     }
 }
 
-
-// Set the viewport events so the controller works.
-var mouseOnViewport = true;
 const viewport = document.getElementById('viewport');
-viewport.onmouseenter = () => mouseOnViewport = true;
-viewport.onmouseleave = () => mouseOnViewport = false;
-viewport.onmousedown = (e) => mouseOnViewport ? mousePressed(e) : undefined;
-viewport.onmouseup = (e) => mouseOnViewport ? mouseReleased(e) : undefined;
-window.mouseDragged = (e) => {
-    // TODO: If the drag originated from the viewport: preventDefault().
-    // If not: return.
-    e.preventDefault();
-    if (!mouseOnViewport) return;
-    mouseDragged(e);
-}
-window.mouseWheel = (e) => {
-    if (!mouseOnViewport) return;
-    e.preventDefault();
-    mouseWheel(e);
+{   // Set the viewport events so the controller works.
+    let dragOriginatedFromViewport = false, dragging = false;
+    let mouseOnViewport = true;
+
+    viewport.onmouseenter = () => mouseOnViewport = true;
+    viewport.onmouseleave = () => mouseOnViewport = false;
+    window.onmousedown = (e) => {
+        if (mouseOnViewport) {
+            dragOriginatedFromViewport = true;
+            mousePressed(e);
+        }
+        else dragOriginatedFromViewport = false;
+    }
+    window.onmouseup = (e) => {
+        dragging = false;
+        if (mouseOnViewport) mouseReleased(e);
+    };
+    window.mouseDragged = (e) => {
+        dragging = true;
+        if (!mouseOnViewport && !dragOriginatedFromViewport) return;
+        e.preventDefault();
+        mouseDragged(e);
+    }
+    window.mouseWheel = (e) => {
+        if (!mouseOnViewport) return;
+        e.preventDefault();
+        mouseWheel(e);
+    }
 }
 
 
