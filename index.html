@@ -9,7 +9,7 @@
 
 <body onresize="windowResized()">
   <div id="content">
-    <div id="viewport"></div>
+    <div id="viewport" ondrop="dropHandler(event)" ondragover="event.preventDefault()"></div>
     <div id="sidebar-left"></div>
     <div id="sidebar-right"></div>
   </div>

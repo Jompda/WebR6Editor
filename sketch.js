@@ -1,11 +1,56 @@
-import { setTool } from './toolhandler.js';
+import { getOutline, setTool } from './toolhandler.js';
 import {
     mousePressed, mouseDragged, mouseReleased, mouseWheel,
     getTranslateX, setTranslateX, getTranslateY, setTranslateY, getZoom, setZoom
 } from './controller.js';
-import { resourceURL } from './preload.js';
-import { getSelectedObject } from './gui.js';
+import { preloadedImages, resourceURL } from './preload.js';
+import { getSelectedObject, setSelectedObject, showObjectProperties } from './gui.js';
 import Obj from './objects/obj.js';
+import ImageObj from './objects/imageobj.js';
+
+
+//testing
+/**
+ * 
+ * @param {DragEvent} event 
+ */
+window.dropHandler = function dropHandler(event) {
+    event.preventDefault();
+
+    if (event.dataTransfer.items) {
+        const fileArray = event.dataTransfer.items;
+        for (let i = 0; i < fileArray.length; i++) {
+            console.log(JSON.stringify(fileArray[i]));
+            if (fileArray[i].kind === 'file') {
+                const file = fileArray[i].getAsFile();
+                console.log('Processing:', file.name);
+
+                const reader = new FileReader();
+                reader.onloadend = (event) => {
+                    preloadedImages.set(file.name, loadImage(event.target.result, (img) => {
+                        const aspect_ratio = img.width / img.height;
+                        const imgobj = new ImageObj(
+                            (mouseX - getTranslateX())/getZoom() - imageobj_size*aspect_ratio/2, (mouseY - getTranslateY())/getZoom() - imageobj_size/2,
+                            imageobj_size*aspect_ratio, imageobj_size, img, getOutline()
+                        );
+                        objects.unshift(imgobj);
+                        setSelectedObject(imgobj);
+                        showObjectProperties(imgobj);
+                        update();
+                    }));
+                }
+                reader.readAsDataURL(file);  
+            }
+        }
+    } else {
+        const fileArray = event.dataTransfer.files;
+        for (let i = 0; i < fileArray.length; i++) {
+            const file = fileArray[i];
+            console.log('Processing:', file.name);
+            file.text().then(console.log);
+        }
+    }
+}
 
 
 // Set the viewport events so the controller works.
