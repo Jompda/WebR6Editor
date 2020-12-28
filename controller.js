@@ -37,13 +37,14 @@ window.mousePressed = function mousePressed(event) {
         objects.unshift(onObject);
     }
     
+    const tool = getTool();
     switch (mouseButton) {
         case CENTER: break;
-        case RIGHT: break;
+        case RIGHT:
+            if (tool && tool.onRPress) tool.onRPress();
+            break;
         case LEFT:
-            const tool = getTool();
-            if (tool && tool.onPress)
-                tool.onPress();
+            if (tool && tool.onLPress) tool.onLPress();
             break;
         default: break;
     }
@@ -52,18 +53,20 @@ window.mousePressed = function mousePressed(event) {
 window.mouseDragged = function mouseDragged(event) {
     dragged = true;
 
+    const tool = getTool();
     switch (mouseButton) {
         case CENTER:
             // Drag the viewport.
             const deltaX = mouseX - lastMouseX, deltaY = mouseY - lastMouseY;
             translateX += deltaX; translateY += deltaY;
             break;
-        case RIGHT: /*if (bounds()) return;*/ break;
+        case RIGHT:
+            //if (bounds()) break;
+            if (tool && tool.onRDrag) tool.onRDrag();
+            break;
         case LEFT:
-            if (bounds()) break;
-            const tool = getTool();
-            if (tool && tool.onDrag)
-                tool.onDrag();
+            //if (bounds()) break;
+            if (tool && tool.onLDrag) tool.onLDrag();
             else if (onObject) dragObject(onObject);
             break;
         default: break;
@@ -73,14 +76,16 @@ window.mouseDragged = function mouseDragged(event) {
 }
 
 window.mouseReleased = function mouseReleased(event) {
+    const tool = getTool();
     switch (mouseButton) {
         case CENTER: break;
-        case RIGHT: /*if (bounds()) return;*/ break;
+        case RIGHT:
+            //if (bounds()) break;
+            if (tool && tool.onRRelease) tool.onRRelease();
+            break;
         case LEFT:
-            if (bounds()) break;
-            const tool = getTool();
-            if (tool && tool.onRelease)
-                tool.onRelease();
+            //if (bounds()) break;
+            if (tool && tool.onLRelease) tool.onLRelease();
             break;
         default: break;
     }
@@ -139,5 +144,8 @@ export {
     getTranslateY, setTranslateY,
     getZoom, setZoom,
     isOnObject,
-    isDragged
+    isDragged,
+    bounds,
+    dragObject,
+    updateMousePosition
 };

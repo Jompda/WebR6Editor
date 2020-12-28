@@ -5,12 +5,13 @@ The simple but useful web-based Rainbow Six: Siege strategy editor.
 ## TODO:
 - Add comments and overall documentation to the code.
 - Create a proper toolsystem.
+- Create images for the basic tools.
 - Add Aruni and her gadget.
 - Optimize the rendering (even more).
 
 ## Features to implement:
-- A object properties menu which can be accessed by selecting an object.
-- Ability to resize and rotate objects.
+- Ability to edit objects individually.
+- Ability to rotate objects.
 - More tools: line, path, rectangle, circle.
 - Ability to hide and show objects based on their group or some kind of filtering.
 - Saving/loading the creation.

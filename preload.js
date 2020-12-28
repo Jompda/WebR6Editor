@@ -5,7 +5,7 @@ import {
     createToolPageButton,
     createHeader,
     createFlexTable,
-    createImageTool,
+    createImageToolButton,
     createHR
 } from './gui.js';
 
@@ -51,7 +51,11 @@ window.preload = function preload() {
         const tool_page_buttons = document.getElementById('tool-page-buttons');
 
         {   // Hard coded basic tools page.
-            toolGroups.get('basic').appendChild(createToolButton('Remover'));
+            const basic = toolGroups.get('basic');
+            basic.append(
+                createImageToolButton('No tool', undefined, `setTool('no tool');update();`),
+                createImageToolButton('Remover', undefined, `setTool('remover');update();`)
+            );
             const basicToolsBtn = createToolPageButton('Basic', 'basic');
             basicToolsBtn.firstChild.setAttribute('checked', '');
             tool_page_buttons.appendChild(basicToolsBtn);
@@ -111,7 +115,13 @@ function createImagePlacerGroup(target, group) {
     const table = createFlexTable();
     for (let i = 0; i < group.assets.length; i++) {
         const tempAsset = group.assets[i];
-        const imageTool = createImageTool(group.path, tempAsset[0], tempAsset[1], group.extension);
+
+        let filename = tempAsset[1];
+        if (!filename) filename = tempAsset[0].toLowerCase();
+        const filepath = group.path+filename+group.extension, assetURL = resourceURL + filepath;
+        preloadedImages.set(filename, loadImage(assetURL)); // Preload the images for p5
+
+        const imageTool = createImageToolButton(tempAsset[0], assetURL, `setTool('imageplacer', ['${filename}'])`);
         table.appendChild(imageTool);
     }
     target.appendChild(table);

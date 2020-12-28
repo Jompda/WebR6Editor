@@ -1,5 +1,5 @@
 import Obj from './objects/obj.js';
-import { resourceURL, preloadedImages, sidebar_left, sidebar_right } from './preload.js';
+import { sidebar_left, sidebar_right } from './preload.js';
 
 // Object selection functionality.
 var selectedObject;
@@ -40,20 +40,16 @@ window.sidebarRightToggle = sidebarRightToggle;
 
 
 // Functions to create HTML elements.
-function createImageTool(path, title, filename, extension) {
-    if (!filename) filename = title.toLowerCase();
-    const filepath = path+filename+extension, assetURL = resourceURL + filepath;
-    preloadedImages.set(filename, loadImage(assetURL)); // Preload the images for p5
-
+function createImageToolButton(title, imgurl, onchange) {
     const label = formElement('label', [[ 'class', 'imagetool' ]]);
     label.append(
         formElement('input', [
             [ 'type', 'radio' ],
             [ 'name', 'tool' ],
-            [ 'onchange', `setTool('imageplacer', ['${filename}'])` ]
+            [ 'onchange', onchange ]
         ]),
         formElement('img', [
-            [ 'src', assetURL ],
+            [ 'src', imgurl ],
             [ 'title', title ]
         ])
     );
@@ -102,7 +98,7 @@ export {
     getSelectedObject, setSelectedObject,
     showObjectProperties,
     sidebarLeftToggle, sidebarRightToggle,
-    createImageTool,
+    createImageToolButton,
     createToolPageButton,
     createToolButton,
     createHeader,

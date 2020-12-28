@@ -71,8 +71,9 @@ window.setOutline = setOutline;
 
 
 {   // Temporary way of initializing the tools.
+    tools.set('no tool', {} );
     tools.set('remover', {
-        onRelease: () => {
+        onLRelease: () => {
             const onObject = isOnObject();
             if (!onObject || isDragged()) return;
             let index = objects.indexOf(onObject);
@@ -82,7 +83,7 @@ window.setOutline = setOutline;
         }
     });
     const imagePlacer = {
-        onRelease: () => {
+        onLRelease: () => {
             if (isOnObject()) return;
             const img = preloadedImages.get(imagePlacer.args[0]);
             const aspect_ratio = img.width / img.height;
