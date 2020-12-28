@@ -21,11 +21,10 @@ const isOnObject = () => onObject;
 var dragged = false;
 const isDragged = () => dragged;
 
-window.mousePressed = function mousePressed(event) {
+function mousePressed(event) {
     onObject = false;
     dragged = false;
     update(updateMousePosition());
-    if (bounds()) return;
 
     // Check for intersection.
     showObjectProperties(setSelectedObject(undefined));
@@ -50,7 +49,7 @@ window.mousePressed = function mousePressed(event) {
     }
 }
 
-window.mouseDragged = function mouseDragged(event) {
+function mouseDragged(event) {
     dragged = true;
 
     const tool = getTool();
@@ -61,11 +60,9 @@ window.mouseDragged = function mouseDragged(event) {
             translateX += deltaX; translateY += deltaY;
             break;
         case RIGHT:
-            //if (bounds()) break;
             if (tool && tool.onRDrag) tool.onRDrag();
             break;
         case LEFT:
-            //if (bounds()) break;
             if (tool && tool.onLDrag) tool.onLDrag();
             else if (onObject) dragObject(onObject);
             break;
@@ -75,16 +72,14 @@ window.mouseDragged = function mouseDragged(event) {
     update(updateMousePosition());
 }
 
-window.mouseReleased = function mouseReleased(event) {
+function mouseReleased(event) {
     const tool = getTool();
     switch (mouseButton) {
         case CENTER: break;
         case RIGHT:
-            //if (bounds()) break;
             if (tool && tool.onRRelease) tool.onRRelease();
             break;
         case LEFT:
-            //if (bounds()) break;
             if (tool && tool.onLRelease) tool.onLRelease();
             break;
         default: break;
@@ -100,10 +95,8 @@ window.mouseReleased = function mouseReleased(event) {
     if(tool.onMove) tool.onMove();
 }*/
 
-window.mouseWheel = function mouseWheel(event) {
+function mouseWheel(event) {
     update();
-    if (bounds()) return;
-
     let zoomDelta = -event.delta*zoom/750;
     if (zoom + zoomDelta < minZoom)
         zoomDelta += minZoom-(zoom+zoomDelta);
@@ -121,17 +114,6 @@ window.mouseWheel = function mouseWheel(event) {
     }
 }
 
-function bounds() {
-    //filters out mouse events that are overlapping with the sidebars
-    if (mouseX < sidebar_left.offsetLeft+sidebar_left.offsetWidth || mouseX > sidebar_right.offsetLeft) return true;
-    //filter out the toggle buttons. Dear god, what the fuck is this..
-    if (dist(mouseX, mouseY, sidebar_right.offsetLeft+sidebar_right_toggle.offsetLeft+sidebar_right_toggle.offsetWidth/2,
-        sidebar_right_toggle.offsetTop+sidebar_right_toggle.offsetHeight/2) < 20) return true;
-    if (dist(mouseX, mouseY, sidebar_left.offsetLeft+sidebar_left_toggle.offsetLeft+sidebar_left_toggle.offsetWidth/2,
-        sidebar_left_toggle.offsetTop+sidebar_left_toggle.offsetHeight/2) < 20) return true;
-    return false;
-}
-
 function dragObject(obj) {
     const deltaX = mouseX - lastMouseX, deltaY = mouseY - lastMouseY;
     obj.x += deltaX/zoom; obj.y += deltaY/zoom;
@@ -140,12 +122,12 @@ function dragObject(obj) {
 const updateMousePosition = () => { lastMouseX = mouseX; lastMouseY = mouseY; };
 
 export {
+    mousePressed, mouseDragged, mouseReleased, mouseWheel,
     getTranslateX, setTranslateX,
     getTranslateY, setTranslateY,
     getZoom, setZoom,
     isOnObject,
     isDragged,
-    bounds,
     dragObject,
     updateMousePosition
 };

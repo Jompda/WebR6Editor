@@ -1,14 +1,37 @@
 import { setTool } from './toolhandler.js';
-import { getTranslateX, setTranslateX, getTranslateY, setTranslateY, getZoom, setZoom } from './controller.js';
+import {
+    mousePressed, mouseDragged, mouseReleased, mouseWheel,
+    getTranslateX, setTranslateX, getTranslateY, setTranslateY, getZoom, setZoom
+} from './controller.js';
 import { resourceURL } from './preload.js';
 import { getSelectedObject } from './gui.js';
 import Obj from './objects/obj.js';
 
-const imageobj_size = 42;
 
+// Set the viewport events so the controller works.
+var mouseOnViewport = true;
+const viewport = document.getElementById('viewport');
+viewport.onmouseenter = () => mouseOnViewport = true;
+viewport.onmouseleave = () => mouseOnViewport = false;
+viewport.onmousedown = (e) => mouseOnViewport ? mousePressed(e) : undefined;
+viewport.onmouseup = (e) => mouseOnViewport ? mouseReleased(e) : undefined;
+window.mouseDragged = (e) => {
+    // TODO: If the drag originated from the viewport: preventDefault().
+    // If not: return.
+    e.preventDefault();
+    if (!mouseOnViewport) return;
+    mouseDragged(e);
+}
+window.mouseWheel = (e) => {
+    if (!mouseOnViewport) return;
+    e.preventDefault();
+    mouseWheel(e);
+}
+
+
+const imageobj_size = 42;
 var bg_image;
 var canvas;
-const viewport = document.getElementById('viewport');
 /**@type {Obj[]}*/
 const objects = [];
 
@@ -95,6 +118,7 @@ window.changeMap = changeMap;
 export {
     imageobj_size,
     objects,
+    viewport,
     getIntersectingObject,
     changeMap
 };
