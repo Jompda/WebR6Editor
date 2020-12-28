@@ -9,9 +9,8 @@ import Obj from './objects/obj.js';
 import ImageObj from './objects/imageobj.js';
 
 
-//testing
 /**
- * 
+ * Loads images and possibly strats from json files in the future.
  * @param {DragEvent} event 
  */
 window.dropHandler = function dropHandler(event) {
@@ -19,36 +18,36 @@ window.dropHandler = function dropHandler(event) {
 
     if (event.dataTransfer.items) {
         const fileArray = event.dataTransfer.items;
-        for (let i = 0; i < fileArray.length; i++) {
-            console.log(JSON.stringify(fileArray[i]));
-            if (fileArray[i].kind === 'file') {
-                const file = fileArray[i].getAsFile();
-                console.log('Processing:', file.name);
-
-                const reader = new FileReader();
-                reader.onloadend = (event) => {
-                    preloadedImages.set(file.name, loadImage(event.target.result, (img) => {
-                        const aspect_ratio = img.width / img.height;
-                        const imgobj = new ImageObj(
-                            (mouseX - getTranslateX())/getZoom() - imageobj_size*aspect_ratio/2, (mouseY - getTranslateY())/getZoom() - imageobj_size/2,
-                            imageobj_size*aspect_ratio, imageobj_size, img, getOutline()
-                        );
-                        objects.unshift(imgobj);
-                        setSelectedObject(imgobj);
-                        showObjectProperties(imgobj);
-                        update();
-                    }));
-                }
-                reader.readAsDataURL(file);  
-            }
-        }
+        for (let i = 0; i < fileArray.length; i++)
+            if (fileArray[i].kind === 'file')
+                handleFile(fileArray[i].getAsFile());
     } else {
         const fileArray = event.dataTransfer.files;
-        for (let i = 0; i < fileArray.length; i++) {
-            const file = fileArray[i];
-            console.log('Processing:', file.name);
-            file.text().then(console.log);
+        for (let i = 0; i < fileArray.length; i++)
+            handleFile(fileArray[i].getAsFile());
+    }
+
+    /**
+     * @param {File} file 
+     */
+    function handleFile(file) {
+        console.log('Processing:', file.name);
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            preloadedImages.set(file.name, loadImage(event.target.result, (img) => {
+                const aspect_ratio = img.width / img.height;
+                const imgobj = new ImageObj(
+                    (mouseX - getTranslateX())/getZoom() - imageobj_size*aspect_ratio/2, (mouseY - getTranslateY())/getZoom() - imageobj_size/2,
+                    imageobj_size*aspect_ratio, imageobj_size, img, getOutline()
+                );
+                objects.unshift(imgobj);
+                setSelectedObject(imgobj);
+                showObjectProperties(imgobj);
+                update();
+            }));
         }
+        reader.readAsDataURL(file);  
     }
 }
 
@@ -103,7 +102,7 @@ window.draw = function draw() {
     else return;
 
     //const srdate = new Date();
-    background(17);
+    clear();
     translate(getTranslateX(), getTranslateY());
 
     scale(getZoom());
@@ -146,10 +145,8 @@ function changeMap(name) {
             // Alter the zoom.
             setZoom(zoom);
             let zoomDelta = (height / img.height)-zoom;
-            /*if (zoom + zoomDelta < minZoom)
-                zoomDelta += minZoom-(zoom+zoomDelta);*/
 
-            // Keep the translation focused onto the
+            // Keep the translation focused on the
             // same point with the new zoom.
             setTranslateX(tx-(width/2-tx)/zoom * zoomDelta);
             setZoom(zoom+zoomDelta);
