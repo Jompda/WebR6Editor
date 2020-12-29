@@ -19,6 +19,11 @@ class Obj {
     draw() {}
 
     /**
+     * Draw edit mode of this object.
+     */
+    drawEditMode() {}
+
+    /**
      * Checks if a point is intersecting this object.
      * @param {Number} x 
      * @param {Number} y 

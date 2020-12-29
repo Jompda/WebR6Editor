@@ -100,14 +100,7 @@ window.draw = function draw() {
 
     // Selected object's highlight.
     const selobj = getSelectedObject();
-    if (selobj) { // Highlight the intersecting object
-        noFill();
-        stroke(255, 255, 255, 255/2);
-        let sweight = 4/getZoom();
-        if (sweight > 4) sweight = 4;
-        strokeWeight(sweight);
-        rect(selobj.x-1, selobj.y-1, selobj.w+2, selobj.h+2);
-    }
+    if (selobj) selobj.drawEditMode();
 
     //const renderTime = new Date()-srdate;
     //console.log(`${renderTime} millisecond${renderTime==1?'':'s'} render time.`);
