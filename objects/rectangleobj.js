@@ -1,3 +1,4 @@
+import { getZoom } from "../controller.js";
 import Obj from "./obj.js";
 
 /**
@@ -14,6 +15,15 @@ class RectangleObj extends Obj {
     constructor(x, y, w, h, outline) {
         super(x, y, outline);
         this.w = w; this.h = h;
+    }
+
+    drawEditMode() {
+        noFill();
+        stroke(255,255,255,255/2);
+        let sweight = 4/getZoom();
+        if (sweight > 4) sweight = 4;
+        strokeWeight(sweight);
+        rect(this.x-1, this.y-1, this.w+2, this.h+2);
     }
 
     intersects(x, y) {

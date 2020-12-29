@@ -1,4 +1,3 @@
-import { getZoom } from '../controller.js';
 import { formElement } from '../gui.js';
 import RectangleObj from './rectangleobj.js';
 
@@ -29,15 +28,6 @@ class ImageObj extends RectangleObj {
         }
         // I noticed that this is apparently less resource-demanding than image() ..
         copy(this.image, 0, 0, this.image.width, this.image.height, this.x, this.y, this.w, this.h);
-    }
-
-    drawEditMode() {
-        noFill();
-        stroke(255,255,255,255/2);
-        let sweight = 4/getZoom();
-        if (sweight > 4) sweight = 4;
-        strokeWeight(sweight);
-        rect(this.x-1, this.y-1, this.w+2, this.h+2);
     }
 
     getObjectPropertiesGUI() {
