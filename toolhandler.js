@@ -4,7 +4,6 @@ import {
     getTranslateY,
     getZoom
 } from './controller.js';
-import { preloadedImages } from './preload.js';
 import { objects, imageobj_size } from './sketch.js';
 import { setSelectedObject, showObjectProperties } from './gui.js';
 import ImageObj from './objects/imageobj.js';
@@ -88,15 +87,17 @@ window.setOutline = setOutline;
     const imagePlacer = new Tool();
     imagePlacer.mouseReleased = () => {
         if (isOnObject() || isDragged() || mouseButton !== LEFT) return;
-        const img = preloadedImages.get(imagePlacer.args[0]);
-        const aspect_ratio = img.width / img.height;
-        const imgobj = new ImageObj(
-            (mouseX - getTranslateX())/getZoom() - imageobj_size*aspect_ratio/2, (mouseY - getTranslateY())/getZoom() - imageobj_size/2,
-            imageobj_size*aspect_ratio, imageobj_size, img, outline
-        );
-        objects.unshift(imgobj);
-        setSelectedObject(imgobj);
-        showObjectProperties(imgobj);
+        // Save the target location until the image is loaded.
+        const posX = mouseX, posY = mouseY;
+        loadImage(imagePlacer.args[0], (img) => {
+            const aspect_ratio = img.width / img.height;
+            const imgobj = new ImageObj(
+                (posX - getTranslateX())/getZoom() - imageobj_size*aspect_ratio/2, (posY - getTranslateY())/getZoom() - imageobj_size/2,
+                imageobj_size*aspect_ratio, imageobj_size, img, outline
+            );
+            objects.unshift(imgobj);
+            showObjectProperties(setSelectedObject(imgobj));
+        });
     }
     tools.set('imageplacer', imagePlacer);
 }

@@ -9,7 +9,6 @@ import {
 } from './gui.js';
 
 const resourceURL = 'https://jompda.github.io/WebR6Editor/';
-/**@type {Map<String, image>}*/ const preloadedImages = new Map();
 
 const sidebar_left = document.getElementById('sidebar-left');
 const sidebar_right = document.getElementById('sidebar-right');
@@ -116,10 +115,9 @@ function createImagePlacerGroup(target, group) {
 
         let filename = tempAsset[1];
         if (!filename) filename = tempAsset[0].toLowerCase();
-        const filepath = group.path+filename+group.extension, assetURL = resourceURL + filepath;
-        preloadedImages.set(filename, loadImage(assetURL)); // Preload the images for p5
+        const assetURL = resourceURL + group.path + filename + group.extension;
 
-        const imageTool = createImageToolButton(tempAsset[0], assetURL, `setTool('imageplacer', ['${filename}'])`);
+        const imageTool = createImageToolButton(tempAsset[0], assetURL, `setTool('imageplacer', ['${assetURL}'])`);
         table.appendChild(imageTool);
     }
     target.appendChild(table);
@@ -128,7 +126,6 @@ function createImagePlacerGroup(target, group) {
 
 export {
     resourceURL,
-    preloadedImages,
     getHttpResource,
     sidebar_left, sidebar_right,
     sidebar_left_toggle, sidebar_right_toggle

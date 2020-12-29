@@ -4,7 +4,7 @@ import {
     getTranslateY, setTranslateY,
     getZoom, setZoom
 } from './controller.js';
-import { preloadedImages, resourceURL } from './preload.js';
+import { resourceURL } from './preload.js';
 import { getSelectedObject, setSelectedObject, showObjectProperties } from './gui.js';
 import Obj from './objects/obj.js';
 import ImageObj from './objects/imageobj.js';
@@ -35,18 +35,19 @@ window.dropHandler = function dropHandler(event) {
         console.log(`Processing file '${file.name}'.`);
 
         const reader = new FileReader();
-        reader.onload = (event) => {
-            preloadedImages.set(file.name, loadImage(event.target.result, (img) => {
+        reader.onload = (file) => {
+            // Save the target location until the image is loaded.
+            const posX = mouseX, posY = mouseY;
+            loadImage(file.target.result, (img) => {
                 const aspect_ratio = img.width / img.height;
                 const imgobj = new ImageObj(
-                    (mouseX - getTranslateX())/getZoom() - imageobj_size*aspect_ratio/2, (mouseY - getTranslateY())/getZoom() - imageobj_size/2,
+                    (posX - getTranslateX())/getZoom() - imageobj_size*aspect_ratio/2, (posY - getTranslateY())/getZoom() - imageobj_size/2,
                     imageobj_size*aspect_ratio, imageobj_size, img, getOutline()
                 );
                 objects.unshift(imgobj);
-                setSelectedObject(imgobj);
-                showObjectProperties(imgobj);
+                showObjectProperties(setSelectedObject(imgobj));
                 update();
-            }));
+            });
         }
         reader.readAsDataURL(file);
     }
