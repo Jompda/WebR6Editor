@@ -74,9 +74,10 @@ window.setup = function setup() {
 }
 
 var updateCounter = 2;
-window.update = function update() {
+function update() {
     updateCounter = 2;
 }
+window.update = update;
 
 window.draw = function draw() {
     if (updateCounter > 0) updateCounter--;
@@ -146,6 +147,7 @@ window.changeMap = changeMap;
 export {
     imageobj_size,
     objects,
+    update,
     getIntersectingObject,
     changeMap
 };

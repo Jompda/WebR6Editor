@@ -1,4 +1,4 @@
-import { objects, getIntersectingObject } from './sketch.js';
+import { objects, getIntersectingObject, update } from './sketch.js';
 import { getTool } from './toolhandler.js';
 import { setSelectedObject, showObjectProperties } from './gui.js';
 
@@ -58,7 +58,7 @@ const isDragged = () => dragged;
 function mousePressed(event) {
     onObject = false;
     dragged = false;
-    update(updateLastMousePosition());
+    updateLastMousePosition();
 
     // Check for intersection.
     showObjectProperties(setSelectedObject(undefined));
@@ -68,6 +68,7 @@ function mousePressed(event) {
         // Move to first for rendering purposes.
         objects.splice(intersecting.i, 1);
         objects.unshift(onObject);
+        update();
     }
     
     getTool().mousePressed(event);
@@ -79,14 +80,14 @@ function mouseDragged(event) {
     if (mouseButton === CENTER) dragViewport();
     else getTool().mouseDragged(event);
     
-    update(updateLastMousePosition());
+    updateLastMousePosition();
 }
 
 function mouseReleased(event) {
     getTool().mouseReleased(event);
     onObject = false;
     dragged = false;
-    update(updateLastMousePosition());
+    updateLastMousePosition();
 }
 
 /*function mouseMoved() {
@@ -95,13 +96,14 @@ function mouseReleased(event) {
 }*/
 
 function mouseWheel(event) {
-    update();
     let zoomDelta = -event.delta*zoom/750;
     if (zoom + zoomDelta < minZoom)
         zoomDelta += minZoom-(zoom+zoomDelta);
 
     adjustTranslation();
     zoom += zoomDelta;
+
+    update();
 
     function adjustTranslation() {
         // Relative to cursor.
@@ -116,11 +118,13 @@ function mouseWheel(event) {
 function dragViewport() {
     const deltaX = mouseX - lastMouseX, deltaY = mouseY - lastMouseY;
     translateX += deltaX; translateY += deltaY;
+    update();
 }
 
 function dragObject(obj) {
     const deltaX = mouseX - lastMouseX, deltaY = mouseY - lastMouseY;
     obj.x += deltaX/zoom; obj.y += deltaY/zoom;
+    update();
 }
 
 const updateLastMousePosition = () => { lastMouseX = mouseX; lastMouseY = mouseY; };

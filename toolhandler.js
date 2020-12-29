@@ -4,7 +4,7 @@ import {
     getTranslateY,
     getZoom
 } from './controller.js';
-import { objects, imageobj_size } from './sketch.js';
+import { objects, imageobj_size, update } from './sketch.js';
 import { setSelectedObject, showObjectProperties } from './gui.js';
 import ImageObj from './objects/imageobj.js';
 import Tool from './tools/tool.js';
@@ -81,6 +81,7 @@ window.setOutline = setOutline;
         objects.splice(index, 1);
         setSelectedObject(undefined);
         showObjectProperties(undefined);
+        update();
     }
     tools.set('remover', remover);
 
@@ -97,6 +98,7 @@ window.setOutline = setOutline;
             );
             objects.unshift(imgobj);
             showObjectProperties(setSelectedObject(imgobj));
+            update();
         });
     }
     tools.set('imageplacer', imagePlacer);
