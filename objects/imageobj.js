@@ -1,10 +1,10 @@
 import { formElement } from '../gui.js';
-import Obj from './obj.js';
+import RectangleObj from './rectangleobj.js';
 
 /**
  * ImageObj representing a image on the canvas.
  */
-class ImageObj extends Obj {
+class ImageObj extends RectangleObj {
 
     /**
      * @param {Number} x 
@@ -15,9 +15,8 @@ class ImageObj extends Obj {
      * @param {color|undefined} outline 
      */
     constructor(x, y, w, h, image, outline) {
-        super(x, y, w, h);
+        super(x, y, w, h, outline);
         this.image = image;
-        this.outline = outline;
     }
 
     draw() {
@@ -29,11 +28,6 @@ class ImageObj extends Obj {
         }
         // I noticed that this is apparently less resource-demanding than image() ..
         copy(this.image, 0, 0, this.image.width, this.image.height, this.x, this.y, this.w, this.h);
-    }
-
-    intersects(x, y) {
-        return (x > this.x && x < this.x+this.w)
-            && (y > this.y && y < this.y+this.h);
     }
 
     getObjectPropertiesGUI() {

@@ -68,8 +68,8 @@ function mousePressed(event) {
         // Move to first for rendering purposes.
         objects.splice(intersecting.i, 1);
         objects.unshift(onObject);
-        update();
     }
+    update();
     
     getTool().mousePressed(event);
 }
