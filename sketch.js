@@ -10,49 +10,6 @@ import Obj from './objects/obj.js';
 import ImageObj from './objects/imageobj.js';
 
 
-/**
- * Loads images and possibly strats from json files in the future.
- * @param {DragEvent} event 
- */
-window.dropHandler = function dropHandler(event) {
-    event.preventDefault();
-
-    if (event.dataTransfer.items) {
-        const fileArray = event.dataTransfer.items;
-        for (let i = 0; i < fileArray.length; i++)
-            if (fileArray[i].kind === 'file')
-                handleFile(fileArray[i].getAsFile());
-    } else {
-        const fileArray = event.dataTransfer.files;
-        for (let i = 0; i < fileArray.length; i++)
-            handleFile(fileArray[i].getAsFile());
-    }
-
-    /**
-     * @param {File} file 
-     */
-    function handleFile(file) {
-        console.log(`Processing file '${file.name}'.`);
-
-        const reader = new FileReader();
-        reader.onload = (file) => {
-            // Save the target location until the image is loaded.
-            const posX = mouseX, posY = mouseY;
-            loadImage(file.target.result, (img) => {
-                const aspect_ratio = img.width / img.height;
-                const imgobj = new ImageObj(
-                    (posX - getTranslateX())/getZoom() - imageobj_size*aspect_ratio/2, (posY - getTranslateY())/getZoom() - imageobj_size/2,
-                    imageobj_size*aspect_ratio, imageobj_size, img, getOutline()
-                );
-                objects.unshift(imgobj);
-                setSelectedObject(imgobj);
-                update();
-            });
-        }
-        reader.readAsDataURL(file);
-    }
-}
-
 const viewport = document.getElementById('viewport');
 const imageobj_size = 100;
 var bg_image;
@@ -73,15 +30,13 @@ window.setup = function setup() {
     update();
 }
 
-var updateCounter = 2;
-function update() {
-    updateCounter = 2;
-}
+var scheduledUpdate = true;
+const update = () => scheduledUpdate = true;
 window.update = update;
 
 window.draw = function draw() {
-    if (updateCounter > 0) updateCounter--;
-    else return;
+    if (!scheduledUpdate) return;
+    scheduledUpdate = false;
 
     //const srdate = new Date();
 
@@ -136,6 +91,49 @@ function changeMap(name) {
     }
 }
 window.changeMap = changeMap;
+
+/**
+ * Loads images and possibly strats from json files in the future.
+ * @param {DragEvent} event 
+ */
+window.dropHandler = function dropHandler(event) {
+    event.preventDefault();
+
+    if (event.dataTransfer.items) {
+        const fileArray = event.dataTransfer.items;
+        for (let i = 0; i < fileArray.length; i++)
+            if (fileArray[i].kind === 'file')
+                handleFile(fileArray[i].getAsFile());
+    } else {
+        const fileArray = event.dataTransfer.files;
+        for (let i = 0; i < fileArray.length; i++)
+            handleFile(fileArray[i].getAsFile());
+    }
+
+    /**
+     * @param {File} file 
+     */
+    function handleFile(file) {
+        console.log(`Processing file '${file.name}'.`);
+
+        const reader = new FileReader();
+        reader.onload = (file) => {
+            // Save the target location until the image is loaded.
+            const posX = mouseX, posY = mouseY;
+            loadImage(file.target.result, (img) => {
+                const aspect_ratio = img.width / img.height;
+                const imgobj = new ImageObj(
+                    (posX - getTranslateX())/getZoom() - imageobj_size*aspect_ratio/2, (posY - getTranslateY())/getZoom() - imageobj_size/2,
+                    imageobj_size*aspect_ratio, imageobj_size, img, getOutline()
+                );
+                objects.unshift(imgobj);
+                setSelectedObject(imgobj);
+                update();
+            });
+        }
+        reader.readAsDataURL(file);
+    }
+}
 
 export {
     imageobj_size,
