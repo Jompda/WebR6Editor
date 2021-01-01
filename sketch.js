@@ -8,6 +8,7 @@ import { resourceURL } from './preload.js';
 import { getSelectedObject, setSelectedObject } from './gui.js';
 import Obj from './objects/obj.js';
 import ImageObj from './objects/imageobj.js';
+import ImagePlacer from './tools/imageplacer.js';
 
 
 const viewport = document.getElementById('viewport');
@@ -22,7 +23,7 @@ window.windowResized = () =>
 
 window.setup = function setup() {
     bg_image = createImage(1,1); // Just to avoid background-image drawing errors.
-    setTool('no tool');
+    setTool('notool');
     canvas = createCanvas(viewport.offsetWidth, viewport.offsetHeight);
     canvas.parent(viewport);
 
@@ -120,16 +121,7 @@ window.dropHandler = function dropHandler(event) {
         reader.onload = (file) => {
             // Save the target location until the image is loaded.
             const posX = mouseX, posY = mouseY;
-            loadImage(file.target.result, (img) => {
-                const aspect_ratio = img.width / img.height;
-                const imgobj = new ImageObj(
-                    (posX - getTranslateX())/getZoom() - imageobj_size*aspect_ratio/2, (posY - getTranslateY())/getZoom() - imageobj_size/2,
-                    imageobj_size*aspect_ratio, imageobj_size, img, getOutline()
-                );
-                objects.unshift(imgobj);
-                setSelectedObject(imgobj);
-                update();
-            });
+            loadImage(file.target.result, (img) => ImagePlacer.placeImage(img, posX, posY));
         }
         reader.readAsDataURL(file);
     }
