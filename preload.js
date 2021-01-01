@@ -50,7 +50,7 @@ window.preload = function preload() {
 
         {   // Hard coded basic tools page.
             const basic = toolGroups.get('basic');
-            const no_tool = createImageToolButton('No tool', '', `setTool('no tool');update();`);
+            const no_tool = createImageToolButton('No tool', '', `setTool('notool');update();`);
             no_tool.firstChild.setAttribute('checked', '');
             basic.append(no_tool, createImageToolButton('Remover', '', `setTool('remover');update();`));
             const basicToolsBtn = createToolPageButton('Basic', 'basic');

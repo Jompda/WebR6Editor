@@ -1,13 +1,6 @@
-import {
-    isDragged, isOnObject,
-    getTranslateX,
-    getTranslateY,
-    getZoom
-} from './controller.js';
-import { objects, imageobj_size, update } from './sketch.js';
-import { setSelectedObject } from './gui.js';
-import ImageObj from './objects/imageobj.js';
 import Tool from './tools/tool.js';
+import Remover from './tools/remover.js';
+import ImagePlacer from './tools/imageplacer.js';
 
 
 /**
@@ -69,36 +62,9 @@ window.setOutline = setOutline;
 
 
 {   // Temporary way of initializing the tools.
-    tools.set('no tool', new Tool());
-
-    const remover = new Tool();
-    remover.mouseReleased = () => {
-        const onObject = isOnObject();
-        if (!onObject || isDragged() || mouseButton !== LEFT) return;
-        let index = objects.indexOf(onObject);
-        objects.splice(index, 1);
-        setSelectedObject(undefined);
-        update();
-    }
-    tools.set('remover', remover);
-
-    const imagePlacer = new Tool();
-    imagePlacer.mouseReleased = () => {
-        if (isOnObject() || isDragged() || mouseButton !== LEFT) return;
-        // Save the target location until the image is loaded.
-        const posX = mouseX, posY = mouseY;
-        loadImage(imagePlacer.args[0], (img) => {
-            const aspect_ratio = img.width / img.height;
-            const imgobj = new ImageObj(
-                (posX - getTranslateX())/getZoom() - imageobj_size*aspect_ratio/2, (posY - getTranslateY())/getZoom() - imageobj_size/2,
-                imageobj_size*aspect_ratio, imageobj_size, img, outline
-            );
-            objects.unshift(imgobj);
-            setSelectedObject(imgobj);
-            update();
-        });
-    }
-    tools.set('imageplacer', imagePlacer);
+    tools.set('notool', new Tool());
+    tools.set('remover', new Remover());
+    tools.set('imageplacer', new ImagePlacer());
 }
 
 export {
