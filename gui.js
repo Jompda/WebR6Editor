@@ -7,10 +7,14 @@ var selectedObject;
 const getSelectedObject = () => selectedObject;
 window.getSelectedObject = getSelectedObject;
 /**
+ * Sets the selected object variable and calls showObjectProperties().
  * @param {Obj} obj
  * @returns {Obj}
  */
-const setSelectedObject = (obj) => selectedObject = obj;
+function setSelectedObject(obj) {
+    showObjectProperties(selectedObject = obj);
+    return obj;
+}
 window.setSelectedObject = setSelectedObject;
 
 /**

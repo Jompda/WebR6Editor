@@ -1,6 +1,6 @@
 import { objects, getIntersectingObject, update } from './sketch.js';
 import { getTool } from './toolhandler.js';
-import { setSelectedObject, showObjectProperties } from './gui.js';
+import { setSelectedObject } from './gui.js';
 
 // Filtering events outside the viewport.
 var dragOriginatedFromViewport = false
@@ -61,10 +61,10 @@ function mousePressed(event) {
     updateLastMousePosition();
 
     // Check for intersection.
-    showObjectProperties(setSelectedObject(undefined));
+    setSelectedObject(undefined);
     const intersecting = getIntersectingObject((mouseX - translateX)/zoom, (mouseY - translateY)/zoom);
     if (intersecting) {
-        showObjectProperties(setSelectedObject(onObject = intersecting.obj));
+        setSelectedObject(onObject = intersecting.obj);
         // Move to first for rendering purposes.
         objects.splice(intersecting.i, 1);
         objects.unshift(onObject);

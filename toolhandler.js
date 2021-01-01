@@ -5,7 +5,7 @@ import {
     getZoom
 } from './controller.js';
 import { objects, imageobj_size, update } from './sketch.js';
-import { setSelectedObject, showObjectProperties } from './gui.js';
+import { setSelectedObject } from './gui.js';
 import ImageObj from './objects/imageobj.js';
 import Tool from './tools/tool.js';
 
@@ -20,9 +20,7 @@ const toolGroups = new Map([
 
 /**@type {HTMLElement}*/ var subtools_container;
 /**@param {HTMLElement} element */
-function setToolPageContainer(element) {
-    subtools_container = element;
-}
+const setToolPageContainer = (element) => subtools_container = element;
 
 /**@param {String} group the group name in toolGroups*/
 function setToolPage(group) {
@@ -80,7 +78,6 @@ window.setOutline = setOutline;
         let index = objects.indexOf(onObject);
         objects.splice(index, 1);
         setSelectedObject(undefined);
-        showObjectProperties(undefined);
         update();
     }
     tools.set('remover', remover);
@@ -97,7 +94,7 @@ window.setOutline = setOutline;
                 imageobj_size*aspect_ratio, imageobj_size, img, outline
             );
             objects.unshift(imgobj);
-            showObjectProperties(setSelectedObject(imgobj));
+            setSelectedObject(imgobj);
             update();
         });
     }

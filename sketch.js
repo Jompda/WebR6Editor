@@ -5,7 +5,7 @@ import {
     getZoom, setZoom
 } from './controller.js';
 import { resourceURL } from './preload.js';
-import { getSelectedObject, setSelectedObject, showObjectProperties } from './gui.js';
+import { getSelectedObject, setSelectedObject } from './gui.js';
 import Obj from './objects/obj.js';
 import ImageObj from './objects/imageobj.js';
 
@@ -45,7 +45,7 @@ window.dropHandler = function dropHandler(event) {
                     imageobj_size*aspect_ratio, imageobj_size, img, getOutline()
                 );
                 objects.unshift(imgobj);
-                showObjectProperties(setSelectedObject(imgobj));
+                setSelectedObject(imgobj);
                 update();
             });
         }
