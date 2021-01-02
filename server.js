@@ -1,51 +1,113 @@
 
-// This is not supposed to be a secure server implementation.
-const port = 80;
-const http = require('http'), url = require('url'), fs = require('fs');
+// This is supposed to be a basic server implementation for development purposes.
+const port = 80, root = '.';
+const http = require('http'), url = require('url'), fs = require('fs'), net = require('net');
 
 const server = http.createServer(function (request, response) {
-    let pathname = url.parse(request.url).pathname.substring(1);
-    if(pathname == '') pathname = 'index.html';
+    const pathname = url.parse(request.url).pathname;
     
-    //filter GET and HEAD methods
-    if(request.method == "GET" || request.method == "HEAD") {
-        try {
-            const content = fs.readFileSync(pathname);
-            response.writeHead(200, {'Content-Type': getContentType(pathname)});
-            response.write(content);
+    switch (request.method) {
+        case 'GET': get(pathname, request, response); break;
+        case 'HEAD': get(pathname, request, response); break;
+        default:
+            response.writeHead(501);
             response.end();
-        } catch(err) {
+            logHttpRequest(request, response);
+            break;
+    }
+});
+
+/**
+ * @param {String} pathname 
+ * @param {http.IncomingMessage} request 
+ * @param {http.ServerResponse} response 
+ */
+function get(pathname, request, response) {
+    resolveFile(root + pathname, (resolvedFile) => {
+        if (resolvedFile === undefined) {
             response.writeHead(404);
             response.end();
+            logHttpRequest(request, response);
+            return;
         }
-    }
-    else {
-        response.writeHead(501);
-        response.end();
-    }
 
-    //log the HTTP requests
-    console.log(
-        request.connection.remoteAddress + " - - "
-        + request.method + " "
-        + request.url + " "
-        + "HTTP/" + request.httpVersion + " - "
-        + response.statusCode + " "
-        + response.statusMessage);
-    
-});
-server.listen(port);
-console.log('Serving http on all hostnames on port ' + port + ' ..');
-
-function getContentType(filename) {
-    if(filename.endsWith('.html') || filename.endsWith('.htm'))
-        return "text/html";
-    else if(filename.endsWith('.js'))
-        return "text/javascript";
-    else if(filename.endsWith('.json'))
-        return "application/json";
-    else if(filename.endsWith('.css'))
-        return "text/css";
-    else
-        return "text/plain";
+        const stream = fs.createReadStream(resolvedFile);
+        stream.on('open', () => {
+            response.writeHead(200, {'Content-Type': getContentType(resolvedFile)});
+            stream.pipe(response);
+        });
+        stream.on('end', () => {
+            logHttpRequest(request, response, resolvedFile);
+        });
+        stream.on('error', (err) => {
+            response.end(err);
+            logHttpRequest(request, response);
+        });
+    });
 }
+
+/**
+ * @param {String} pathname 
+ * @param {Function} callback 
+ */
+function resolveFile(pathname, callback) {
+    let i = 0; loop();
+    function loop() {
+        if (i >= autoComplete.length) return callback();
+        const temp = pathname + autoComplete[i++]
+        fs.stat(temp, (err, result) => {
+            if (err || result.isDirectory() || filterPathname(temp)) return loop();
+            callback(temp);
+        });
+    }
+}
+
+/**
+ * @param {http.IncomingMessage} request 
+ * @param {http.ServerResponse} response 
+ * @param {String} resolved 
+ */
+function logHttpRequest(request, response, resolved) {
+    console.log(
+        request.connection.remoteAddress + ' - - '
+        + request.method + ' '
+        + request.url + (resolved?' => '+resolved:'') + ' '
+        + 'HTTP/' + request.httpVersion + ' - '
+        + response.statusCode + ' '
+        + response.statusMessage);
+}
+
+/**
+ * @param {String} pathname 
+ * @returns {String}
+ */
+function getContentType(pathname) {
+    const mimeType = mimeTypes[pathname.substring(pathname.lastIndexOf('.')+1)];
+    return mimeType ? mimeType : 'text/plain';
+}
+
+/**
+ * Lazy way of implementing a ignore system.
+ * @param {String} pathname 
+ * @returns {String|undefined}
+ */
+const filterPathname = (pathname) => ignore.find((temp) => pathname.includes(temp));
+
+
+// Simply hard coded things.
+const autoComplete = [ '', 'index.html', '.js' ];
+const ignore = [ 'server.js', 'package.json', '.vscode', '.git', '.gitattributes' ];
+const mimeTypes = {
+    html: 'text/html',
+    htm: 'text/html',
+    css: 'text/css',
+    js: 'text/javascript',
+    json: 'application/json',
+};
+
+server.listen(port, '0.0.0.0', () => {
+    const serverAddress = server.address();
+    let address = serverAddress.address;
+    if (serverAddress.family === 'IPv6') address = '['+address+']';
+    console.log(`Serving http on ${address}:${serverAddress.port} ..`);
+});
