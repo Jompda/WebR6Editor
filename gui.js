@@ -1,5 +1,5 @@
-import Obj from './objects/obj';
-import { sidebar_left, sidebar_right } from './preload';
+import Obj from './objects/obj.js';
+import { sidebar_left, sidebar_right } from './preload.js';
 
 // Object selection functionality.
 var selectedObject;

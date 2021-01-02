@@ -1,5 +1,5 @@
-import { formElement } from '../gui';
-import RectangleObj from './rectangleobj';
+import { formElement } from '../gui.js';
+import RectangleObj from './rectangleobj.js';
 
 /**
  * ImageObj representing a image on the canvas.

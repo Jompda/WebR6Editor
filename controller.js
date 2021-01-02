@@ -1,6 +1,6 @@
-import { objects, getIntersectingObject, update } from './main';
-import { getTool } from './toolhandler';
-import { setSelectedObject } from './gui';
+import { objects, getIntersectingObject, update } from './main.js';
+import { getTool } from './toolhandler.js';
+import { setSelectedObject } from './gui.js';
 
 // Filtering events outside the viewport.
 var dragOriginatedFromViewport = false

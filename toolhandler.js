@@ -1,6 +1,6 @@
-import Tool from './tools/tool';
-import Remover from './tools/remover';
-import ImagePlacer from './tools/imageplacer';
+import Tool from './tools/tool.js';
+import Remover from './tools/remover.js';
+import ImagePlacer from './tools/imageplacer.js';
 
 
 /**

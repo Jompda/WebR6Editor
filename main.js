@@ -1,13 +1,13 @@
-import { setTool } from './toolhandler';
+import { setTool } from './toolhandler.js';
 import {
     getTranslateX, setTranslateX,
     getTranslateY, setTranslateY,
     getZoom, setZoom
-} from './controller';
-import { resourceURL } from './preload';
-import { getSelectedObject } from './gui';
-import Obj from './objects/obj';
-import ImagePlacer from './tools/imageplacer';
+} from './controller.js';
+import { resourceURL } from './preload.js';
+import { getSelectedObject } from './gui.js';
+import Obj from './objects/obj.js';
+import ImagePlacer from './tools/imageplacer.js';
 
 
 const viewport = document.getElementById('viewport');

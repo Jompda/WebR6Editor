@@ -1,4 +1,4 @@
-import { dragObject, dragViewport, isDragOriginatedFromViewport, isOnObject } from '../controller';
+import { dragObject, dragViewport, isDragOriginatedFromViewport, isOnObject } from '../controller.js';
 
 /**
  * Representing a default tool.

@@ -1,9 +1,9 @@
-import { getTranslateX, getTranslateY, getZoom, isDragged, isOnObject } from '../controller';
-import { setSelectedObject } from '../gui';
-import ImageObj from '../objects/imageobj';
-import { imageobj_size, objects, update } from '../main';
-import { getOutline } from '../toolhandler';
-import Tool from './tool';
+import { getTranslateX, getTranslateY, getZoom, isDragged, isOnObject } from '../controller.js';
+import { setSelectedObject } from '../gui.js';
+import ImageObj from '../objects/imageobj.js';
+import { imageobj_size, objects, update } from '../main.js';
+import { getOutline } from '../toolhandler.js';
+import Tool from './tool.js';
 
 class ImagePlacer extends Tool {
 
