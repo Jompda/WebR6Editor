@@ -1,5 +1,5 @@
-import { getZoom } from "../controller.js";
-import Obj from "./obj.js";
+import { getZoom } from '../controller';
+import Obj from './obj';
 
 /**
  * RectangleObj representing any rectangle shaped object on the canvas.

@@ -1,12 +1,12 @@
-import { changeMap } from './sketch.js';
-import { setToolPageContainer, setToolPage, toolGroups } from './toolhandler.js';
+import { changeMap } from './main';
+import { setToolPageContainer, setToolPage, toolGroups } from './toolhandler';
 import {
     createToolPageButton,
     createHeader,
     createFlexTable,
     createImageToolButton,
     createHR
-} from './gui.js';
+} from './gui';
 
 const resourceURL = 'https://jompda.github.io/WebR6Editor/';
 

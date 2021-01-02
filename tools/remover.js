@@ -1,7 +1,7 @@
-import { isDragged, isOnObject } from "../controller.js";
-import { setSelectedObject } from "../gui.js";
-import { objects, update } from "../sketch.js";
-import Tool from "./tool.js";
+import { isDragged, isOnObject } from '../controller';
+import { setSelectedObject } from '../gui';
+import { objects, update } from '../main';
+import Tool from './tool';
 
 class Remover extends Tool {
 
