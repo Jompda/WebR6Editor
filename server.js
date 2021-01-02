@@ -1,7 +1,13 @@
 
 // This is supposed to be a basic server implementation for development purposes.
-const port = 80, root = '.';
-const http = require('http'), url = require('url'), fs = require('fs'), net = require('net');
+module.exports = {
+    resolveFile,
+    getContentType,
+    logHttpRequest
+}
+
+const port = 80, root = './', liveSSE = require('./live-sse.js');
+const http = require('http'), url = require('url'), fs = require('fs');
 
 const server = http.createServer(function (request, response) {
     const pathname = url.parse(request.url).pathname;
@@ -23,6 +29,9 @@ const server = http.createServer(function (request, response) {
  * @param {http.ServerResponse} response 
  */
 function get(pathname, request, response) {
+    if (pathname === '/live-server-updates') return liveSSE.handleSSE(request, response);
+    if (pathname === '/live-page') return liveSSE.injectHtml(request, response);
+
     resolveFile(root + pathname, (resolvedFile) => {
         if (resolvedFile === undefined) {
             response.writeHead(404);
@@ -105,6 +114,7 @@ const mimeTypes = {
     json: 'application/json',
 };
 
+liveSSE.mapDirectories(root, ignore);
 server.listen(port, '0.0.0.0', () => {
     const serverAddress = server.address();
     let address = serverAddress.address;
