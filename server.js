@@ -7,12 +7,8 @@ module.exports = {
     starMatcher
 }
 
-const port = 80, root = '.', liveSSE = require('./live-sse.js');
+const port = 80, rootDirectory = '.', liveSSE = require('./live-sse.js');
 const http = require('http'), url = require('url'), fs = require('fs');
-const path = require('path');
-
-const rootDirectory = path.resolve(root);
-console.log(rootDirectory);
 
 const server = http.createServer(function (request, response) {
     const pathname = url.parse(request.url).pathname;

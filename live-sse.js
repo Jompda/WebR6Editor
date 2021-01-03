@@ -36,7 +36,6 @@ function mapDirectories(rootDirectory, ignoreList) {
         
         function refreshClients() {
             refresh = undefined;
-            console.log(filepath);
             clients.forEach((client) => client.write('data:refresh\n\n'));
         }
     }
