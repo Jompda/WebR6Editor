@@ -9,7 +9,7 @@ import { getSelectedObject } from './gui.js';
 import Obj from './objects/obj.js';
 import ImagePlacer from './tools/imageplacer.js';
 
-
+document.getElementsByTagName('body')[0].setAttribute('onresize', 'windowResized()');
 const viewport = document.getElementById('viewport');
 const imageobj_size = 100;
 var bg_image;

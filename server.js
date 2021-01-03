@@ -7,8 +7,12 @@ module.exports = {
     starMatcher
 }
 
-const port = 80, root = './', liveSSE = require('./live-sse.js');
+const port = 80, root = '.', liveSSE = require('./live-sse.js');
 const http = require('http'), url = require('url'), fs = require('fs');
+const path = require('path');
+
+const rootDirectory = path.resolve(root);
+console.log(rootDirectory);
 
 const server = http.createServer(function (request, response) {
     const pathname = url.parse(request.url).pathname;
@@ -33,7 +37,7 @@ function get(pathname, request, response) {
     if (pathname === '/live-server-updates') return liveSSE.handleSSE(request, response);
     if (pathname === '/live-page') return liveSSE.injectHtml(request, response);
 
-    resolveFile(root + pathname, (resolvedFile) => {
+    resolveFile(rootDirectory + pathname, (resolvedFile) => {
         if (resolvedFile === undefined) {
             response.writeHead(404);
             response.end();
@@ -66,7 +70,7 @@ function resolveFile(pathname, callback) {
         if (i >= autoComplete.length) return callback();
         const temp = pathname + autoComplete[i++]
         fs.stat(temp, (err, result) => {
-            if (err || result.isDirectory() || filterPathname(temp)) return loop();
+            if (err || result.isDirectory() || filterPathname(temp.slice(rootDirectory.length+1))) return loop();
             callback(temp);
         });
     }
@@ -97,14 +101,11 @@ function getContentType(pathname) {
 }
 
 /**
- * Lazy way of implementing a ignore system.
  * @param {String} pathname 
  * @returns {String|undefined}
  */
 const filterPathname = (pathname) =>
-    pathname.split('/').find((block) =>
-        ignore.find((temp) => starMatcher(temp, block))
-    );
+    ignore.find((temp) => starMatcher(temp, pathname));
 
 
 function starMatcher(matcher, str) {
@@ -131,7 +132,7 @@ const mimeTypes = {
     json: 'application/json',
 };
 
-liveSSE.mapDirectories(root, ignore);
+liveSSE.mapDirectories(rootDirectory, ignore);
 server.listen(port, '0.0.0.0', () => {
     const serverAddress = server.address();
     let address = serverAddress.address;
