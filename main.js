@@ -50,7 +50,11 @@ window.draw = function draw() {
 
     // Objects.
     for (let i = objects.length-1; i > -1; i--) {
-        push(); objects[i].draw(); pop();
+        push();
+        const tempObj = objects[i];
+        translate(tempObj.x, tempObj.y);
+        tempObj.draw();
+        pop();
     }
 
     // Selected object's highlight.

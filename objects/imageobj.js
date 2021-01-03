@@ -1,4 +1,4 @@
-import { formElement } from '../gui.js';
+import { getTranslateX } from '../controller.js';
 import RectangleObj from './rectangleobj.js';
 
 /**
@@ -20,58 +20,16 @@ class ImageObj extends RectangleObj {
     }
 
     draw() {
+        translate(this.w/2, this.h/2);
+        rotate(this.rotation);
         if (this.outline) {
             noFill();
-            strokeWeight(2);
+            strokeWeight(4);
             stroke(this.outline);
             rect(this.x, this.y, this.w, this.h);
         }
         // I noticed that this is apparently less resource-demanding than image() ..
-        copy(this.image, 0, 0, this.image.width, this.image.height, this.x, this.y, this.w, this.h);
-    }
-
-    getObjectPropertiesGUI() {
-        // Temporary implementation.
-        const div = document.createElement('div');
-        div.append(
-            formElement(
-                'p', [['class', 'sidebar-header']], 'Image Object properties:'
-            ),
-            document.createElement('br'),
-            formElement(
-                'p', [[ 'style', 'display: inline-block' ]], 'Width:'
-            ),
-            formElement(
-                'input', [
-                    [ 'type', 'text' ],
-                    [ 'value', this.w ],
-                    [ 'onchange', 'getSelectedObject().parseWidth(this.value);update();' ]
-                ]
-            ),
-            document.createElement('br'),
-            formElement(
-                'p', [[ 'style', 'display: inline-block' ]], 'Height:'
-            ),
-            formElement(
-                'input', [
-                    [ 'type', 'text' ],
-                    [ 'value', this.h ],
-                    [ 'onchange', 'getSelectedObject().parseHeight(this.value);update();' ]
-                ]
-            ),
-            document.createElement('br'),
-            formElement(
-                'p', [[ 'style', 'display: inline-block' ]], 'Outline:'
-            ),
-            formElement(
-                'input', [
-                    [ 'type', 'text' ],
-                    [ 'value', this.outline ? this.outline.toString() : '' ],
-                    [ 'onchange', 'getSelectedObject().parseOutline(this.value);update();' ]
-                ]
-            )
-        );
-        return div;
+        copy(this.image, 0, 0, this.image.width, this.image.height, -this.w/2, -this.h/2, this.w, this.h);
     }
 
 }

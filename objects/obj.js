@@ -11,6 +11,7 @@ class Obj {
     constructor(x, y, outline) {
         this.x = x; this.y = y;
         this.outline = outline;
+        this.rotation = 0;
     }
 
     /**
