@@ -3,7 +3,8 @@
 module.exports = {
     resolveFile,
     getContentType,
-    logHttpRequest
+    logHttpRequest,
+    starMatcher
 }
 
 const port = 80, root = './', liveSSE = require('./live-sse.js');
@@ -100,12 +101,28 @@ function getContentType(pathname) {
  * @param {String} pathname 
  * @returns {String|undefined}
  */
-const filterPathname = (pathname) => ignore.find((temp) => pathname.includes(temp));
+const filterPathname = (pathname) =>
+    pathname.split('/').find((block) =>
+        ignore.find((temp) => starMatcher(temp, block))
+    );
+
+
+function starMatcher(matcher, str) {
+    let mpos = 0, a, b;
+    for (let i = 0; i < str.length; i++) {
+        if ((a = matcher[mpos]) === (b = str[i])) {
+            mpos++; continue;
+        }
+        if (a !== '*') return false;
+        if (matcher[mpos+1] === str[i+1]) ++mpos;
+    }
+    return mpos >= matcher.length;
+}
 
 
 // Simply hard coded things.
 const autoComplete = [ '', 'index.html', '.js' ];
-const ignore = [ 'server.js', 'package.json', '.vscode', '.git', '.gitattributes' ];
+const ignore = [ 'server.js', 'live-sse.js', 'package.json', '.vscode', '.git', '.gitattributes' ];
 const mimeTypes = {
     html: 'text/html',
     htm: 'text/html',

@@ -1,10 +1,11 @@
-const server = require('./server');
+const { resolveFile, getContentType, logHttpRequest, starMatcher } = require('./server');
 const http = require('http'), fs = require('fs');
 
 /**@type {http.ServerResponse[]} */
 const clients = [];
 
 /**
+ * TODO: If a file is deleted or added, remap the directories (remember unwatch).
  * @param {String} root 
  * @param {String[]} ignoreList 
  */
@@ -15,11 +16,10 @@ function mapDirectories(root, ignoreList) {
         fs.watch(directory, sendEvents);
     });
 
-
     function handleDirectory(path) {
         directories.push(path);
         const files = fs.readdirSync(path).filter(
-            (temp) => !ignoreList.find((str) => str === temp)
+            (temp) => !ignoreList.find((str) => starMatcher(str, temp))
         );
         files.forEach((file) => {
             const tempFilepath = path + '/' + file;
@@ -27,10 +27,11 @@ function mapDirectories(root, ignoreList) {
         })
     }
 
-}
+    function sendEvents(event, filename) {
+        if (!ignoreList.find((str) => starMatcher(str, filename)))
+            clients.forEach((client) => client.write('data:refresh\n\n'));
+    }
 
-function sendEvents() {
-    clients.forEach((client) => client.write('data:refresh\n\n'));
 }
 
 /**
@@ -51,24 +52,36 @@ function handleSSE(request, response) {
  * @param {http.ServerResponse} response 
  */
 function injectHtml(request, response) {
-    server.resolveFile('./', (resolvedFile) => {
+    resolveFile('./', (resolvedFile) => {
         if (resolvedFile === undefined) {
             response.writeHead(404);
             response.end();
-            server.logHttpRequest(request, response);
+            logHttpRequest(request, response);
             return;
         }
 
         fs.readFile(resolvedFile, (err, data) => {
-            response.writeHead(200, {'Content-Type': server.getContentType(resolvedFile)});
+            if (err) {
+                response.writeHead(404);
+                response.end();
+                return logHttpRequest(request, response);
+            }
 
+            response.writeHead(200, {'Content-Type': getContentType(resolvedFile)});
+
+            const content = data.toString();
             const codeInjection =
-                `<script>// Code injected by the live server.\n` +
-                `const source = new EventSource('live-server-updates');\n` +
-                `source.onmessage = (event) => event.data === 'refresh' ? location.reload() : undefined;</script>`;
-            response.write(data.toString() + codeInjection);
+                `<!-- Code injected by the live server. -->\n` +
+                `<script>\nconst sseSrc = new EventSource('live-server-updates');\n` +
+                `sseSrc.onmessage = e => e.data == 'refresh' ? location.reload() : 0;\n</script>\n`;
+
+            let pos = content.indexOf('</body>');
+            if (pos === -1) pos = content.length;
+            const result = content.slice(0, pos) + codeInjection + content.slice(pos);
+
+            response.write(result);
             response.end();
-            server.logHttpRequest(request, response, resolvedFile);
+            logHttpRequest(request, response, resolvedFile);
         });
     });
 }
