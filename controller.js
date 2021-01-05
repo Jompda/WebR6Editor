@@ -1,6 +1,7 @@
 import { objects, getIntersectingObject, update } from './main.js';
 import { getTool } from './toolhandler.js';
 import { setSelectedObject } from './gui.js';
+import Obj from './objects/obj.js';
 
 // Filtering events outside the viewport.
 var dragOriginatedFromViewport = false
@@ -50,42 +51,52 @@ const getZoom = () => zoom;
 function setZoom(z) { zoom = z }
 
 var lastMouseX, lastMouseY;
-var onObject = false;
+/**@type {Obj} */
+var onObject = undefined;
+var controlPoint = undefined;
 const isOnObject = () => onObject;
 var dragged = false;
 const isDragged = () => dragged;
 
 function mousePressed(event) {
-    onObject = false;
+    onObject = undefined;
     dragged = false;
     updateLastMousePosition();
+
+    const tool = getTool();
 
     // Check for intersection.
     setSelectedObject(undefined);
     const intersecting = getIntersectingObject((mouseX - translateX)/zoom, (mouseY - translateY)/zoom);
     if (intersecting) {
         setSelectedObject(onObject = intersecting.obj);
+        if (tool.editAllowed) controlPoint = onObject.getControlPoint((mouseX - translateX)/zoom, (mouseY - translateY)/zoom);
         // Move to first for rendering purposes.
         objects.splice(intersecting.i, 1);
         objects.unshift(onObject);
     }
     update();
     
-    getTool().mousePressed(event);
+    tool.mousePressed(event, onObject);
 }
 
 function mouseDragged(event) {
     dragged = true;
 
     if (mouseButton === CENTER) dragViewport();
-    else getTool().mouseDragged(event);
+    else {
+        const tool = getTool();
+        if (tool.editAllowed && controlPoint) controlPoint.drag((mouseX-lastMouseX)/zoom, (mouseY-lastMouseY)/zoom);
+        else tool.mouseDragged(event, onObject);
+    }
     
     updateLastMousePosition();
 }
 
 function mouseReleased(event) {
-    getTool().mouseReleased(event);
-    onObject = false;
+    getTool().mouseReleased(event, onObject);
+    controlPoint = undefined;
+    onObject = undefined;
     dragged = false;
     updateLastMousePosition();
 }

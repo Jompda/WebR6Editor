@@ -12,6 +12,7 @@ class Obj {
         this.x = x; this.y = y;
         this.outline = outline;
         this.rotation = 0;
+        this.controlPoints = [];
     }
 
     /**
@@ -33,6 +34,16 @@ class Obj {
     intersects(x, y) {}
 
     /**
+     * Returns a control point which can be used to edit the object.
+     * @returns {ControlPoint}
+     */
+    getControlPoint() {
+        return {
+            drag: function() {}
+        }
+    }
+
+    /**
      * @returns {HTMLElement}
      */
     getObjectPropertiesGUI() {}
@@ -49,6 +60,23 @@ class Obj {
         this.outline = color(outline);
         return true;
     }
+
+}
+
+// TODO
+export class ControlPoint {
+
+    constructor() {
+
+    }
+
+    draw() {}
+
+    intersects(x, y) {
+
+    }
+
+    drag() {}
 
 }
 

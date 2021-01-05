@@ -1,4 +1,4 @@
-import { setTool } from './toolhandler.js';
+import { getTool, setTool } from './toolhandler.js';
 import {
     getTranslateX, setTranslateX,
     getTranslateY, setTranslateY,
@@ -59,7 +59,9 @@ window.draw = function draw() {
 
     // Selected object's highlight.
     const selobj = getSelectedObject();
-    if (selobj) selobj.drawEditMode();
+    if (selobj) {
+        push(); selobj.drawEditMode(getTool().editAllowed); pop();
+    }
 
     //const renderTime = new Date()-srdate;
     //console.log(`${renderTime} millisecond${renderTime==1?'':'s'} render time.`);
