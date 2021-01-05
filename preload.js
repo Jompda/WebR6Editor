@@ -117,7 +117,15 @@ function createImagePlacerGroup(target, group) {
         if (!filename) filename = tempAsset[0].toLowerCase();
         const assetURL = resourceURL + group.path + filename + group.extension;
 
-        const imageTool = createImageToolButton(tempAsset[0], assetURL, `setTool('imageplacer', ['${assetURL}'])`);
+        // Additional options
+        let outlineImage;
+        if (tempAsset[2]) {
+            outlineImage = tempAsset[2].outlineImage;
+        }
+
+        const imageTool = createImageToolButton(tempAsset[0], assetURL, `setTool('imageplacer', ['${assetURL}'${
+            outlineImage?`, '${resourceURL + group.path + outlineImage + group.extension}'`:'' // temporary
+        }])`);
         table.appendChild(imageTool);
     }
     target.appendChild(table);

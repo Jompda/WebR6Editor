@@ -144,5 +144,16 @@
             [ "Dash" ],
             [ "Banshee" ]
         ]
+    },
+    {
+        "name": "Other",
+        "page": "defenders",
+        "path": "assets/other/",
+        "extension": ".png",
+        "assets": [
+            [ "Bird", null, { "outlineImage": "bird_outline" } ],
+            [ "Head", null, { "outlineImage": "head_outline" } ],
+            [ "Feet", null, { "outlineImage": "feet_outline" } ]
+        ]
     }
 ]

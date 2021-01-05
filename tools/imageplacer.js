@@ -11,14 +11,17 @@ class ImagePlacer extends Tool {
         if (isOnObject() || isDragged() || mouseButton !== LEFT) return;
         // Save the target location until the image is loaded.
         const posX = mouseX, posY = mouseY;
-        loadImage(this.args[0], (img) => ImagePlacer.placeImage(img, posX, posY));
+        loadImage(this.args[0], (img) => {
+            if (this.args[1]) loadImage(this.args[1], (outline) => ImagePlacer.placeImage(img, posX, posY, outline));
+            else ImagePlacer.placeImage(img, posX, posY);
+        });
     }
 
-    static placeImage(img, posX, posY) {
+    static placeImage(img, posX, posY, outlineMask) {
         const aspect_ratio = img.width / img.height;
         const imgobj = new ImageObj(
             (posX - getTranslateX())/getZoom() - imageobj_size*aspect_ratio/2, (posY - getTranslateY())/getZoom() - imageobj_size/2,
-            imageobj_size*aspect_ratio, imageobj_size, img, getOutline()
+            imageobj_size*aspect_ratio, imageobj_size, img, getOutline(), outlineMask
         );
         objects.unshift(imgobj);
         setSelectedObject(imgobj);
