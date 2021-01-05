@@ -11,7 +11,8 @@ The simple but useful web-based Rainbow Six: Siege strategy editor.
 
 ## Features to implement:
 - More tools: line, path, rectangle, circle.
-- New home page which has a list of slides on the left and rest of the page is the editor inside a iframe.
+- New home page which has a list of slides on the left and rest of the page is the editor inside an iframe.
+- The new home page should have a "Performance Mode" option for epic gaming sessions which stops the rendering and uses as little resources as possible.
 
 - Ability to hide and show objects based on their group or some kind of filtering.
 - Saving/loading the creation.
