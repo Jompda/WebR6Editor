@@ -123,9 +123,8 @@ function createImagePlacerGroup(target, group) {
             outlineImage = tempAsset[2].outlineImage;
         }
 
-        const imageTool = createImageToolButton(tempAsset[0], assetURL, `setTool('imageplacer', ['${assetURL}'${
-            outlineImage?`, '${resourceURL + group.path + outlineImage + group.extension}'`:'' // temporary
-        }])`);
+        const imageTool = createImageToolButton(tempAsset[0], assetURL, `setTool('imageplacer', ['${assetURL}'` +
+            (outlineImage?`, '${resourceURL + group.path + outlineImage + group.extension}'`:'') + '])');
         table.appendChild(imageTool);
     }
     target.appendChild(table);
