@@ -11,19 +11,22 @@ class ImagePlacer extends Tool {
     mouseReleased() {
         if (isOnObject() || isDragged() || mouseButton !== LEFT) return;
         // Save the target location until the image is loaded.
+        const passedOptions = {...this.options};
         const posX = mouseX, posY = mouseY;
-        console.log(this.options);
-        loadImage(resourceURL + this.options.imageUrl, (img) => {
-            if (this.options.outlineImage) loadImage(resourceURL + this.options.outlineImage, (outlineImage) => ImagePlacer.placeImage(img, posX, posY, outlineImage));
-            else ImagePlacer.placeImage(img, posX, posY);
+        loadImage(resourceURL + passedOptions.imageUrl, (img) => {
+            if (passedOptions.outlineImage) loadImage(resourceURL + passedOptions.outlineImage, (outlineImage) => {
+                passedOptions.outlineImage = outlineImage;
+                ImagePlacer.placeImage(img, posX, posY, passedOptions);
+            });
+            else ImagePlacer.placeImage(img, posX, posY, passedOptions);
         });
     }
 
-    static placeImage(img, posX, posY, outlineImage) {
+    static placeImage(img, posX, posY, options) {
         const aspect_ratio = img.width / img.height;
         const imgobj = new ImageObj(
             (posX - getTranslateX())/getZoom() - imageobj_size*aspect_ratio/2, (posY - getTranslateY())/getZoom() - imageobj_size/2,
-            imageobj_size*aspect_ratio, imageobj_size, img, getOutline(), outlineImage
+            imageobj_size*aspect_ratio, imageobj_size, img, getOutline(), options
         );
         objects.unshift(imgobj);
         setSelectedObject(imgobj);

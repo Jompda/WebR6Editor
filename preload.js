@@ -8,7 +8,7 @@ import {
     createHR
 } from './gui.js';
 
-const resourceURL = 'https://jompda.github.io/WebR6Editor/';
+const resourceURL = 'https://raw.githubusercontent.com/Jompda/Jompda.github.io/main/WebR6Editor/'//'https://jompda.github.io/WebR6Editor/';
 
 const sidebar_left = document.getElementById('sidebar-left');
 const sidebar_right = document.getElementById('sidebar-right');

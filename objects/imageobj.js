@@ -1,4 +1,3 @@
-import { getTranslateX } from '../controller.js';
 import RectangleObj from './rectangleobj.js';
 
 /**
@@ -14,29 +13,53 @@ class ImageObj extends RectangleObj {
      * @param {image} image 
      * @param {color|undefined} outline 
      */
-    constructor(x, y, w, h, image, outline, outlineImage) {
+    constructor(x, y, w, h, image, outline, options) {
         super(x, y, w, h, outline);
         this.image = image;
-        this.outlineImage = outlineImage;
+
+        
+        // figure out the draw function.
+        if (options.outlineImage) {
+            this.outlineImage = options.outlineImage;
+            this.actualDraw = this.drawOutlineImage;
+        }
+        else if (options.tintableOutline) this.actualDraw = this.drawTintableOutline;
+        else this.actualDraw = this.drawDefaultOutline;
+        
     }
 
     draw() {
-        const adjX = -this.w/2, adjY = -this.h/2;
-        translate(-adjX, -adjY);
+        const adjX = this.w/2, adjY = this.h/2;
+        translate(adjX, adjY);
         rotate(this.rotation);
-        if (this.outline) {
-            if (this.outlineImage) {
-                tint(this.outline);
-                image(this.outlineImage, adjX, adjY, this.w, this.h);
-            } else {
-                noFill();
-                strokeWeight(4);
-                stroke(this.outline);
-                rect(adjX, adjY, this.w, this.h);
-            }
-        }
+        this.actualDraw(-adjX, -adjY);
+    }
+
+    drawDefaultOutline(adjX, adjY) {
         // I noticed that this is apparently less resource-demanding than image() ..
         copy(this.image, 0, 0, this.image.width, this.image.height, adjX, adjY, this.w, this.h);
+
+        if (this.outline) {
+            noFill();
+            strokeWeight(4);
+            stroke(this.outline);
+            rect(adjX, adjY, this.w, this.h);
+        }
+    }
+
+    drawTintableOutline(adjX, adjY) {
+        if (this.outline) tint(this.outline);
+        image(this.image, adjX, adjY, this.w, this.h);
+    }
+
+    drawOutlineImage(adjX, adjY) {
+        // I noticed that this is apparently less resource-demanding than image() ..
+        copy(this.image, 0, 0, this.image.width, this.image.height, adjX, adjY, this.w, this.h);
+
+        if (this.outline) {
+            tint(this.outline);
+            image(this.outlineImage, adjX, adjY, this.w, this.h);
+        }
     }
 
 }

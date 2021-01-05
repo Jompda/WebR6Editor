@@ -151,6 +151,7 @@
         "path": "assets/other/",
         "extension": ".png",
         "assets": [
+            [ "Reinforcement" ],
             [ "Rotation", null, { "tintableOutline": true } ],
             [ "Bird", null, { "outlineImage": "bird_outline" } ],
             [ "Head", null, { "outlineImage": "head_outline" } ],
