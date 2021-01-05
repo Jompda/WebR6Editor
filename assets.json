@@ -151,6 +151,7 @@
         "path": "assets/other/",
         "extension": ".png",
         "assets": [
+            [ "Rotation", null, { "tintableOutline": true } ],
             [ "Bird", null, { "outlineImage": "bird_outline" } ],
             [ "Head", null, { "outlineImage": "head_outline" } ],
             [ "Feet", null, { "outlineImage": "feet_outline" } ]

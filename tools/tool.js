@@ -6,7 +6,7 @@ import { dragObject, dragViewport, isDragOriginatedFromViewport, isOnObject } fr
 class Tool {
 
     constructor() {
-        this.args = [];
+        this.options = {};
     }
 
     mousePressed(event) {

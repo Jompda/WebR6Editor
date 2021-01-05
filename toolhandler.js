@@ -37,13 +37,13 @@ function clearSelectedTool() {
 const getTool = () => tool;
 /**
  * @param {String} name 
- * @param {String[]} args 
+ * @param {String} options 
  * @returns {Tool|undefined}
  */
-function setTool(name, args) {
+function setTool(name, options) {
     const ctool = tools.get(name);
     if (!ctool) return;
-    ctool.args = args;
+    if (options) ctool.options = JSON.parse(options);
     return tool = ctool;
 }
 window.setTool = setTool;

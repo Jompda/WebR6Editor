@@ -4,6 +4,7 @@ import ImageObj from '../objects/imageobj.js';
 import { imageobj_size, objects, update } from '../main.js';
 import { getOutline } from '../toolhandler.js';
 import Tool from './tool.js';
+import { resourceURL } from '../preload.js';
 
 class ImagePlacer extends Tool {
 
@@ -11,17 +12,18 @@ class ImagePlacer extends Tool {
         if (isOnObject() || isDragged() || mouseButton !== LEFT) return;
         // Save the target location until the image is loaded.
         const posX = mouseX, posY = mouseY;
-        loadImage(this.args[0], (img) => {
-            if (this.args[1]) loadImage(this.args[1], (outline) => ImagePlacer.placeImage(img, posX, posY, outline));
+        console.log(this.options);
+        loadImage(resourceURL + this.options.imageUrl, (img) => {
+            if (this.options.outlineImage) loadImage(resourceURL + this.options.outlineImage, (outlineImage) => ImagePlacer.placeImage(img, posX, posY, outlineImage));
             else ImagePlacer.placeImage(img, posX, posY);
         });
     }
 
-    static placeImage(img, posX, posY, outlineMask) {
+    static placeImage(img, posX, posY, outlineImage) {
         const aspect_ratio = img.width / img.height;
         const imgobj = new ImageObj(
             (posX - getTranslateX())/getZoom() - imageobj_size*aspect_ratio/2, (posY - getTranslateY())/getZoom() - imageobj_size/2,
-            imageobj_size*aspect_ratio, imageobj_size, img, getOutline(), outlineMask
+            imageobj_size*aspect_ratio, imageobj_size, img, getOutline(), outlineImage
         );
         objects.unshift(imgobj);
         setSelectedObject(imgobj);
