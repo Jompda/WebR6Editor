@@ -5,7 +5,7 @@ import {
     getZoom, setZoom
 } from './controller.js';
 import { resourceURL } from './preload.js';
-import { getSelectedObject } from './gui.js';
+import { getSelectedObject, showObjectProperties } from './gui.js';
 import Obj from './objects/obj.js';
 import ImagePlacer from './tools/imageplacer.js';
 
@@ -30,13 +30,15 @@ window.setup = function setup() {
     update();
 }
 
-var scheduledUpdate = true;
+var scheduledUpdate = false;
 const update = () => scheduledUpdate = true;
 window.update = update;
 
 window.draw = function draw() {
     if (!scheduledUpdate) return;
     scheduledUpdate = false;
+
+    showObjectProperties(getSelectedObject());
 
     //const srdate = new Date();
 

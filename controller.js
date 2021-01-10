@@ -86,7 +86,7 @@ function mouseDragged(event) {
     if (mouseButton === CENTER) dragViewport();
     else {
         const tool = getTool();
-        if (tool.editAllowed && controlPoint) controlPoint.drag((mouseX-lastMouseX)/zoom, (mouseY-lastMouseY)/zoom);
+        if (tool.editAllowed && controlPoint) controlPoint.drag((lastMouseX - translateX)/zoom, (lastMouseY - translateY)/zoom, (mouseX - translateX)/zoom, (mouseY - translateY)/zoom);
         else tool.mouseDragged(event, onObject);
     }
     

@@ -12,6 +12,7 @@ class Obj {
         this.x = x; this.y = y;
         this.outline = outline;
         this.rotation = 0;
+        /**@type {ControlPoint[]} */
         this.controlPoints = [];
     }
 
@@ -66,15 +67,11 @@ class Obj {
 // TODO
 export class ControlPoint {
 
-    constructor() {
-
-    }
+    constructor() {}
 
     draw() {}
 
-    intersects(x, y) {
-
-    }
+    intersects(oldX, oldY, newX, newY) {}
 
     drag() {}
 

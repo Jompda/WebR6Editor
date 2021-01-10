@@ -1,4 +1,4 @@
-import { formElement } from '../gui.js';
+import { formElement, getSelectedObject, showObjectProperties } from '../gui.js';
 import Obj, { ControlPoint } from './obj.js';
 import { update } from '../main.js';
 
@@ -16,6 +16,8 @@ class RectangleObj extends Obj {
     constructor(x, y, w, h, outline) {
         super(x, y, outline);
         this.w = w; this.h = h;
+
+        this.initControlPoints();
     }
 
     drawEditMode(enabled) {
@@ -32,11 +34,7 @@ class RectangleObj extends Obj {
         strokeWeight(2);
         fill(0,0,255);
 
-        const size = 10, offset = 8;
-        rect(this.w-offset, this.h/2-size/2, size, size);
-        rect(this.w/2-size/2, this.h-offset, size, size);
-        ellipse(this.w-offset/1.5, this.h-offset/1.5, size*1.5);
-
+        this.controlPoints.forEach(cp => cp.draw());
     }
 
     intersects(x, y) {
@@ -46,27 +44,9 @@ class RectangleObj extends Obj {
 
     getControlPoint(x, y) {
         x -= this.x; y -= this.y;
-        const obj = this;
-
-        const size = 10, offset = 8;
-        // right
-        if ((x > this.w-offset && x < this.w)
-         && (y > this.h/2-size/2 && y < this.h/2+size/2)) {
-            return {
-                drag: function(diffX, diffY) {
-                    obj.w += diffX;
-                    update();
-                }
-            }
-        }
-        else if ((x > this.w/2-size/2 && x < this.w/2+size/2)
-              && (y > this.h-offset && y < this.h)) {
-            return {
-                drag: function(diffX, diffY) {
-                    obj.h += diffY;
-                    update();
-                }
-            }
+        for (let i = 0; i < this.controlPoints.length; i++) {
+            const temp = this.controlPoints[i];
+            if (temp.intersects(x, y)) return temp;
         }
     }
 
@@ -122,7 +102,8 @@ class RectangleObj extends Obj {
     }
 
     rotate(right) {
-        this.rotation += right?Math.PI/2:-Math.PI/2;
+        const amount = Math.PI/4;
+        this.rotation += right?amount:-amount;
     }
 
     /**
@@ -146,6 +127,73 @@ class RectangleObj extends Obj {
         this.h = parsed;
         return true;
     }
+
+    initControlPoints() {
+        const size = 10, offset = 8;
+
+        const rightCP = new RectangleObjControlPoint(this);
+        rightCP.draw = function() {
+            rect(this.right()-offset, this.bottom()/2-size/2, size, size);
+        }
+        rightCP.intersects = function(x, y) {
+            return (x > this.right()-offset && x < this.right())
+                && (y > this.bottom()/2-size/2 && y < this.bottom()/2+size/2);
+        }
+        rightCP.drag = function(oldX, oldY, newX, newY) {
+            this.obj.w += newX-oldX;
+            update();
+        }
+        this.controlPoints.push(rightCP);
+
+        const bottomCP = new RectangleObjControlPoint(this);
+        bottomCP.draw = function() {
+            rect(this.right()/2-size/2, this.bottom()-offset, size, size);
+        }
+        bottomCP.intersects = function(x, y) {
+            return (x > this.right()/2-size/2 && x < this.right()/2+size/2)
+                && (y > this.bottom()-offset && y < this.bottom());
+        }
+        bottomCP.drag = function(oldX, oldY, newX, newY) {
+            this.obj.h += newY-oldY;
+            update();
+        }
+        this.controlPoints.push(bottomCP);
+
+        const bottomRightCP = new RectangleObjControlPoint(this);
+        bottomRightCP.draw = function() {
+            ellipse(this.right()-offset/1.5, this.bottom()-offset/1.5, size*1.5);
+        }
+        bottomRightCP.intersects = function(x, y) {
+            return (x > this.right()-offset && x < this.right())
+                && (y > this.bottom()-offset && y < this.bottom());
+        }
+        bottomRightCP.drag = function(oldX, oldY, newX, newY) {
+            // TODO: Better controls.
+            const aspect_ratio = this.obj.w/this.obj.h;
+            const newW = newX-this.obj.x;
+            this.obj.w = newW;
+            this.obj.h = newW/aspect_ratio;
+            update();
+        }
+        this.controlPoints.push(bottomRightCP);
+    }
+
+}
+
+class RectangleObjControlPoint extends ControlPoint {
+    /**
+     * @param {RectangleObj} obj 
+     */
+    constructor(obj) {
+        super();
+        this.obj = obj;
+    }
+
+    right() {  return this.obj.w; }
+    left() { return 0; }
+
+    top() { return 0; }
+    bottom() { return this.obj.h; }
 
 }
 
