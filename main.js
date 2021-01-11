@@ -12,7 +12,10 @@ import ImagePlacer from './tools/imageplacer.js';
 document.getElementsByTagName('body')[0].setAttribute('onresize', 'windowResized()');
 const viewport = document.getElementById('viewport');
 const imageobj_size = 100;
-var bg_image;
+/**@type {String} */
+var backgroundImageUrl;
+const getBackgroundImageUrl = () => backgroundImageUrl;
+var backgroundImage;
 var canvas;
 /**@type {Obj[]}*/
 const objects = [];
@@ -21,7 +24,7 @@ window.windowResized = () =>
     update(resizeCanvas(viewport.offsetWidth, viewport.offsetHeight));
 
 window.setup = function setup() {
-    bg_image = createImage(1,1); // Just to avoid background-image drawing errors.
+    backgroundImage = createImage(1,1); // Just to avoid background-image drawing errors.
     setTool('notool');
     canvas = createCanvas(viewport.offsetWidth, viewport.offsetHeight);
     canvas.parent(viewport);
@@ -48,7 +51,7 @@ window.draw = function draw() {
     scale(getZoom());
     
     // Background image.
-    image(bg_image, 0, 0);
+    image(backgroundImage, 0, 0);
 
     // Objects.
     for (let i = objects.length-1; i > -1; i--) {
@@ -77,7 +80,8 @@ function getIntersectingObject(x, y) {
 
 function changeMap(name) {
     if (name !== '-----') {
-        bg_image = loadImage(`${resourceURL}assets/maps/${name}.jpg`, focusToImage);
+        backgroundImageUrl = `assets/maps/${name}.jpg`;
+        backgroundImage = loadImage(resourceURL + backgroundImageUrl, focusToImage);
         
         function focusToImage(img) {
             // Focus the viewport to the background-image.
@@ -141,7 +145,8 @@ export {
     getObjects,
     update,
     getIntersectingObject,
-    changeMap
+    changeMap,
+    getBackgroundImageUrl
 };
 
 // Init the IO module.
