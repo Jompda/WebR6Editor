@@ -1,3 +1,5 @@
+import { update } from '../main.js';
+import { resourceURL } from '../preload.js';
 import RectangleObj from './rectangleobj.js';
 
 /**
@@ -16,11 +18,11 @@ class ImageObj extends RectangleObj {
     constructor(x, y, w, h, image, outline, options) {
         super(x, y, w, h, outline);
         this.image = image;
-
+        this.options = options;
         
         // figure out the draw function.
-        if (options.outlineImage) {
-            this.outlineImage = options.outlineImage;
+        if (options.outlineImageUrl) {
+            this.outlineImage = loadImage(resourceURL + options.outlineImageUrl, update);
             this.actualDraw = this.drawOutlineImage;
         }
         else if (options.tintableOutline) this.actualDraw = this.drawTintableOutline;

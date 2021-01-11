@@ -22,6 +22,7 @@ window.setSelectedObject = setSelectedObject;
  */
 function showObjectProperties(obj) {
     const object_properties = document.getElementById('object-properties');
+    if (!object_properties) return;
     if (object_properties.firstChild) object_properties.removeChild(object_properties.firstChild);
     if (obj) object_properties.appendChild(obj.getObjectPropertiesGUI());
 }

@@ -119,8 +119,8 @@ function createImagePlacerGroup(target, group) {
         // Additional options
         let options = tempAsset[2];
         if (options) {
-            if (options.outlineImage) {
-                options.outlineImage = group.path + options.outlineImage + group.extension;
+            if (options.outlineImageUrl) {
+                options.outlineImageUrl = group.path + options.outlineImageUrl + group.extension;
             }
         } else {
             options = {};

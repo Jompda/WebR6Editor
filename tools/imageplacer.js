@@ -1,7 +1,7 @@
 import { getTranslateX, getTranslateY, getZoom, isDragged, isOnObject } from '../controller.js';
 import { setSelectedObject } from '../gui.js';
 import ImageObj from '../objects/imageobj.js';
-import { imageobj_size, objects, update } from '../main.js';
+import { imageobj_size, getObjects, update } from '../main.js';
 import { getOutline } from '../toolhandler.js';
 import Tool from './tool.js';
 import { resourceURL } from '../preload.js';
@@ -13,13 +13,7 @@ class ImagePlacer extends Tool {
         // Save the target location until the image is loaded.
         const passedOptions = {...this.options};
         const posX = mouseX, posY = mouseY;
-        loadImage(resourceURL + passedOptions.imageUrl, (img) => {
-            if (passedOptions.outlineImage) loadImage(resourceURL + passedOptions.outlineImage, (outlineImage) => {
-                passedOptions.outlineImage = outlineImage;
-                ImagePlacer.placeImage(img, posX, posY, passedOptions);
-            });
-            else ImagePlacer.placeImage(img, posX, posY, passedOptions);
-        });
+        loadImage(resourceURL + passedOptions.imageUrl, (img) => ImagePlacer.placeImage(img, posX, posY, passedOptions));
     }
 
     static placeImage(img, posX, posY, options) {
@@ -28,7 +22,7 @@ class ImagePlacer extends Tool {
             (posX - getTranslateX())/getZoom() - imageobj_size*aspect_ratio/2, (posY - getTranslateY())/getZoom() - imageobj_size/2,
             imageobj_size*aspect_ratio, imageobj_size, img, getOutline(), options
         );
-        objects.unshift(imgobj);
+        getObjects().unshift(imgobj);
         setSelectedObject(imgobj);
         update();
     }

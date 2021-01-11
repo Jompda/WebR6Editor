@@ -1,4 +1,4 @@
-import { objects, getIntersectingObject, update } from './main.js';
+import { getObjects, getIntersectingObject, update } from './main.js';
 import { getTool } from './toolhandler.js';
 import { setSelectedObject } from './gui.js';
 import Obj from './objects/obj.js';
@@ -72,8 +72,8 @@ function mousePressed(event) {
         setSelectedObject(onObject = intersecting.obj);
         if (tool.editAllowed) controlPoint = onObject.getControlPoint((mouseX - translateX)/zoom, (mouseY - translateY)/zoom);
         // Move to first for rendering purposes.
-        objects.splice(intersecting.i, 1);
-        objects.unshift(onObject);
+        getObjects().splice(intersecting.i, 1);
+        getObjects().unshift(onObject);
     }
     update();
     

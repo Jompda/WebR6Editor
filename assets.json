@@ -153,9 +153,9 @@
         "assets": [
             [ "Reinforcement" ],
             [ "Rotation", null, { "tintableOutline": true } ],
-            [ "Bird", null, { "outlineImage": "bird_outline" } ],
-            [ "Head", null, { "outlineImage": "head_outline" } ],
-            [ "Feet", null, { "outlineImage": "feet_outline" } ]
+            [ "Bird", null, { "outlineImageUrl": "bird_outline" } ],
+            [ "Head", null, { "outlineImageUrl": "head_outline" } ],
+            [ "Feet", null, { "outlineImageUrl": "feet_outline" } ]
         ]
     }
 ]

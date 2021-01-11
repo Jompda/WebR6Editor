@@ -134,10 +134,15 @@ window.dropHandler = function dropHandler(event) {
     }
 }
 
+const getObjects = () => objects;
+
 export {
     imageobj_size,
-    objects,
+    getObjects,
     update,
     getIntersectingObject,
     changeMap
 };
+
+// Init the IO module.
+import { loadScene, saveScene } from './io.js';
