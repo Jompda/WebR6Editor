@@ -33,17 +33,19 @@ class ImageObj extends RectangleObj {
 
     static fromObject(obj) {
         let outline;
-        if (obj.outline) {
+        if (obj.outline && obj.outline.levels) {
             const rgba = obj.outline.levels;
             outline = color(rgba[0], rgba[1], rgba[2], rgba[3]);
         }
-        
-        return new ImageObj(
+
+        const newObj = new ImageObj(
             obj.x, obj.y, obj.w, obj.h,
             loadImage(resourceURL + obj.options.imageUrl, update),
             outline,
             obj.options
         );
+        newObj.rotation = obj.rotation;
+        return newObj;
     }
 
     draw() {

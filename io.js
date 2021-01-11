@@ -1,38 +1,52 @@
 import { setSelectedObject, showObjectProperties } from "./gui.js";
-import { getBackgroundImageUrl, getObjects, update } from "./main.js";
+import { changeMap, getBackgroundImageUrl, getObjects, update } from "./main.js";
 import ImageObj from "./objects/imageobj.js";
-
-let lastSave = '';
+import { getHttpResource } from "./preload.js";
 
 function loadScene() {
     showObjectProperties(setSelectedObject());
     const objects = getObjects();
     objects.splice(0, objects.length);
-
-    const saveData = JSON.parse(lastSave);
-    console.log(saveData);
     
-    saveData.objects.forEach(obj => {
-        switch (obj.class) {
-            case 'ImageObj': objects.push(ImageObj.fromObject(obj.instance)); break;
-            default: break;
-        }
-    });
+    const sceneName = document.getElementById('scene-name').value;
+    getHttpResource(`saved/${sceneName}.json`, (xhr) => {
+        const saveData = JSON.parse(xhr.responseText);
+        console.log(saveData);
 
-    update();
+        changeMap(saveData.backgroundImageUrl);
+        
+        saveData.objects.forEach(obj => {
+            switch (obj.class) {
+                case 'ImageObj': objects.push(ImageObj.fromObject(obj.instance)); break;
+                default: break;
+            }
+        });
+    
+        update();
+    });
 }
 window.loadScene = loadScene;
 
 function saveScene() {
     const objs = getObjects();
     const cache = []; // Used to avoid circular structures in the JSON.
-    lastSave = JSON.stringify({
+    const saveData = JSON.stringify({
         creator: 'Jompda', // Placeholder for a user system.
         timestamp: new Date(),
         backgroundImageUrl: getBackgroundImageUrl(),
         objects: objs
     }, replacer);
-    console.log(lastSave);
+    //console.log(saveData);
+
+    const sceneName = document.getElementById('scene-name').value;
+
+    // Save the strat
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', `saved/${sceneName}.json`); xhr.send(saveData);
+    xhr.onerror = () => console.log(`Error ${xhr.status}: ${xhr.statusText}`);
+    xhr.onload = () => {
+        if (xhr.status != 200) return;
+    }
 
     function replacer(key, value) {
         if (key === 'image' || key === 'outlineImage' || key === 'controlPoints') return;
@@ -47,32 +61,6 @@ function saveScene() {
         return value;
     }
 }
-
-/*function saveScene() {
-    const objs = getObjects();
-    let objList = '[', separator = '';
-    objs.forEach(obj => {
-        const tempCache = [];
-        objList += separator + JSON.stringify({ class: obj.constructor.name, instance: obj }, function replacer(key, value) {
-            if (key === 'image' || key === 'outlineImage' || key === 'controlPoints') return;
-            if (key === 'outline' && value) return { type: 'p5RgbColor', levels: value.levels };
-            if (typeof value === 'object' && value !== null) {
-                if (tempCache.includes(value)) return;
-                tempCache.push(value);
-            }
-            return value;
-        });
-        separator = ',';
-    });
-    objList += ']'
-    lastSave = JSON.stringify({
-        creator: 'Jompda', // Placeholder for a user system.
-        timestamp: new Date(),
-        backgroundImageUrl: getBackgroundImageUrl(),
-        objects: objList
-    });
-    console.log(lastSave);
-}*/
 window.saveScene = saveScene;
 
 export {

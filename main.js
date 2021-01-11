@@ -1,3 +1,4 @@
+import { loadScene, saveScene } from './io.js';
 import { getTool, setTool } from './toolhandler.js';
 import {
     getTranslateX, setTranslateX,
@@ -80,7 +81,7 @@ function getIntersectingObject(x, y) {
 
 function changeMap(name) {
     if (name !== '-----') {
-        backgroundImageUrl = `assets/maps/${name}.jpg`;
+        backgroundImageUrl = name;
         backgroundImage = loadImage(resourceURL + backgroundImageUrl, focusToImage);
         
         function focusToImage(img) {
@@ -148,6 +149,3 @@ export {
     changeMap,
     getBackgroundImageUrl
 };
-
-// Init the IO module.
-import { loadScene, saveScene } from './io.js';

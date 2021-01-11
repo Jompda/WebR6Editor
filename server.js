@@ -16,6 +16,7 @@ const server = http.createServer(function (request, response) {
     switch (request.method) {
         case 'GET': get(pathname, request, response); break;
         case 'HEAD': get(pathname, request, response); break;
+        case 'POST': post(pathname, request, response); break;
         default:
             response.writeHead(501);
             response.end();
@@ -52,6 +53,33 @@ function get(pathname, request, response) {
         stream.on('error', (err) => {
             response.end(err);
             logHttpRequest(request, response);
+        });
+    });
+}
+
+/**
+ * Used to handle scene saves.
+ * @param {String} pathname 
+ * @param {http.IncomingMessage} request 
+ * @param {http.ServerResponse} response 
+ */
+function post(pathname, request, response) {
+    console.log(pathname);
+    if (!pathname.startsWith('/saved/')) {
+        response.writeHead(404);
+        response.end();
+        logHttpRequest(request, response);
+        return;
+    }
+    let body = '';
+    request.on('data', (data) => {
+        body += data;
+    });
+    request.on('end', () => {
+        fs.writeFile(rootDirectory + pathname, body, () => {
+            response.writeHead(200);
+            response.end();
+            console.log(body);
         });
     });
 }

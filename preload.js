@@ -91,7 +91,7 @@ function loadMapList(xhr) {
             mapchooserElem.appendChild(option);
         });
     });
-    changeMap(`${mapConfig[0].name.toLowerCase()}/${mapConfig[0].floors[0][1]}`);
+    changeMap(`assets/maps/${mapConfig[0].name.toLowerCase()}/${mapConfig[0].floors[0][1]}.jpg`);
 }
 
 /**@param {XMLHttpRequest} xhr*/

@@ -7,11 +7,12 @@
 <div class="sidebar">
   <div class="sidebar-aligner">
     <p class="sidebar-header">Scene:</p>
+    <input id="scene-name" type="text" value="teststrat">
     <button onclick="saveScene()">Save</button>
-    <button onclick="loadScene()">Load</button>
+    <button onclick="loadScene('saved/teststrat.json')">Load</button>
     <hr class="sidebar-hr">
     <p class="sidebar-header">Map:</p>
-    <select id="mapchooser" onchange="changeMap(this.value)"></select>
+    <select id="mapchooser" onchange="changeMap(`assets/maps/${this.value}.jpg`)"></select>
     <hr class="sidebar-hr">
     <div id="object-properties"></div>
   </div>
