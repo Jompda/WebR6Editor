@@ -14,6 +14,7 @@ class ImageObj extends RectangleObj {
      * @param {Number} h 
      * @param {image} image 
      * @param {color|undefined} outline 
+     * @param {Object} options
      */
     constructor(x, y, w, h, image, outline, options) {
         super(x, y, w, h, outline);
@@ -28,6 +29,16 @@ class ImageObj extends RectangleObj {
         else if (options.tintableOutline) this.actualDraw = this.drawTintableOutline;
         else this.actualDraw = this.drawDefaultOutline;
         
+    }
+
+    static fromObject(obj) {
+        const rgba = obj.outline.levels;
+        return new ImageObj(
+            obj.x, obj.y, obj.w, obj.h,
+            loadImage(resourceURL + obj.options.imageUrl),
+            color(rgba[0], rgba[1], rgba[2], rgba[3]),
+            obj.option
+        );
     }
 
     draw() {

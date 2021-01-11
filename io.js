@@ -1,28 +1,31 @@
 import { getObjects } from "./main.js";
 
-function loadScene() {
+let lastSave = '';
 
+function loadScene() {
+    const struct = JSON.parse(lastSave);
+    console.log();
 }
 window.loadScene = loadScene;
 
 function saveScene() {
     const objs = getObjects();
+    let result = '[', separator = '';
     objs.forEach(obj => {
-        const cache = [];
-        const str = JSON.stringify({ class: obj.constructor.name, instance: obj }, function replacer(key, value) {
-            if (key === 'image' || key === 'controlPoints' || (key === 'outlineImage' && typeof value === 'object')) return;
-            if (key === 'outline' && value) {
-                return { type: 'rgbColor', levels: value.levels };
-            }
+        const tempCache = [];
+        result += separator + JSON.stringify({ class: obj.constructor.name, instance: obj }, function replacer(key, value) {
+            if (key === 'image' || key === 'outlineImage' || key === 'controlPoints') return;
+            if (key === 'outline' && value) return { type: 'p5RgbColor', levels: value.levels };
             if (typeof value === 'object' && value !== null) {
-                if (cache.includes(value)) return;
-                cache.push(value);
+                if (tempCache.includes(value)) return;
+                tempCache.push(value);
             }
             return value;
         });
-        console.log(str);
+        separator = ',';
     });
-
+    console.log(result += ']');
+    lastSave = result;
 }
 window.saveScene = saveScene;
 
