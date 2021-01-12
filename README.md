@@ -3,6 +3,8 @@ The simple but useful web-based Rainbow Six: Siege strategy editor.
 ~Developed by: Joni Rapo
 
 ## TODO:
+- Round the values when saving the scene.
+- Preloaded assets back so the resource urls are not needed in the save files anymore.
 - Add comments and overall documentation to the code.
 - Create images for the basic tools.
 - My "OCD" wants the icons' sizes to be powers of two.
@@ -10,11 +12,10 @@ The simple but useful web-based Rainbow Six: Siege strategy editor.
 - Optimize the rendering (even more).
 
 ## Features to implement:
-- More tools: line, path, rectangle, circle.
-- New home page which has a list of slides on the left hand side and rest of the page is the editor inside an iframe.
-- The new home page should have a "Performance Mode" option for epic gaming sessions which stops the p5js loop and uses as little resources as possible.
+- A permission based room system. Each room has their own list of slides.
 
+- More tools: line, path, rectangle, circle.
+- A "Performance Mode" option for epic gaming sessions which stops the p5js loop and uses as little resources as possible.
 - Ability to hide and show objects based on their group or some kind of filtering.
-- Saving/loading the creation.
 - History for undo/redo.
 - Portability to other games.
