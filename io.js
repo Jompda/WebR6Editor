@@ -1,6 +1,7 @@
 import { setSelectedObject, showObjectProperties } from "./gui.js";
 import { changeMap, getBackgroundImageUrl, getObjects, update } from "./main.js";
 import ImageObj from "./objects/imageobj.js";
+import Obj from "./objects/obj.js";
 import { getHttpResource } from "./preload.js";
 
 function loadScene() {
@@ -58,7 +59,7 @@ function saveScene() {
         if (key === 'image' || key === 'outlineImage' || key === 'controlPoints') return;
         if (key === 'outline' && value) return { type: 'p5RgbColor', levels: value.levels };
         if (typeof value === 'object' && value !== null) {
-            if (key !== 'instance' && value.constructor.name === 'ImageObj') return { class: value.constructor.name, instance: value };
+            if (key !== 'instance' && value instanceof Obj) return { class: value.constructor.name, instance: value };
 
             // avoid cycles
             if (cache.includes(value)) return;
