@@ -10,9 +10,8 @@ var refresh;
 /**
  * TODO: If a file is deleted or added, remap the directories (remember unwatch).
  * @param {String} rootDirectory 
- * @param {String[]} ignoreList 
  */
-function mapDirectories(rootDirectory, ignoreList) {
+function mapDirectories(rootDirectory) {
     const directories = [];
     handleDirectory(rootDirectory);
     directories.forEach((directory) => {
@@ -23,14 +22,11 @@ function mapDirectories(rootDirectory, ignoreList) {
         directories.push(path);
         fs.readdirSync(path).forEach((file) => {
             const tempFilepath = path + '/' + file;
-            if (ignoreList.find((str) => starMatcher(str, tempFilepath.slice(rootDirectory.length+1)))) return;
             if (fs.statSync(tempFilepath).isDirectory()) handleDirectory(tempFilepath);
         })
     }
 
     function handleEvents(event, filepath) {
-        if (ignoreList.find((str) => starMatcher(str, filepath.slice(rootDirectory.length+1)))) return;
-
         if (refresh) clearTimeout(refresh);
         refresh = setTimeout(refreshClients, 100);
         
@@ -58,9 +54,10 @@ function handleSSE(request, response) {
 /**
  * @param {http.IncomingMessage} request 
  * @param {http.ServerResponse} response 
+ * @param {String} rootDirectory 
  */
-function injectHtml(request, response) {
-    resolveFile('./', (resolvedFile) => {
+function injectHtml(request, response, rootDirectory) {
+    resolveFile(rootDirectory + '/', (resolvedFile) => {
         if (resolvedFile === undefined) {
             response.writeHead(404);
             response.end();

@@ -7,7 +7,7 @@ module.exports = {
     starMatcher
 }
 
-const port = 80, rootDirectory = '.', liveSSE = require('./live-sse.js');
+const port = 80, rootDirectory = 'site', liveSSE = require('./live-sse.js');
 const http = require('http'), url = require('url'), fs = require('fs');
 
 const server = http.createServer(function (request, response) {
@@ -33,7 +33,7 @@ const server = http.createServer(function (request, response) {
  */
 function get(pathname, request, response, sendBody) {
     if (pathname === '/live-server-updates') return liveSSE.handleSSE(request, response);
-    if (pathname === '/live-page') return liveSSE.injectHtml(request, response);
+    if (pathname === '/live-page') return liveSSE.injectHtml(request, response, rootDirectory);
 
     resolveFile(rootDirectory + pathname, (resolvedFile, stat) => {
         if (resolvedFile === undefined) {
@@ -106,7 +106,7 @@ function resolveFile(pathname, callback) {
         if (i >= autoComplete.length) return callback();
         const temp = pathname + autoComplete[i++]
         fs.stat(temp, (err, result) => {
-            if (err || result.isDirectory() || filterPathname(temp.slice(rootDirectory.length+1))) return loop();
+            if (err || result.isDirectory()) return loop();
             callback(temp, result);
         });
     }
@@ -136,14 +136,6 @@ function getContentType(pathname) {
     return mimeType ? mimeType : 'text/plain';
 }
 
-/**
- * @param {String} pathname 
- * @returns {String|undefined}
- */
-const filterPathname = (pathname) =>
-    ignore.find((temp) => starMatcher(temp, pathname));
-
-
 function starMatcher(matcher, str) {
     let mpos = 0, a, b;
     for (let i = 0; i < str.length; i++) {
@@ -159,7 +151,6 @@ function starMatcher(matcher, str) {
 
 // Simply hard coded things.
 const autoComplete = [ '', 'index.html', '.js' ];
-const ignore = [ 'server.js', 'live-sse.js', 'package.json', '.vscode', '.git', '.gitattributes' ];
 const mimeTypes = {
     html: 'text/html',
     htm: 'text/html',
@@ -168,7 +159,7 @@ const mimeTypes = {
     json: 'application/json',
 };
 
-liveSSE.mapDirectories(rootDirectory, ignore);
+liveSSE.mapDirectories(rootDirectory);
 server.listen(port, '0.0.0.0', () => {
     const serverAddress = server.address();
     let address = serverAddress.address;

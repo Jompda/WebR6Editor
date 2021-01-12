@@ -3,7 +3,6 @@ The simple but useful web-based Rainbow Six: Siege strategy editor.
 ~Developed by: Joni Rapo
 
 ## TODO:
-- Change the filestructure to be more suitable for a server environment.
 - Add comments and overall documentation to the code.
 - Create images for the basic tools.
 - My "OCD" wants the icons' sizes to be powers of two.
