@@ -14,8 +14,8 @@ const server = http.createServer(function (request, response) {
     const pathname = url.parse(request.url).pathname;
     
     switch (request.method) {
-        case 'GET': get(pathname, request, response); break;
-        case 'HEAD': get(pathname, request, response); break;
+        case 'GET': get(pathname, request, response, true); break;
+        case 'HEAD': get(pathname, request, response, false); break;
         case 'POST': post(pathname, request, response); break;
         default:
             response.writeHead(501);
@@ -29,22 +29,34 @@ const server = http.createServer(function (request, response) {
  * @param {String} pathname 
  * @param {http.IncomingMessage} request 
  * @param {http.ServerResponse} response 
+ * @param {Boolean} sendBody 
  */
-function get(pathname, request, response) {
+function get(pathname, request, response, sendBody) {
     if (pathname === '/live-server-updates') return liveSSE.handleSSE(request, response);
     if (pathname === '/live-page') return liveSSE.injectHtml(request, response);
 
-    resolveFile(rootDirectory + pathname, (resolvedFile) => {
+    resolveFile(rootDirectory + pathname, (resolvedFile, stat) => {
         if (resolvedFile === undefined) {
             response.writeHead(404);
             response.end();
-            logHttpRequest(request, response);
-            return;
+            return logHttpRequest(request, response);
+        }
+
+        if (!sendBody) {
+            response.writeHead(200, {
+                'Content-Type': getContentType(resolvedFile),
+                'Content-Length': stat.size
+            });
+            response.end();
+            return logHttpRequest(request, response, resolvedFile);
         }
 
         const stream = fs.createReadStream(resolvedFile);
         stream.on('open', () => {
-            response.writeHead(200, {'Content-Type': getContentType(resolvedFile)});
+            response.writeHead(200, {
+                'Content-Type': getContentType(resolvedFile),
+                'Content-Length': stat.size
+            });
             stream.pipe(response);
         });
         stream.on('end', () => {
@@ -95,7 +107,7 @@ function resolveFile(pathname, callback) {
         const temp = pathname + autoComplete[i++]
         fs.stat(temp, (err, result) => {
             if (err || result.isDirectory() || filterPathname(temp.slice(rootDirectory.length+1))) return loop();
-            callback(temp);
+            callback(temp, result);
         });
     }
 }
