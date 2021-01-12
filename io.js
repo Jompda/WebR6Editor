@@ -23,7 +23,7 @@ function loadScene() {
         });
     
         update();
-    });
+    }, (xhr) => alert(`Scene doesn't exist!`));
 }
 window.loadScene = loadScene;
 
@@ -43,9 +43,15 @@ function saveScene() {
     // Save the strat
     let xhr = new XMLHttpRequest();
     xhr.open('POST', `saved/${sceneName}.json`); xhr.send(saveData);
-    xhr.onerror = () => console.log(`Error ${xhr.status}: ${xhr.statusText}`);
+    xhr.onerror = () => alertXhrError(xhr);
     xhr.onload = () => {
-        if (xhr.status != 200) return;
+        if (xhr.status != 200) return alertXhrError(xhr);
+        alert('The scene has been saved succesfully!');
+    }
+
+    function alertXhrError(xhr) {
+        console.log('ERROR:', xhr.status, xhr.statusText);
+        alert('An error has occurred while saving the scene! Further information has been logged to the console.');
     }
 
     function replacer(key, value) {

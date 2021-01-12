@@ -18,11 +18,13 @@ const sidebar_right = document.getElementById('sidebar-right');
 /**
  * @param {String} url 
  * @param {handleXMLHttpRequestResource} callback 
+ * @param {Function} onerror 
  */
-function getHttpResource(url, callback) {
-    let xhr = new XMLHttpRequest();
+function getHttpResource(url, callback, onerror) {
+    const xhr = new XMLHttpRequest();
     xhr.open('GET', url); xhr.send();
-    xhr.onerror = () => console.log(`Error ${url} => ${xhr.status}: ${xhr.statusText}`);
+    if (onerror) xhr.onerror = () => onerror(xhr);
+    else xhr.onerror = () => console.log(`Error ${url} => ${xhr.status}: ${xhr.statusText}`);
     xhr.onload = () => {
         if (xhr.status != 200) return xhr.onerror();
         callback(xhr);
