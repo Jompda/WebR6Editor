@@ -1,4 +1,4 @@
-const { resolveFile, getContentType, logHttpRequest, starMatcher } = require('./server');
+const { resolveFile, getContentType, logHttpRequest } = require('./server');
 const http = require('http'), fs = require('fs');
 
 /**@type {http.ServerResponse[]} */

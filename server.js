@@ -1,5 +1,4 @@
 
-// This is supposed to be a basic server implementation for development purposes.
 module.exports = {
     resolveFile,
     getContentType,
@@ -7,7 +6,9 @@ module.exports = {
     starMatcher
 }
 
-const port = 80, rootDirectory = 'site', liveSSE = require('./live-sse.js');
+const { port, rootDirectory, mimeTypes, autoComplete } = require('./settings.json');
+const liveSSE = require('./live-sse.js');
+
 const http = require('http'), url = require('url'), fs = require('fs');
 
 const server = http.createServer(function (request, response) {
@@ -25,6 +26,16 @@ const server = http.createServer(function (request, response) {
     }
 });
 
+liveSSE.mapDirectories(rootDirectory);
+server.listen(port, '0.0.0.0', () => {
+    const serverAddress = server.address();
+    let address = serverAddress.address;
+    if (serverAddress.family === 'IPv6') address = '['+address+']';
+    console.log(`Serving http on ${address}:${serverAddress.port} ..`);
+});
+
+
+
 /**
  * @param {String} pathname 
  * @param {http.IncomingMessage} request 
@@ -32,6 +43,7 @@ const server = http.createServer(function (request, response) {
  * @param {Boolean} sendBody 
  */
 function get(pathname, request, response, sendBody) {
+    // Awful hardcoding.
     if (pathname === '/live-server-updates') return liveSSE.handleSSE(request, response);
     if (pathname === '/live-page') return liveSSE.injectHtml(request, response, rootDirectory);
 
@@ -42,7 +54,7 @@ function get(pathname, request, response, sendBody) {
             return logHttpRequest(request, response);
         }
 
-        if (!sendBody) {
+        if (!sendBody) { // HEAD Method
             response.writeHead(200, {
                 'Content-Type': getContentType(resolvedFile),
                 'Content-Length': stat.size
@@ -51,6 +63,7 @@ function get(pathname, request, response, sendBody) {
             return logHttpRequest(request, response, resolvedFile);
         }
 
+        // Send the body.
         const stream = fs.createReadStream(resolvedFile);
         stream.on('open', () => {
             response.writeHead(200, {
@@ -136,6 +149,12 @@ function getContentType(pathname) {
     return mimeType ? mimeType : 'text/plain';
 }
 
+/**
+ * Waiting for purpose.
+ * @param {String} matcher 
+ * @param {String} str 
+ * @returns {Boolean}
+ */
 function starMatcher(matcher, str) {
     let mpos = 0, a, b;
     for (let i = 0; i < str.length; i++) {
@@ -147,22 +166,3 @@ function starMatcher(matcher, str) {
     }
     return mpos >= matcher.length;
 }
-
-
-// Simply hard coded things.
-const autoComplete = [ '', 'index.html', '.js' ];
-const mimeTypes = {
-    html: 'text/html',
-    htm: 'text/html',
-    css: 'text/css',
-    js: 'text/javascript',
-    json: 'application/json',
-};
-
-liveSSE.mapDirectories(rootDirectory);
-server.listen(port, '0.0.0.0', () => {
-    const serverAddress = server.address();
-    let address = serverAddress.address;
-    if (serverAddress.family === 'IPv6') address = '['+address+']';
-    console.log(`Serving http on ${address}:${serverAddress.port} ..`);
-});
