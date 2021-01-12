@@ -10,6 +10,9 @@ import {
 
 const resourceURL = 'https://raw.githubusercontent.com/Jompda/Jompda.github.io/main/WebR6Editor/'//'https://jompda.github.io/WebR6Editor/';
 
+/**@type {Map<String,Object>} */
+const assets = new Map();
+
 const sidebar_left = document.getElementById('sidebar-left');
 const sidebar_right = document.getElementById('sidebar-right');
 /**@type {HTMLElement}*/ var sidebar_left_toggle;
@@ -103,6 +106,7 @@ function loadAssetList(xhr) {
         const matchingPage = toolGroups.get(group.page);
         createImagePlacerGroup(matchingPage, group);
     });
+    console.log(assets);
 }
 
 /**
@@ -119,17 +123,19 @@ function createImagePlacerGroup(target, group) {
         if (!filename) filename = tempAsset[0].toLowerCase();
 
         // Additional options
-        let options = tempAsset[2];
-        if (options) {
-            if (options.outlineImageUrl) {
-                options.outlineImageUrl = group.path + options.outlineImageUrl + group.extension;
-            }
-        } else {
-            options = {};
-        }
-        options.imageUrl = group.path + filename + group.extension;
+        let options = tempAsset[2], asset = {};
+        if (options) asset = Object.assign(asset, options);
+        else options = {};
 
-        const imageTool = createImageToolButton(tempAsset[0], resourceURL + options.imageUrl, `setTool('imageplacer', '${JSON.stringify(options)}')`);
+        asset.filename = filename,
+        asset.path = group.path,
+        asset.extension = group.extension
+        assets.set(filename, asset);
+
+        options.assetId = asset.filename;
+
+        const imageTool = createImageToolButton(tempAsset[0], resourceURL + group.path + filename + group.extension,
+            `setTool('imageplacer', '${JSON.stringify(options)}')`);
         table.appendChild(imageTool);
     }
     target.appendChild(table);
@@ -138,6 +144,7 @@ function createImagePlacerGroup(target, group) {
 
 export {
     resourceURL,
+    assets,
     getHttpResource,
     sidebar_left, sidebar_right,
     sidebar_left_toggle, sidebar_right_toggle

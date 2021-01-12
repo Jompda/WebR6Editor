@@ -1,5 +1,5 @@
 import { update } from '../main.js';
-import { resourceURL } from '../preload.js';
+import { assets, resourceURL } from '../preload.js';
 import RectangleObj from './rectangleobj.js';
 
 /**
@@ -14,20 +14,27 @@ class ImageObj extends RectangleObj {
      * @param {Number} h 
      * @param {image} image 
      * @param {color|undefined} outline 
-     * @param {Object} options
+     * @param {Object} asset 
+     * @param {Object} options 
      */
-    constructor(x, y, w, h, image, outline, options) {
+    constructor(x, y, w, h, image, outline, asset) {
         super(x, y, w, h, outline);
         this.image = image;
-        this.options = options;
-        
+        this.assetId = asset.filename;
+
         // figure out the draw function.
-        if (options.outlineImageUrl) {
-            this.outlineImage = loadImage(resourceURL + options.outlineImageUrl, update);
-            this.actualDraw = this.drawOutlineImage;
+        switch (asset.outlineType) {
+            case 'tint':
+                this.actualDraw = this.drawTintableOutline;
+                break;
+            case 'image':
+                this.outlineImage = loadImage(resourceURL + asset.path + asset.filename + '_outline' + asset.extension, update);
+                this.actualDraw = this.drawOutlineImage;
+                break;
+            default:
+                this.actualDraw = this.drawDefaultOutline;
+                break;
         }
-        else if (options.tintableOutline) this.actualDraw = this.drawTintableOutline;
-        else this.actualDraw = this.drawDefaultOutline;
         
     }
 
@@ -38,11 +45,13 @@ class ImageObj extends RectangleObj {
             outline = color(rgba[0], rgba[1], rgba[2], rgba[3]);
         }
 
+        const asset = assets.get(obj.assetId);
+
         const newObj = new ImageObj(
             obj.x, obj.y, obj.w, obj.h,
-            loadImage(resourceURL + obj.options.imageUrl, update),
+            loadImage(resourceURL + asset.path + asset.filename + asset.extension, update),
             outline,
-            obj.options
+            asset
         );
         newObj.rotation = obj.rotation;
         return newObj;

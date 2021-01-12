@@ -3,8 +3,7 @@ The simple but useful web-based Rainbow Six: Siege strategy editor.
 ~Developed by: Joni Rapo
 
 ## TODO:
-- Round the values when saving the scene.
-- Preloaded assets back so the resource urls are not needed in the save files anymore.
+- Maybe round the numerical values when saving the scene.
 - Add comments and overall documentation to the code.
 - Create images for the basic tools.
 - My "OCD" wants the icons' sizes to be powers of two.

@@ -152,10 +152,10 @@
         "extension": ".png",
         "assets": [
             [ "Reinforcement" ],
-            [ "Rotation", null, { "tintableOutline": true } ],
-            [ "Bird", null, { "outlineImageUrl": "bird_outline" } ],
-            [ "Head", null, { "outlineImageUrl": "head_outline" } ],
-            [ "Feet", null, { "outlineImageUrl": "feet_outline" } ]
+            [ "Rotation", null, { "outlineType": "tint" } ],
+            [ "Bird", null, { "outlineType": "image" } ],
+            [ "Head", null, { "outlineType": "image" } ],
+            [ "Feet", null, { "outlineType": "image" } ]
         ]
     }
 ]

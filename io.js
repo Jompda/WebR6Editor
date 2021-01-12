@@ -46,7 +46,7 @@ function saveScene() {
     xhr.onerror = () => alertXhrError(xhr);
     xhr.onload = () => {
         if (xhr.status != 200) return alertXhrError(xhr);
-        alert('The scene has been saved succesfully!');
+        alert('The scene has been succesfully saved!');
     }
 
     function alertXhrError(xhr) {
@@ -64,6 +64,7 @@ function saveScene() {
             if (cache.includes(value)) return;
             cache.push(value);
         }
+        if (typeof value === 'number') return Math.round(value*1000)/1000;
         return value;
     }
 }
