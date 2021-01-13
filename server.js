@@ -1,9 +1,9 @@
 
 module.exports = {
-    resolveFile,
-    getContentType,
-    logHttpRequest,
-    starMatcher
+	resolveFile,
+	getContentType,
+	logHttpRequest,
+	starMatcher
 }
 
 const { port, rootDirectory, mimeTypes, autoComplete } = require('./settings.json');
@@ -12,26 +12,26 @@ const liveSSE = require('./live-sse.js');
 const http = require('http'), url = require('url'), fs = require('fs');
 
 const server = http.createServer(function (request, response) {
-    const pathname = url.parse(request.url).pathname;
-    
-    switch (request.method) {
-        case 'GET': get(pathname, request, response, true); break;
-        case 'HEAD': get(pathname, request, response, false); break;
-        case 'POST': post(pathname, request, response); break;
-        default:
-            response.writeHead(501);
-            response.end();
-            logHttpRequest(request, response);
-            break;
-    }
+	const pathname = url.parse(request.url).pathname;
+	
+	switch (request.method) {
+		case 'GET': get(pathname, request, response, true); break;
+		case 'HEAD': get(pathname, request, response, false); break;
+		case 'POST': post(pathname, request, response); break;
+		default:
+			response.writeHead(501);
+			response.end();
+			logHttpRequest(request, response);
+			break;
+	}
 });
 
 liveSSE.mapDirectories(rootDirectory);
 server.listen(port, '0.0.0.0', () => {
-    const serverAddress = server.address();
-    let address = serverAddress.address;
-    if (serverAddress.family === 'IPv6') address = '['+address+']';
-    console.log(`Serving http on ${address}:${serverAddress.port} ..`);
+	const serverAddress = server.address();
+	let address = serverAddress.address;
+	if (serverAddress.family === 'IPv6') address = '['+address+']';
+	console.log(`Serving http on ${address}:${serverAddress.port} ..`);
 });
 
 
@@ -43,43 +43,43 @@ server.listen(port, '0.0.0.0', () => {
  * @param {Boolean} sendBody 
  */
 function get(pathname, request, response, sendBody) {
-    // Awful hardcoding.
-    if (pathname === '/live-server-updates') return liveSSE.handleSSE(request, response);
-    if (pathname === '/live-page') return liveSSE.injectHtml(request, response, rootDirectory);
+	// Awful hardcoding.
+	if (pathname === '/live-server-updates') return liveSSE.handleSSE(request, response);
+	if (pathname === '/live-page') return liveSSE.injectHtml(request, response, rootDirectory);
 
-    resolveFile(rootDirectory + pathname, (resolvedFile, stat) => {
-        if (resolvedFile === undefined) {
-            response.writeHead(404);
-            response.end();
-            return logHttpRequest(request, response);
-        }
+	resolveFile(rootDirectory + pathname, (resolvedFile, stat) => {
+		if (resolvedFile === undefined) {
+			response.writeHead(404);
+			response.end();
+			return logHttpRequest(request, response);
+		}
 
-        if (!sendBody) { // HEAD Method
-            response.writeHead(200, {
-                'Content-Type': getContentType(resolvedFile),
-                'Content-Length': stat.size
-            });
-            response.end();
-            return logHttpRequest(request, response, resolvedFile);
-        }
+		if (!sendBody) { // HEAD Method
+			response.writeHead(200, {
+				'Content-Type': getContentType(resolvedFile),
+				'Content-Length': stat.size
+			});
+			response.end();
+			return logHttpRequest(request, response, resolvedFile);
+		}
 
-        // Send the body.
-        const stream = fs.createReadStream(resolvedFile);
-        stream.on('open', () => {
-            response.writeHead(200, {
-                'Content-Type': getContentType(resolvedFile),
-                'Content-Length': stat.size
-            });
-            stream.pipe(response);
-        });
-        stream.on('end', () => {
-            logHttpRequest(request, response, resolvedFile);
-        });
-        stream.on('error', (err) => {
-            response.end(err);
-            logHttpRequest(request, response);
-        });
-    });
+		// Send the body.
+		const stream = fs.createReadStream(resolvedFile);
+		stream.on('open', () => {
+			response.writeHead(200, {
+				'Content-Type': getContentType(resolvedFile),
+				'Content-Length': stat.size
+			});
+			stream.pipe(response);
+		});
+		stream.on('end', () => {
+			logHttpRequest(request, response, resolvedFile);
+		});
+		stream.on('error', (err) => {
+			response.end(err);
+			logHttpRequest(request, response);
+		});
+	});
 }
 
 /**
@@ -89,24 +89,24 @@ function get(pathname, request, response, sendBody) {
  * @param {http.ServerResponse} response 
  */
 function post(pathname, request, response) {
-    console.log(pathname);
-    if (!pathname.startsWith('/saved/')) {
-        response.writeHead(404);
-        response.end();
-        logHttpRequest(request, response);
-        return;
-    }
-    let body = '';
-    request.on('data', (data) => {
-        body += data;
-    });
-    request.on('end', () => {
-        fs.writeFile(rootDirectory + pathname, body, () => {
-            response.writeHead(200);
-            response.end();
-            console.log(body);
-        });
-    });
+	console.log(pathname);
+	if (!pathname.startsWith('/saved/')) {
+		response.writeHead(404);
+		response.end();
+		logHttpRequest(request, response);
+		return;
+	}
+	let body = '';
+	request.on('data', (data) => {
+		body += data;
+	});
+	request.on('end', () => {
+		fs.writeFile(rootDirectory + pathname, body, () => {
+			response.writeHead(200);
+			response.end();
+			console.log(body);
+		});
+	});
 }
 
 /**
@@ -114,15 +114,15 @@ function post(pathname, request, response) {
  * @param {Function} callback 
  */
 function resolveFile(pathname, callback) {
-    let i = 0; loop();
-    function loop() {
-        if (i >= autoComplete.length) return callback();
-        const temp = pathname + autoComplete[i++]
-        fs.stat(temp, (err, result) => {
-            if (err || result.isDirectory()) return loop();
-            callback(temp, result);
-        });
-    }
+	let i = 0; loop();
+	function loop() {
+		if (i >= autoComplete.length) return callback();
+		const temp = pathname + autoComplete[i++]
+		fs.stat(temp, (err, result) => {
+			if (err || result.isDirectory()) return loop();
+			callback(temp, result);
+		});
+	}
 }
 
 /**
@@ -131,13 +131,13 @@ function resolveFile(pathname, callback) {
  * @param {String} resolved 
  */
 function logHttpRequest(request, response, resolved) {
-    console.log(
-        request.connection.remoteAddress + ' - - '
-        + request.method + ' '
-        + request.url + (resolved?' => '+resolved:'') + ' '
-        + 'HTTP/' + request.httpVersion + ' - '
-        + response.statusCode + ' '
-        + response.statusMessage);
+	console.log(
+		request.connection.remoteAddress + ' - - '
+		+ request.method + ' '
+		+ request.url + (resolved?' => '+resolved:'') + ' '
+		+ 'HTTP/' + request.httpVersion + ' - '
+		+ response.statusCode + ' '
+		+ response.statusMessage);
 }
 
 /**
@@ -145,8 +145,8 @@ function logHttpRequest(request, response, resolved) {
  * @returns {String}
  */
 function getContentType(pathname) {
-    const mimeType = mimeTypes[pathname.substring(pathname.lastIndexOf('.')+1)];
-    return mimeType ? mimeType : 'text/plain';
+	const mimeType = mimeTypes[pathname.substring(pathname.lastIndexOf('.')+1)];
+	return mimeType ? mimeType : 'text/plain';
 }
 
 /**
@@ -156,13 +156,13 @@ function getContentType(pathname) {
  * @returns {Boolean}
  */
 function starMatcher(matcher, str) {
-    let mpos = 0, a, b;
-    for (let i = 0; i < str.length; i++) {
-        if ((a = matcher[mpos]) === (b = str[i])) {
-            mpos++; continue;
-        }
-        if (a !== '*') return false;
-        if (matcher[mpos+1] === str[i+1]) ++mpos;
-    }
-    return mpos >= matcher.length;
+	let mpos = 0, a, b;
+	for (let i = 0; i < str.length; i++) {
+		if ((a = matcher[mpos]) === (b = str[i])) {
+			mpos++; continue;
+		}
+		if (a !== '*') return false;
+		if (matcher[mpos+1] === str[i+1]) ++mpos;
+	}
+	return mpos >= matcher.length;
 }

@@ -1,9 +1,9 @@
 import { loadScene, saveScene } from './io.js';
 import { getTool, setTool } from './toolhandler.js';
 import {
-    getTranslateX, setTranslateX,
-    getTranslateY, setTranslateY,
-    getZoom, setZoom
+	getTranslateX, setTranslateX,
+	getTranslateY, setTranslateY,
+	getZoom, setZoom
 } from './controller.js';
 import { resourceURL } from './preload.js';
 import { getSelectedObject, showObjectProperties } from './gui.js';
@@ -22,16 +22,16 @@ var canvas;
 const objects = [];
 
 window.windowResized = () =>
-    update(resizeCanvas(viewport.offsetWidth, viewport.offsetHeight));
+	update(resizeCanvas(viewport.offsetWidth, viewport.offsetHeight));
 
 window.setup = function setup() {
-    backgroundImage = createImage(1,1); // Just to avoid background-image drawing errors.
-    setTool('notool');
-    canvas = createCanvas(viewport.offsetWidth, viewport.offsetHeight);
-    canvas.parent(viewport);
+	backgroundImage = createImage(1,1); // Just to avoid background-image drawing errors.
+	setTool('notool');
+	canvas = createCanvas(viewport.offsetWidth, viewport.offsetHeight);
+	canvas.parent(viewport);
 
-    document.oncontextmenu = () => false;
-    update();
+	document.oncontextmenu = () => false;
+	update();
 }
 
 var scheduledUpdate = false;
@@ -39,69 +39,69 @@ const update = () => scheduledUpdate = true;
 window.update = update;
 
 window.draw = function draw() {
-    if (!scheduledUpdate) return;
-    scheduledUpdate = false;
+	if (!scheduledUpdate) return;
+	scheduledUpdate = false;
 
-    showObjectProperties(getSelectedObject());
+	showObjectProperties(getSelectedObject());
 
-    //const srdate = new Date();
+	//const srdate = new Date();
 
-    // Basic setup.
-    clear();
-    translate(getTranslateX(), getTranslateY());
-    scale(getZoom());
-    
-    // Background image.
-    image(backgroundImage, 0, 0);
+	// Basic setup.
+	clear();
+	translate(getTranslateX(), getTranslateY());
+	scale(getZoom());
+	
+	// Background image.
+	image(backgroundImage, 0, 0);
 
-    // Objects.
-    for (let i = objects.length-1; i > -1; i--) {
-        push();
-        const tempObj = objects[i];
-        translate(tempObj.x, tempObj.y);
-        tempObj.draw();
-        pop();
-    }
+	// Objects.
+	for (let i = objects.length-1; i > -1; i--) {
+		push();
+		const tempObj = objects[i];
+		translate(tempObj.x, tempObj.y);
+		tempObj.draw();
+		pop();
+	}
 
-    // Selected object's highlight.
-    const selobj = getSelectedObject();
-    if (selobj) {
-        push(); selobj.drawEditMode(getTool().editAllowed); pop();
-    }
+	// Selected object's highlight.
+	const selobj = getSelectedObject();
+	if (selobj) {
+		push(); selobj.drawEditMode(getTool().editAllowed); pop();
+	}
 
-    //const renderTime = new Date()-srdate;
-    //console.log(`${renderTime} millisecond${renderTime==1?'':'s'} render time.`);
+	//const renderTime = new Date()-srdate;
+	//console.log(`${renderTime} millisecond${renderTime==1?'':'s'} render time.`);
 }
 
 function getIntersectingObject(x, y) {
-    for (let i = 0; i < objects.length; i++)
-        if (objects[i].intersects(x, y))
-            return { obj: objects[i], i };
+	for (let i = 0; i < objects.length; i++)
+		if (objects[i].intersects(x, y))
+			return { obj: objects[i], i };
 }
 
 function changeMap(name) {
-    if (name !== '-----') {
-        backgroundImageUrl = name;
-        backgroundImage = loadImage(resourceURL + backgroundImageUrl, focusToImage);
-        
-        function focusToImage(img) {
-            // Focus the viewport to the background-image.
-            const tx = -(img.width/2 - width/2), zoom = 1;
-            setTranslateX(tx);
-            setTranslateY(0);
+	if (name !== '-----') {
+		backgroundImageUrl = name;
+		backgroundImage = loadImage(resourceURL + backgroundImageUrl, focusToImage);
+		
+		function focusToImage(img) {
+			// Focus the viewport to the background-image.
+			const tx = -(img.width/2 - width/2), zoom = 1;
+			setTranslateX(tx);
+			setTranslateY(0);
 
-            // Alter the zoom.
-            setZoom(zoom);
-            let zoomDelta = (height / img.height)-zoom;
+			// Alter the zoom.
+			setZoom(zoom);
+			let zoomDelta = (height / img.height)-zoom;
 
-            // Keep the translation focused on the
-            // same point with the new zoom.
-            setTranslateX(tx-(width/2-tx)/zoom * zoomDelta);
-            setZoom(zoom+zoomDelta);
+			// Keep the translation focused on the
+			// same point with the new zoom.
+			setTranslateX(tx-(width/2-tx)/zoom * zoomDelta);
+			setZoom(zoom+zoomDelta);
 
-            update();
-        }
-    }
+			update();
+		}
+	}
 }
 window.changeMap = changeMap;
 
@@ -110,42 +110,42 @@ window.changeMap = changeMap;
  * @param {DragEvent} event 
  */
 window.dropHandler = function dropHandler(event) {
-    event.preventDefault();
+	event.preventDefault();
 
-    if (event.dataTransfer.items) {
-        const fileArray = event.dataTransfer.items;
-        for (let i = 0; i < fileArray.length; i++)
-            if (fileArray[i].kind === 'file')
-                handleFile(fileArray[i].getAsFile());
-    } else {
-        const fileArray = event.dataTransfer.files;
-        for (let i = 0; i < fileArray.length; i++)
-            handleFile(fileArray[i].getAsFile());
-    }
+	if (event.dataTransfer.items) {
+		const fileArray = event.dataTransfer.items;
+		for (let i = 0; i < fileArray.length; i++)
+			if (fileArray[i].kind === 'file')
+				handleFile(fileArray[i].getAsFile());
+	} else {
+		const fileArray = event.dataTransfer.files;
+		for (let i = 0; i < fileArray.length; i++)
+			handleFile(fileArray[i].getAsFile());
+	}
 
-    /**
-     * @param {File} file 
-     */
-    function handleFile(file) {
-        console.log(`Processing file '${file.name}'.`);
+	/**
+	 * @param {File} file 
+	 */
+	function handleFile(file) {
+		console.log(`Processing file '${file.name}'.`);
 
-        const reader = new FileReader();
-        reader.onload = (file) => {
-            // Save the target location until the image is loaded.
-            const posX = mouseX, posY = mouseY;
-            loadImage(file.target.result, (img) => ImagePlacer.placeImage(img, posX, posY));
-        }
-        reader.readAsDataURL(file);
-    }
+		const reader = new FileReader();
+		reader.onload = (file) => {
+			// Save the target location until the image is loaded.
+			const posX = mouseX, posY = mouseY;
+			loadImage(file.target.result, (img) => ImagePlacer.placeImage(img, posX, posY));
+		}
+		reader.readAsDataURL(file);
+	}
 }
 
 const getObjects = () => objects;
 
 export {
-    imageobj_size,
-    getObjects,
-    update,
-    getIntersectingObject,
-    changeMap,
-    getBackgroundImageUrl
+	imageobj_size,
+	getObjects,
+	update,
+	getIntersectingObject,
+	changeMap,
+	getBackgroundImageUrl
 };

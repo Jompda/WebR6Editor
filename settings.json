@@ -1,12 +1,12 @@
 {
-    "port": 80,
-    "rootDirectory": "site",
-    "autoComplete": [ "", "index.html", ".js" ],
-    "mimeTypes": {
-        "html": "text/html",
-        "htm": "text/html",
-        "css": "text/css",
-        "js": "text/javascript",
-        "json": "application/json"
-    }
+	"port": 80,
+	"rootDirectory": "site",
+	"autoComplete": [ "", "index.html", ".js" ],
+	"mimeTypes": {
+		"html": "text/html",
+		"htm": "text/html",
+		"css": "text/css",
+		"js": "text/javascript",
+		"json": "application/json"
+	}
 }

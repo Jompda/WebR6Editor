@@ -1,1 +1,78 @@
-{"creator":"Jompda","timestamp":"2021-01-13T09:08:17.711Z","backgroundImageUrl":"assets/maps/bank/bank-1.jpg","objects":[{"class":"ImageObj","instance":{"x":1075.955,"y":331.365,"rotation":0,"w":693.944,"h":269.386,"assetId":"jager"}},{"class":"ImageObj","instance":{"x":1260.351,"y":699.917,"outline":{"type":"p5RgbColor","levels":[255,0,0,255]},"rotation":0,"w":266.667,"h":100,"assetId":"reinforcement"}},{"class":"ImageObj","instance":{"x":1596.98,"y":943.24,"outline":{"type":"p5RgbColor","levels":[0,255,0,255]},"rotation":0,"w":100,"h":100,"assetId":"bird"}},{"class":"ImageObj","instance":{"x":1481.3,"y":1136.7,"outline":{"type":"p5RgbColor","levels":[255,0,0,255]},"rotation":0,"w":100,"h":100,"assetId":"rotation"}}]}
+{
+	"creator": "Jompda",
+	"timestamp": "2021-01-13T12:35:54.894Z",
+	"backgroundImageUrl": "assets/maps/bank/bank-1.jpg",
+	"objects": [
+		{
+			"class": "ImageObj",
+			"instance": {
+				"x": 1075.955,
+				"y": 331.365,
+				"rotation": 0,
+				"w": 693.944,
+				"h": 269.386,
+				"assetId": "jager"
+			}
+		},
+		{
+			"class": "ImageObj",
+			"instance": {
+				"x": 1260.351,
+				"y": 699.917,
+				"outline": {
+					"type": "p5RgbColor",
+					"levels": [
+						255,
+						0,
+						0,
+						255
+					]
+				},
+				"rotation": 0,
+				"w": 266.667,
+				"h": 100,
+				"assetId": "reinforcement"
+			}
+		},
+		{
+			"class": "ImageObj",
+			"instance": {
+				"x": 1596.98,
+				"y": 943.24,
+				"outline": {
+					"type": "p5RgbColor",
+					"levels": [
+						0,
+						255,
+						0,
+						255
+					]
+				},
+				"rotation": 0,
+				"w": 100,
+				"h": 100,
+				"assetId": "bird"
+			}
+		},
+		{
+			"class": "ImageObj",
+			"instance": {
+				"x": 1481.3,
+				"y": 1136.7,
+				"outline": {
+					"type": "p5RgbColor",
+					"levels": [
+						255,
+						0,
+						0,
+						255
+					]
+				},
+				"rotation": 0,
+				"w": 100,
+				"h": 100,
+				"assetId": "rotation"
+			}
+		}
+	]
+}

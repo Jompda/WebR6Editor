@@ -1,161 +1,161 @@
 [
-    {
-        "name": "Attackers",
-        "page": "attackers",
-        "path": "assets/operators/",
-        "extension": ".png",
-        "assets": [
-            [ "Sledge" ],
-            [ "Thatcher" ],
-            [ "Ash" ],
-            [ "Thermite" ],
-            [ "Twitch" ],
-            [ "Montagne" ],
-            [ "Glaz" ],
-            [ "Fuze" ],
-            [ "Blitz" ],
-            [ "IQ" ],
-            [ "Buck" ],
-            [ "Black Beard", "blackbeard" ],
-            [ "Capitão", "capitao" ],
-            [ "Hibana" ],
-            [ "Jackal" ],
-            [ "Ying" ],
-            [ "Zofia" ],
-            [ "Dokkaebi" ],
-            [ "Lion" ],
-            [ "Finka" ],
-            [ "Maverick" ],
-            [ "Nomad" ],
-            [ "Gridlock" ],
-            [ "NØKK", "nokk" ],
-            [ "Amaru" ],
-            [ "Kali" ],
-            [ "Iana" ],
-            [ "Ace" ],
-            [ "Zero" ]
-        ]
-    },
-    {
-        "name": "Defenders",
-        "page": "defenders",
-        "path": "assets/operators/",
-        "extension": ".png",
-        "assets": [
-            [ "Smoke" ],
-            [ "Mute" ],
-            [ "Castle" ],
-            [ "Pulse" ],
-            [ "Doc" ],
-            [ "Rook" ],
-            [ "Kapkan" ],
-            [ "Tachanka" ],
-            [ "Jäger", "jager" ],
-            [ "Bandit" ],
-            [ "Frost" ],
-            [ "Valkyrie" ],
-            [ "Caveira" ],
-            [ "Echo" ],
-            [ "Mira" ],
-            [ "Lesion" ],
-            [ "Ela" ],
-            [ "Vigil" ],
-            [ "Maestro" ],
-            [ "Alibi" ],
-            [ "Clash" ],
-            [ "Kaid" ],
-            [ "Mozzie" ],
-            [ "Warden" ],
-            [ "Goyo" ],
-            [ "Wamai" ],
-            [ "Oryx" ],
-            [ "Melusi" ],
-            [ "Aruni", "ash" ]
-        ]
-    },
+	{
+		"name": "Attackers",
+		"page": "attackers",
+		"path": "assets/operators/",
+		"extension": ".png",
+		"assets": [
+			[ "Sledge" ],
+			[ "Thatcher" ],
+			[ "Ash" ],
+			[ "Thermite" ],
+			[ "Twitch" ],
+			[ "Montagne" ],
+			[ "Glaz" ],
+			[ "Fuze" ],
+			[ "Blitz" ],
+			[ "IQ" ],
+			[ "Buck" ],
+			[ "Black Beard", "blackbeard" ],
+			[ "Capitão", "capitao" ],
+			[ "Hibana" ],
+			[ "Jackal" ],
+			[ "Ying" ],
+			[ "Zofia" ],
+			[ "Dokkaebi" ],
+			[ "Lion" ],
+			[ "Finka" ],
+			[ "Maverick" ],
+			[ "Nomad" ],
+			[ "Gridlock" ],
+			[ "NØKK", "nokk" ],
+			[ "Amaru" ],
+			[ "Kali" ],
+			[ "Iana" ],
+			[ "Ace" ],
+			[ "Zero" ]
+		]
+	},
+	{
+		"name": "Defenders",
+		"page": "defenders",
+		"path": "assets/operators/",
+		"extension": ".png",
+		"assets": [
+			[ "Smoke" ],
+			[ "Mute" ],
+			[ "Castle" ],
+			[ "Pulse" ],
+			[ "Doc" ],
+			[ "Rook" ],
+			[ "Kapkan" ],
+			[ "Tachanka" ],
+			[ "Jäger", "jager" ],
+			[ "Bandit" ],
+			[ "Frost" ],
+			[ "Valkyrie" ],
+			[ "Caveira" ],
+			[ "Echo" ],
+			[ "Mira" ],
+			[ "Lesion" ],
+			[ "Ela" ],
+			[ "Vigil" ],
+			[ "Maestro" ],
+			[ "Alibi" ],
+			[ "Clash" ],
+			[ "Kaid" ],
+			[ "Mozzie" ],
+			[ "Warden" ],
+			[ "Goyo" ],
+			[ "Wamai" ],
+			[ "Oryx" ],
+			[ "Melusi" ],
+			[ "Aruni", "ash" ]
+		]
+	},
 
 
-    {
-        "name": "Attacker Gadgets",
-        "page": "attackers",
-        "path": "assets/default_gadgets/",
-        "extension": ".png",
-        "assets": [
-            [ "Breach Charge", "breachcharge" ],
-            [ "Claymore" ],
-            [ "Stun Grenade", "stungrenade" ],
-            [ "Smoke Grenade", "smokegrenade" ]
-        ]
-    },
-    {
-        "name": "Defender Gadgets",
-        "page": "defenders",
-        "path": "assets/default_gadgets/",
-        "extension": ".png",
-        "assets": [
-            [ "Reinforcement" ],
-            [ "Barricade" ],
-            [ "Nitro Cell", "nitrocell" ],
-            [ "Deployable Shield", "deployableshield" ],
-            [ "Barbed Wire", "barbedwire" ],
-            [ "Impact Grenade", "impactgrenade" ],
-            [ "Bulletproof Camera", "bulletproofcamera" ],
-            [ "Proximity Alarm", "proximityalarm" ]
-        ]
-    },
+	{
+		"name": "Attacker Gadgets",
+		"page": "attackers",
+		"path": "assets/default_gadgets/",
+		"extension": ".png",
+		"assets": [
+			[ "Breach Charge", "breachcharge" ],
+			[ "Claymore" ],
+			[ "Stun Grenade", "stungrenade" ],
+			[ "Smoke Grenade", "smokegrenade" ]
+		]
+	},
+	{
+		"name": "Defender Gadgets",
+		"page": "defenders",
+		"path": "assets/default_gadgets/",
+		"extension": ".png",
+		"assets": [
+			[ "Reinforcement" ],
+			[ "Barricade" ],
+			[ "Nitro Cell", "nitrocell" ],
+			[ "Deployable Shield", "deployableshield" ],
+			[ "Barbed Wire", "barbedwire" ],
+			[ "Impact Grenade", "impactgrenade" ],
+			[ "Bulletproof Camera", "bulletproofcamera" ],
+			[ "Proximity Alarm", "proximityalarm" ]
+		]
+	},
 
 
-    {
-        "name": "Attacker Unique Gadgets",
-        "page": "attackers",
-        "path": "assets/special_gadgets/",
-        "extension": ".png",
-        "assets": [
-            [ "Exothermic Charge", "exothermiccharge" ],
-            [ "TACMK0" ],
-            [ "X-Kairos" ],
-            [ "Candela" ],
-            [ "Breaching Torch", "breachingtorch" ]
-        ]
-    },
-    {
-        "name": "Defender Unique Gadgets",
-        "page": "defenders",
-        "path": "assets/special_gadgets/",
-        "extension": ".png",
-        "assets": [
-            [ "Remote Gas Grenade", "remotegasgrenade" ],
-            [ "Signal Disruptor", "signaldisruptor" ],
-            [ "Armor Panel", "armorpanel" ],
-            [ "Active Defense System", "activedefensesystem" ],
-            [ "Shock Wire", "shockwire" ],
-            [ "Welcome Mat", "welcomemat" ],
-            [ "Black Eye", "blackeye" ],
-            [ "Yokai" ],
-            [ "Black Mirror", "blackmirror" ],
-            [ "Gu Mine", "gumine" ],
-            [ "Grzmot Mine", "grzmotmine" ],
-            [ "Prisma" ],
-            [ "Evil Eye", "evileye" ],
-            [ "Electroclaw" ],
-            [ "Pest" ],
-            [ "Vulcan Shield", "vulcanshield" ],
-            [ "Mag-NET" ],
-            [ "Dash" ],
-            [ "Banshee" ]
-        ]
-    },
-    {
-        "name": "Other",
-        "page": "defenders",
-        "path": "assets/other/",
-        "extension": ".png",
-        "assets": [
-            [ "Reinforcement" ],
-            [ "Rotation", null, { "outlineType": "tint" } ],
-            [ "Bird", null, { "outlineType": "image" } ],
-            [ "Head", null, { "outlineType": "image" } ],
-            [ "Feet", null, { "outlineType": "image" } ]
-        ]
-    }
+	{
+		"name": "Attacker Unique Gadgets",
+		"page": "attackers",
+		"path": "assets/special_gadgets/",
+		"extension": ".png",
+		"assets": [
+			[ "Exothermic Charge", "exothermiccharge" ],
+			[ "TACMK0" ],
+			[ "X-Kairos" ],
+			[ "Candela" ],
+			[ "Breaching Torch", "breachingtorch" ]
+		]
+	},
+	{
+		"name": "Defender Unique Gadgets",
+		"page": "defenders",
+		"path": "assets/special_gadgets/",
+		"extension": ".png",
+		"assets": [
+			[ "Remote Gas Grenade", "remotegasgrenade" ],
+			[ "Signal Disruptor", "signaldisruptor" ],
+			[ "Armor Panel", "armorpanel" ],
+			[ "Active Defense System", "activedefensesystem" ],
+			[ "Shock Wire", "shockwire" ],
+			[ "Welcome Mat", "welcomemat" ],
+			[ "Black Eye", "blackeye" ],
+			[ "Yokai" ],
+			[ "Black Mirror", "blackmirror" ],
+			[ "Gu Mine", "gumine" ],
+			[ "Grzmot Mine", "grzmotmine" ],
+			[ "Prisma" ],
+			[ "Evil Eye", "evileye" ],
+			[ "Electroclaw" ],
+			[ "Pest" ],
+			[ "Vulcan Shield", "vulcanshield" ],
+			[ "Mag-NET" ],
+			[ "Dash" ],
+			[ "Banshee" ]
+		]
+	},
+	{
+		"name": "Other",
+		"page": "defenders",
+		"path": "assets/other/",
+		"extension": ".png",
+		"assets": [
+			[ "Reinforcement" ],
+			[ "Rotation", null, { "outlineType": "tint" } ],
+			[ "Bird", null, { "outlineType": "image" } ],
+			[ "Head", null, { "outlineType": "image" } ],
+			[ "Feet", null, { "outlineType": "image" } ]
+		]
+	}
 ]

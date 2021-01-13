@@ -1,8 +1,8 @@
 {
-  "name": "webr6editor",
-  "version": "1.0.0",
-  "description": "Web version of R6Editor.",
-  "main": "server.js",
-  "author": "Joni Rapo",
-  "license": "ISC"
+	"name": "webr6editor",
+	"version": "1.0.0",
+	"description": "Web version of R6Editor.",
+	"main": "server.js",
+	"author": "Joni Rapo",
+	"license": "ISC"
 }

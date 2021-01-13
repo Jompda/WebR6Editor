@@ -1,10 +1,10 @@
 [
-    {
-        "title": "Attackers",
-        "group": "attackers"
-    },
-    {
-        "title": "Defenders",
-        "group": "defenders"
-    }
+	{
+		"title": "Attackers",
+		"group": "attackers"
+	},
+	{
+		"title": "Defenders",
+		"group": "defenders"
+	}
 ]

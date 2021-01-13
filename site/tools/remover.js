@@ -5,14 +5,14 @@ import Tool from './tool.js';
 
 class Remover extends Tool {
 
-    mouseReleased() {
-        const onObject = isOnObject();
-        if (!onObject || isDragged() || mouseButton !== LEFT) return;
-        let index = getObjects().indexOf(onObject);
-        getObjects().splice(index, 1);
-        setSelectedObject(undefined);
-        update();
-    }
+	mouseReleased() {
+		const onObject = isOnObject();
+		if (!onObject || isDragged() || mouseButton !== LEFT) return;
+		let index = getObjects().indexOf(onObject);
+		getObjects().splice(index, 1);
+		setSelectedObject(undefined);
+		update();
+	}
 
 }
 

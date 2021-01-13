@@ -12,29 +12,29 @@ var refresh;
  * @param {String} rootDirectory 
  */
 function mapDirectories(rootDirectory) {
-    const directories = [];
-    handleDirectory(rootDirectory);
-    directories.forEach((directory) => {
-        fs.watch(directory, (event, filename) => handleEvents(event, directory+'/'+filename));
-    });
+	const directories = [];
+	handleDirectory(rootDirectory);
+	directories.forEach((directory) => {
+		fs.watch(directory, (event, filename) => handleEvents(event, directory+'/'+filename));
+	});
 
-    function handleDirectory(path) {
-        directories.push(path);
-        fs.readdirSync(path).forEach((file) => {
-            const tempFilepath = path + '/' + file;
-            if (fs.statSync(tempFilepath).isDirectory()) handleDirectory(tempFilepath);
-        })
-    }
+	function handleDirectory(path) {
+		directories.push(path);
+		fs.readdirSync(path).forEach((file) => {
+			const tempFilepath = path + '/' + file;
+			if (fs.statSync(tempFilepath).isDirectory()) handleDirectory(tempFilepath);
+		})
+	}
 
-    function handleEvents(event, filepath) {
-        if (refresh) clearTimeout(refresh);
-        refresh = setTimeout(refreshClients, 100);
-        
-        function refreshClients() {
-            refresh = undefined;
-            clients.forEach((client) => client.write('data:refresh\n\n'));
-        }
-    }
+	function handleEvents(event, filepath) {
+		if (refresh) clearTimeout(refresh);
+		refresh = setTimeout(refreshClients, 100);
+		
+		function refreshClients() {
+			refresh = undefined;
+			clients.forEach((client) => client.write('data:refresh\n\n'));
+		}
+	}
 
 }
 
@@ -43,12 +43,12 @@ function mapDirectories(rootDirectory) {
  * @param {http.ServerResponse} response 
  */
 function handleSSE(request, response) {
-    response.writeHead(200, {'Content-Type': 'text/event-stream'});
-    clients.push(response);
-    response.on('close', () => {
-        response.end();
-        clients.splice(clients.indexOf(response), 1);
-    });
+	response.writeHead(200, {'Content-Type': 'text/event-stream'});
+	clients.push(response);
+	response.on('close', () => {
+		response.end();
+		clients.splice(clients.indexOf(response), 1);
+	});
 }
 
 /**
@@ -57,42 +57,42 @@ function handleSSE(request, response) {
  * @param {String} rootDirectory 
  */
 function injectHtml(request, response, rootDirectory) {
-    resolveFile(rootDirectory + '/', (resolvedFile) => {
-        if (resolvedFile === undefined) {
-            response.writeHead(404);
-            response.end();
-            logHttpRequest(request, response);
-            return;
-        }
+	resolveFile(rootDirectory + '/', (resolvedFile) => {
+		if (resolvedFile === undefined) {
+			response.writeHead(404);
+			response.end();
+			logHttpRequest(request, response);
+			return;
+		}
 
-        fs.readFile(resolvedFile, (err, data) => {
-            if (err) {
-                response.writeHead(404);
-                response.end();
-                return logHttpRequest(request, response);
-            }
+		fs.readFile(resolvedFile, (err, data) => {
+			if (err) {
+				response.writeHead(404);
+				response.end();
+				return logHttpRequest(request, response);
+			}
 
-            response.writeHead(200, {'Content-Type': getContentType(resolvedFile)});
+			response.writeHead(200, {'Content-Type': getContentType(resolvedFile)});
 
-            const content = data.toString();
-            const codeInjection =
-                `<!-- Code injected by the live server. -->\n` +
-                `<script>\nconst sseSrc = new EventSource('live-server-updates');\n` +
-                `sseSrc.onmessage = e => e.data == 'refresh' ? location.reload() : 0;\n</script>\n`;
+			const content = data.toString();
+			const codeInjection =
+				`<!-- Code injected by the live server. -->\n` +
+				`<script>\nconst sseSrc = new EventSource('live-server-updates');\n` +
+				`sseSrc.onmessage = e => e.data == 'refresh' ? location.reload() : 0;\n</script>\n`;
 
-            let pos = content.indexOf('</body>');
-            if (pos === -1) pos = content.length;
-            const result = content.slice(0, pos) + codeInjection + content.slice(pos);
+			let pos = content.indexOf('</body>');
+			if (pos === -1) pos = content.length;
+			const result = content.slice(0, pos) + codeInjection + content.slice(pos);
 
-            response.write(result);
-            response.end();
-            logHttpRequest(request, response, resolvedFile);
-        });
-    });
+			response.write(result);
+			response.end();
+			logHttpRequest(request, response, resolvedFile);
+		});
+	});
 }
 
 module.exports = {
-    mapDirectories,
-    handleSSE,
-    injectHtml
+	mapDirectories,
+	handleSSE,
+	injectHtml
 }

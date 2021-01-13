@@ -8,7 +8,7 @@ import ImagePlacer from './tools/imageplacer.js';
  * @type {Map<String, HTMLElement>}
  */
 const toolGroups = new Map([
-    [ 'basic', document.createElement('div') ]
+	[ 'basic', document.createElement('div') ]
 ]);
 
 /**@type {HTMLElement}*/ var subtools_container;
@@ -17,16 +17,16 @@ const setToolPageContainer = (element) => subtools_container = element;
 
 /**@param {String} group the group name in toolGroups*/
 function setToolPage(group) {
-    clearSelectedTool();
-    if (subtools_container.firstChild) subtools_container.removeChild(subtools_container.firstChild);
-    subtools_container.appendChild(toolGroups.get(group));
+	clearSelectedTool();
+	if (subtools_container.firstChild) subtools_container.removeChild(subtools_container.firstChild);
+	subtools_container.appendChild(toolGroups.get(group));
 }
 window.setToolPage = setToolPage;
 
 function clearSelectedTool() {
-    const elem = document.getElementsByName("tool");
-    for (let i=0;i<elem.length;i++)
-        elem[i].checked = false;
+	const elem = document.getElementsByName("tool");
+	for (let i=0;i<elem.length;i++)
+		elem[i].checked = false;
 }
 
 
@@ -41,10 +41,10 @@ const getTool = () => tool;
  * @returns {Tool|undefined}
  */
 function setTool(name, options) {
-    const ctool = tools.get(name);
-    if (!ctool) return;
-    if (options) ctool.options = JSON.parse(options);
-    return tool = ctool;
+	const ctool = tools.get(name);
+	if (!ctool) return;
+	if (options) ctool.options = JSON.parse(options);
+	return tool = ctool;
 }
 window.setTool = setTool;
 
@@ -62,15 +62,15 @@ window.setOutline = setOutline;
 
 
 {   // Temporary way of initializing the tools.
-    tools.set('notool', new Tool());
-    tools.set('remover', new Remover());
-    tools.set('imageplacer', new ImagePlacer());
+	tools.set('notool', new Tool());
+	tools.set('remover', new Remover());
+	tools.set('imageplacer', new ImagePlacer());
 }
 
 export {
-    setToolPageContainer,
-    toolGroups,
-    getTool, setTool,
-    getOutline, setOutline,
-    setToolPage
+	setToolPageContainer,
+	toolGroups,
+	getTool, setTool,
+	getOutline, setOutline,
+	setToolPage
 };

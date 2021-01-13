@@ -1,92 +1,92 @@
 [
-    {
-        "name": "Bank", "esl": false,
-        "floors": [
-            [ "Basement", "bank-1" ],
-            [ "1st", "bank0" ],
-            [ "2nd", "bank1" ],
-            [ "Roof", "bank2" ]
-        ]
-    },
-    {
-        "name": "Border", "esl": false,
-        "floors": [
-            [ "1st", "border0" ],
-            [ "2nd", "border1" ],
-            [ "Roof", "border2" ]
-        ]
-    },
-    {
-        "name": "Chalet", "esl": false,
-        "floors": [
-            [ "Basement", "chalet-1" ],
-            [ "1st", "chalet0" ],
-            [ "2nd", "chalet1" ],
-            [ "Roof", "chalet2" ]
-        ]
-    },
-    {
-        "name": "Clubhouse", "esl": true,
-        "floors": [
-            [ "Basement", "basement" ],
-            [ "Ground Floor", "groundfloor" ],
-            [ "Top Floor", "topfloor" ]
-        ]
-    },
-    {
-        "name": "Coastline", "esl": true,
-        "floors": [
-            [ "Ground Floor", "groundfloor" ],
-            [ "Top Floor", "topfloor" ]
-        ]
-    },
-    {
-        "name": "Consulate", "esl": true,
-        "floors": [
-            [ "Basement", "basement" ],
-            [ "Ground Floor", "groundfloor" ],
-            [ "Top Floor", "topfloor" ]
-        ]
-    },
-    {
-        "name": "Kafe", "esl": true,
-        "floors": [
-            [ "Ground Floor", "groundfloor" ],
-            [ "Middle Floor", "middlefloor" ],
-            [ "Top Floor", "topfloor" ]
-        ]
-    },
-    {
-        "name": "Oregon", "esl": true,
-        "floors": [
-            [ "Basement", "basement" ],
-            [ "Ground Floor", "groundfloor" ],
-            [ "Top Floor", "topfloor" ],
-            [ "Tower Floor", "towerfloor" ]
-        ]
-    },
-    {
-        "name": "Themepark", "esl": true,
-        "floors": [
-            [ "Ground Floor", "groundfloor" ],
-            [ "Top Floor", "topfloor" ]
-        ]
-    },
-    {
-        "name": "Villa", "esl": true,
-        "floors": [
-            [ "Basement", "basement" ],
-            [ "Ground Floor", "groundfloor" ],
-            [ "Top Floor", "topfloor" ]
-        ]
-    },
-    {
-        "name": "Skyscraper", "esl": false,
-        "floors": [
-            [ "1st", "sky0" ],
-            [ "2nd", "sky1" ],
-            [ "3rd", "sky2" ],
-            [ "Roof", "sky3" ]
-        ]
-    }
+	{
+		"name": "Bank", "esl": false,
+		"floors": [
+			[ "Basement", "bank-1" ],
+			[ "1st", "bank0" ],
+			[ "2nd", "bank1" ],
+			[ "Roof", "bank2" ]
+		]
+	},
+	{
+		"name": "Border", "esl": false,
+		"floors": [
+			[ "1st", "border0" ],
+			[ "2nd", "border1" ],
+			[ "Roof", "border2" ]
+		]
+	},
+	{
+		"name": "Chalet", "esl": false,
+		"floors": [
+			[ "Basement", "chalet-1" ],
+			[ "1st", "chalet0" ],
+			[ "2nd", "chalet1" ],
+			[ "Roof", "chalet2" ]
+		]
+	},
+	{
+		"name": "Clubhouse", "esl": true,
+		"floors": [
+			[ "Basement", "basement" ],
+			[ "Ground Floor", "groundfloor" ],
+			[ "Top Floor", "topfloor" ]
+		]
+	},
+	{
+		"name": "Coastline", "esl": true,
+		"floors": [
+			[ "Ground Floor", "groundfloor" ],
+			[ "Top Floor", "topfloor" ]
+		]
+	},
+	{
+		"name": "Consulate", "esl": true,
+		"floors": [
+			[ "Basement", "basement" ],
+			[ "Ground Floor", "groundfloor" ],
+			[ "Top Floor", "topfloor" ]
+		]
+	},
+	{
+		"name": "Kafe", "esl": true,
+		"floors": [
+			[ "Ground Floor", "groundfloor" ],
+			[ "Middle Floor", "middlefloor" ],
+			[ "Top Floor", "topfloor" ]
+		]
+	},
+	{
+		"name": "Oregon", "esl": true,
+		"floors": [
+			[ "Basement", "basement" ],
+			[ "Ground Floor", "groundfloor" ],
+			[ "Top Floor", "topfloor" ],
+			[ "Tower Floor", "towerfloor" ]
+		]
+	},
+	{
+		"name": "Themepark", "esl": true,
+		"floors": [
+			[ "Ground Floor", "groundfloor" ],
+			[ "Top Floor", "topfloor" ]
+		]
+	},
+	{
+		"name": "Villa", "esl": true,
+		"floors": [
+			[ "Basement", "basement" ],
+			[ "Ground Floor", "groundfloor" ],
+			[ "Top Floor", "topfloor" ]
+		]
+	},
+	{
+		"name": "Skyscraper", "esl": false,
+		"floors": [
+			[ "1st", "sky0" ],
+			[ "2nd", "sky1" ],
+			[ "3rd", "sky2" ],
+			[ "Roof", "sky3" ]
+		]
+	}
 ]
