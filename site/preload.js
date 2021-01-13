@@ -122,20 +122,20 @@ function createImagePlacerGroup(target, group) {
         let filename = tempAsset[1];
         if (!filename) filename = tempAsset[0].toLowerCase();
 
+        // Prepare the asset.
+        const asset = {
+            filename: filename,
+            path: group.path,
+            extension: group.extension
+        };
         // Additional options
-        let options = tempAsset[2], asset = {};
-        if (options) asset = Object.assign(asset, options);
-        else options = {};
-
-        asset.filename = filename,
-        asset.path = group.path,
-        asset.extension = group.extension
+        if (tempAsset[2]) asset.options = tempAsset[2];
         assets.set(filename, asset);
 
-        options.assetId = asset.filename;
+        const toolOptions = { assetId: asset.filename };
 
         const imageTool = createImageToolButton(tempAsset[0], resourceURL + group.path + filename + group.extension,
-            `setTool('imageplacer', '${JSON.stringify(options)}')`);
+            `setTool('imageplacer', '${JSON.stringify(toolOptions)}')`);
         table.appendChild(imageTool);
     }
     target.appendChild(table);

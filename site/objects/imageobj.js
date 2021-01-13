@@ -23,7 +23,8 @@ class ImageObj extends RectangleObj {
         this.assetId = asset.filename;
 
         // figure out the draw function.
-        switch (asset.outlineType) {
+        const outlineType = asset.options?asset.options.outlineType:undefined;
+        switch (outlineType) {
             case 'tint':
                 this.actualDraw = this.drawTintableOutline;
                 break;
