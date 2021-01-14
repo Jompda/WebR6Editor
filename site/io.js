@@ -36,7 +36,7 @@ function saveScene() {
 		timestamp: new Date(),
 		backgroundImageUrl: getBackgroundImageUrl(),
 		objects: objs
-	}, replacer, '\t');
+	}, replacer, /*Just for debugging purposes*/'\t');
 	//console.log(saveData);
 
 	const sceneName = document.getElementById('scene-name').value;

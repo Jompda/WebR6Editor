@@ -9,15 +9,15 @@ module.exports = {
 const { port, rootDirectory, mimeTypes, autoComplete } = require('./settings.json');
 const liveSSE = require('./live-sse.js');
 
-const http = require('http'), url = require('url'), fs = require('fs');
+const http = require('http'), url = require('url'), path = require('path'), fs = require('fs');
 
 const server = http.createServer(function (request, response) {
-	const pathname = url.parse(request.url).pathname;
+	const parsedUrl = url.parse(request.url);
 	
 	switch (request.method) {
-		case 'GET': get(pathname, request, response, true); break;
-		case 'HEAD': get(pathname, request, response, false); break;
-		case 'POST': post(pathname, request, response); break;
+		case 'GET': get(parsedUrl, request, response, true); break;
+		case 'HEAD': get(parsedUrl, request, response, false); break;
+		case 'POST': post(parsedUrl, request, response); break;
 		default:
 			response.writeHead(501);
 			response.end();
@@ -31,23 +31,23 @@ server.listen(port, '0.0.0.0', () => {
 	const serverAddress = server.address();
 	let address = serverAddress.address;
 	if (serverAddress.family === 'IPv6') address = '['+address+']';
-	console.log(`Serving http on ${address}:${serverAddress.port} ..`);
+	console.log(`Serving http on ${address}:${serverAddress.port} from '${path.resolve(rootDirectory)}' ..`);
 });
 
 
 
 /**
- * @param {String} pathname 
+ * @param {url.UrlWithStringQuery} url 
  * @param {http.IncomingMessage} request 
  * @param {http.ServerResponse} response 
  * @param {Boolean} sendBody 
  */
-function get(pathname, request, response, sendBody) {
+function get(url, request, response, sendBody) {
 	// Awful hardcoding.
-	if (pathname === '/live-server-updates') return liveSSE.handleSSE(request, response);
-	if (pathname === '/live-page') return liveSSE.injectHtml(request, response, rootDirectory);
+	if (url.pathname === '/live-server-updates') return liveSSE.handleSSE(request, response);
+	if (url.pathname === '/live-page') return liveSSE.injectHtml(request, response, rootDirectory);
 
-	resolveFile(rootDirectory + pathname, (resolvedFile, stat) => {
+	resolveFile(rootDirectory + url.pathname, (resolvedFile, stat) => {
 		if (resolvedFile === undefined) {
 			response.writeHead(404);
 			response.end();
@@ -84,13 +84,12 @@ function get(pathname, request, response, sendBody) {
 
 /**
  * Used to handle scene saves.
- * @param {String} pathname 
+ * @param {url.UrlWithStringQuery} url 
  * @param {http.IncomingMessage} request 
  * @param {http.ServerResponse} response 
  */
-function post(pathname, request, response) {
-	console.log(pathname);
-	if (!pathname.startsWith('/saved/')) {
+function post(url, request, response) {
+	if (!url.pathname.startsWith('/saved/')) {
 		response.writeHead(404);
 		response.end();
 		logHttpRequest(request, response);
@@ -101,10 +100,10 @@ function post(pathname, request, response) {
 		body += data;
 	});
 	request.on('end', () => {
-		fs.writeFile(rootDirectory + pathname, body, () => {
+		fs.writeFile(rootDirectory + url.pathname, body, () => {
 			response.writeHead(200);
 			response.end();
-			console.log(body);
+			logHttpRequest(request, response, 'overwritten');
 		});
 	});
 }
