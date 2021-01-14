@@ -13,6 +13,7 @@ const resourceURL = 'https://raw.githubusercontent.com/Jompda/Jompda.github.io/m
 
 /**@type {Map<String,Object>} */
 const assets = new Map();
+const getAssets = () => assets;
 
 const sidebar_left = document.getElementById('sidebar-left');
 const sidebar_right = document.getElementById('sidebar-right');
@@ -139,7 +140,7 @@ function createImagePlacerGroup(target, group) {
 
 export {
 	resourceURL,
-	assets,
+	getAssets,
 	getHttpResource,
 	sidebar_left, sidebar_right
 };

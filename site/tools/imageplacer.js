@@ -4,7 +4,7 @@ import ImageObj from '../objects/imageobj.js';
 import { imageobj_size, getObjects, update } from '../main.js';
 import { getOutline } from '../toolhandler.js';
 import Tool from './tool.js';
-import { assets, resourceURL } from '../preload.js';
+import { getAssets, resourceURL } from '../preload.js';
 
 class ImagePlacer extends Tool {
 
@@ -12,7 +12,7 @@ class ImagePlacer extends Tool {
 		if (isOnObject() || isDragged() || mouseButton !== LEFT) return;
 		// Save the target location until the image is loaded.
 		const posX = mouseX, posY = mouseY;
-		const asset = assets.get(this.options.assetId);
+		const asset = getAssets().get(this.options.assetId);
 		loadImage(resourceURL + asset.path + asset.filename + asset.extension,
 			(img) => ImagePlacer.placeImage(img, posX, posY, asset));
 	}

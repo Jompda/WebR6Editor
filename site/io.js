@@ -71,7 +71,7 @@ function saveScene() {
 }
 window.saveScene = saveScene;
 
-export {
+export default {
 	loadScene,
 	saveScene
 }

@@ -1,4 +1,4 @@
-import { formElement, getSelectedObject, showObjectProperties } from '../gui.js';
+import { formElement } from '../gui.js';
 import Obj, { ControlPoint } from './obj.js';
 import { update } from '../main.js';
 
