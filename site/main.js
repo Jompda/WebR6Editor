@@ -1,4 +1,4 @@
-import { loadScene, saveScene } from './io.js';
+import io from './io.js';
 import { getTool, setTool } from './toolhandler.js';
 import {
 	getTranslateX, setTranslateX,
@@ -20,6 +20,7 @@ var backgroundImage;
 var canvas;
 /**@type {Obj[]}*/
 const objects = [];
+const getObjects = () => objects;
 
 window.windowResized = () =>
 	update(resizeCanvas(viewport.offsetWidth, viewport.offsetHeight));
@@ -42,6 +43,10 @@ var scheduledUpdate = false;
 const update = () => scheduledUpdate = true;
 window.update = update;
 
+/**
+ * Function draw called by the p5js library in a loop.
+ * Is in charge of updating the canvas.
+ */
 window.draw = function draw() {
 	if (!scheduledUpdate) return;
 	scheduledUpdate = false;
@@ -133,6 +138,9 @@ window.dropHandler = function dropHandler(event) {
 	function handleFile(file) {
 		console.log(`Processing file '${file.name}'.`);
 
+		if (!file.name.endsWith('.png') && !file.name.endsWith('.jpg'))
+			return console.log('Currently the only supported file types are png and jpg.');
+
 		const reader = new FileReader();
 		reader.onload = (file) => {
 			// Save the target location until the image is loaded.
@@ -142,8 +150,6 @@ window.dropHandler = function dropHandler(event) {
 		reader.readAsDataURL(file);
 	}
 }
-
-const getObjects = () => objects;
 
 export {
 	imageobj_size,

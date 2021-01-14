@@ -3,6 +3,7 @@ The simple but useful web-based Rainbow Six: Siege strategy editor.
 ~Developed by: Joni Rapo
 
 ## TODO:
+- Begin using JQuery.
 - Add comments and overall documentation to the code.
 - Create images for the basic tools.
 - My "OCD" wants the icons' sizes to be powers of two.
@@ -16,3 +17,4 @@ The simple but useful web-based Rainbow Six: Siege strategy editor.
 - Ability to hide and show objects based on their group or some kind of filtering.
 - History for undo/redo.
 - Portability to other games.
+- Support for https protocol.
