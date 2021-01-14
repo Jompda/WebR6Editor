@@ -3,7 +3,6 @@
 		"name": "Attackers",
 		"page": "attackers",
 		"path": "assets/operators/",
-		"extension": ".png",
 		"assets": [
 			[ "Sledge" ],
 			[ "Thatcher" ],
@@ -40,7 +39,6 @@
 		"name": "Defenders",
 		"page": "defenders",
 		"path": "assets/operators/",
-		"extension": ".png",
 		"assets": [
 			[ "Smoke" ],
 			[ "Mute" ],
@@ -79,7 +77,6 @@
 		"name": "Attacker Gadgets",
 		"page": "attackers",
 		"path": "assets/default_gadgets/",
-		"extension": ".png",
 		"assets": [
 			[ "Breach Charge", "breachcharge" ],
 			[ "Claymore" ],
@@ -91,7 +88,6 @@
 		"name": "Defender Gadgets",
 		"page": "defenders",
 		"path": "assets/default_gadgets/",
-		"extension": ".png",
 		"assets": [
 			[ "Reinforcement" ],
 			[ "Barricade" ],
@@ -109,7 +105,6 @@
 		"name": "Attacker Unique Gadgets",
 		"page": "attackers",
 		"path": "assets/special_gadgets/",
-		"extension": ".png",
 		"assets": [
 			[ "Exothermic Charge", "exothermiccharge" ],
 			[ "TACMK0" ],
@@ -122,7 +117,6 @@
 		"name": "Defender Unique Gadgets",
 		"page": "defenders",
 		"path": "assets/special_gadgets/",
-		"extension": ".png",
 		"assets": [
 			[ "Remote Gas Grenade", "remotegasgrenade" ],
 			[ "Signal Disruptor", "signaldisruptor" ],
@@ -149,7 +143,6 @@
 		"name": "Other",
 		"page": "defenders",
 		"path": "assets/other/",
-		"extension": ".png",
 		"assets": [
 			[ "Reinforcement" ],
 			[ "Rotation", null, { "outlineType": "tint" } ],

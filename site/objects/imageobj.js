@@ -29,7 +29,7 @@ class ImageObj extends RectangleObj {
 				this.actualDraw = this.drawTintableOutline;
 				break;
 			case 'image':
-				this.outlineImage = loadImage(resourceURL + asset.path + asset.filename + '_outline' + asset.extension, update);
+				this.outlineImage = loadImage(resourceURL + asset.path + asset.filename + '_outline.png', update);
 				this.actualDraw = this.drawOutlineImage;
 				break;
 			default:
@@ -50,7 +50,7 @@ class ImageObj extends RectangleObj {
 
 		const newObj = new ImageObj(
 			obj.x, obj.y, obj.w, obj.h,
-			loadImage(resourceURL + asset.path + asset.filename + asset.extension, update),
+			loadImage(resourceURL + asset.path + asset.filename + '.png', update),
 			outline,
 			asset
 		);

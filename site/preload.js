@@ -26,8 +26,8 @@ const sidebar_right = document.getElementById('sidebar-right');
 function requestHttpResource({ method = 'GET', url, body }, callback, onerror) {
 	const xhr = new XMLHttpRequest();
 	xhr.open(method, url); xhr.send(body);
-	if (onerror) xhr.onerror = () => onerror(xhr);
-	else xhr.onerror = () => console.log(`Error ${url} => ${xhr.status}: ${xhr.statusText}`);
+	onerror ? xhr.onerror = () => onerror(xhr) :
+		xhr.onerror = () => console.log(`Error on request: ${method} ${url} => ${xhr.status}: ${xhr.statusText}`);
 	xhr.onload = () => {
 		if (xhr.status != 200) return xhr.onerror();
 		callback(xhr);
@@ -79,19 +79,19 @@ window.preload = function preload() {
 /**@param {XMLHttpRequest} xhr*/
 function loadMapList(xhr) {
 	const mapConfig = JSON.parse(xhr.responseText);
-	const mapchooserElem = document.getElementById('mapchooser');
+	const mapChooser = document.getElementById('mapchooser');
 	mapConfig.forEach((map, i) => {
 		if (i > 0) {
 			const line = document.createElement('option');
 			line.innerHTML = '-----';
-			mapchooserElem.appendChild(line);
+			mapChooser.appendChild(line);
 		}
 		map.floors.forEach((floor) => {
 			const option = document.createElement('option');
 			option.setAttribute('value', `${map.name.toLowerCase()}/${floor[1]}`);
 			if (map.esl) option.setAttribute('class', 'map-pool-esl');
 			option.innerHTML = `${map.name} ${floor[0]}`;
-			mapchooserElem.appendChild(option);
+			mapChooser.appendChild(option);
 		});
 	});
 	changeMap(`assets/maps/${mapConfig[0].name.toLowerCase()}/${mapConfig[0].floors[0][1]}.jpg`);
@@ -119,18 +119,14 @@ function createImagePlacerGroup(target, group) {
 			rawAsset[1] : rawAsset[0].toLowerCase();
 
 		// Prepare the asset.
-		const asset = {
-			filename,
-			path: group.path,
-			extension: group.extension
-		};
+		const asset = { path: group.path, filename };
 		// Additional options
 		if (rawAsset[2]) asset.options = rawAsset[2];
 		assets.set(filename, asset);
 
 		const toolOptions = { assetId: filename };
 
-		const imageTool = createImageToolButton(rawAsset[0], resourceURL + group.path + filename + group.extension,
+		const imageTool = createImageToolButton(rawAsset[0], resourceURL + group.path + filename + '.png',
 			`setTool('imageplacer', '${JSON.stringify(toolOptions)}')`);
 		table.appendChild(imageTool);
 	});

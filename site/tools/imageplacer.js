@@ -13,7 +13,7 @@ class ImagePlacer extends Tool {
 		// Save the target location until the image is loaded.
 		const posX = mouseX, posY = mouseY;
 		const asset = getAssets().get(this.options.assetId);
-		loadImage(resourceURL + asset.path + asset.filename + asset.extension,
+		loadImage(resourceURL + asset.path + asset.filename + '.png',
 			(img) => ImagePlacer.placeImage(img, posX, posY, asset));
 	}
 
