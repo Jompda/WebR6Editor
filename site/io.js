@@ -2,7 +2,7 @@ import { setSelectedObject, showObjectProperties } from "./gui.js";
 import { changeMap, getBackgroundImageUrl, getObjects, update } from "./main.js";
 import ImageObj from "./objects/imageobj.js";
 import Obj from "./objects/obj.js";
-import { getHttpResource } from "./preload.js";
+import { requestHttpResource } from "./preload.js";
 
 function loadScene() {
 	showObjectProperties(setSelectedObject());
@@ -10,7 +10,7 @@ function loadScene() {
 	objects.splice(0, objects.length);
 	
 	const sceneName = document.getElementById('scene-name').value;
-	getHttpResource(`saved/${sceneName}.json`, (xhr) => {
+	requestHttpResource({url:`saved/${sceneName}.json`}, (xhr) => {
 		const saveData = JSON.parse(xhr.responseText);
 		console.log(saveData);
 
@@ -24,7 +24,7 @@ function loadScene() {
 		});
 	
 		update();
-	}, (xhr) => alert(`Scene doesn't exist!`));
+	}, () => alert(`Scene doesn't exist!`));
 }
 window.loadScene = loadScene;
 
@@ -42,13 +42,10 @@ function saveScene() {
 	const sceneName = document.getElementById('scene-name').value;
 
 	// Save the strat
-	let xhr = new XMLHttpRequest();
-	xhr.open('POST', `saved/${sceneName}.json`); xhr.send(saveData);
-	xhr.onerror = () => alertXhrError(xhr);
-	xhr.onload = () => {
+	requestHttpResource({method: 'POST', url: `saved/${sceneName}.json`, body: saveData}, (xhr) => {
 		if (xhr.status != 200) return alertXhrError(xhr);
 		alert('The scene has been succesfully saved!');
-	}
+	}, (xhr) => alertXhrError(xhr));
 
 	function alertXhrError(xhr) {
 		console.log('ERROR:', xhr.status, xhr.statusText);

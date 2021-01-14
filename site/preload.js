@@ -19,13 +19,13 @@ const sidebar_left = document.getElementById('sidebar-left');
 const sidebar_right = document.getElementById('sidebar-right');
 
 /**
- * @param {String} url 
+ * @param {Obj} options 
  * @param {handleXMLHttpRequestResource} callback 
  * @param {Function} onerror 
  */
-function getHttpResource(url, callback, onerror) {
+function requestHttpResource({ method = 'GET', url, body }, callback, onerror) {
 	const xhr = new XMLHttpRequest();
-	xhr.open('GET', url); xhr.send();
+	xhr.open(method, url); xhr.send(body);
 	if (onerror) xhr.onerror = () => onerror(xhr);
 	else xhr.onerror = () => console.log(`Error ${url} => ${xhr.status}: ${xhr.statusText}`);
 	xhr.onload = () => {
@@ -42,11 +42,11 @@ function handleXMLHttpRequestResource(xhr) {}
  * and preloading the assets.
  */
 window.preload = function preload() {
-	getHttpResource('/UI/sidebar-left.html', (sbleftxhr) => {
+	requestHttpResource({url:'/UI/sidebar-left.html'}, (sbleftxhr) => {
 		sidebar_left.innerHTML = sbleftxhr.responseText;
-		getHttpResource('/maps.json', loadMapList);
+		requestHttpResource({url:'/maps.json'}, loadMapList);
 	});
-	getHttpResource('/UI/sidebar-right.html', (sbrightxhr) => {
+	requestHttpResource({url:'/UI/sidebar-right.html'}, (sbrightxhr) => {
 		sidebar_right.innerHTML = sbrightxhr.responseText;
 		setToolPageContainer(document.getElementById('subtools-container'));
 		const tool_page_buttons = document.getElementById('tool-page-buttons');
@@ -62,7 +62,7 @@ window.preload = function preload() {
 		}
 
 		// Init the toolpage.
-		getHttpResource('/toolpages.json', (toolpagesxhr) => {
+		requestHttpResource({url:'/toolpages.json'}, (toolpagesxhr) => {
 			const toolpagesConfig = JSON.parse(toolpagesxhr.responseText);
 			toolpagesConfig.forEach((page) => {
 				toolGroups.set(page.group, document.createElement('div'));
@@ -71,7 +71,7 @@ window.preload = function preload() {
 			
 			// Load the tools
 			setToolPage('basic');
-			getHttpResource('/assets.json', loadAssetList);
+			requestHttpResource({url:'/assets.json'}, loadAssetList);
 		});
 	});
 }
@@ -141,6 +141,6 @@ function createImagePlacerGroup(target, group) {
 export {
 	resourceURL,
 	getAssets,
-	getHttpResource,
+	requestHttpResource,
 	sidebar_left, sidebar_right
 };
