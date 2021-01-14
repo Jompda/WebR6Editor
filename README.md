@@ -11,7 +11,6 @@ The simple but useful web-based Rainbow Six: Siege strategy editor.
 
 ## Features to implement:
 - A permission based room system. Each room has their own list of slides.
-
 - More tools: line, path, rectangle, circle.
 - A "Performance Mode" option for epic gaming sessions which stops the p5js loop and uses as little resources as possible.
 - Ability to hide and show objects based on their group or some kind of filtering.

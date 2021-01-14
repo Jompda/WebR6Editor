@@ -116,28 +116,26 @@ function loadAssetList(xhr) {
 function createImagePlacerGroup(target, group) {
 	target.appendChild(createHeader(group.name));
 	const table = createFlexTable();
-	for (let i = 0; i < group.assets.length; i++) {
-		const tempAsset = group.assets[i];
-
-		let filename = tempAsset[1];
-		if (!filename) filename = tempAsset[0].toLowerCase();
+	group.assets.forEach((rawAsset) => {
+		const filename = rawAsset[1] ?
+			rawAsset[1] : rawAsset[0].toLowerCase();
 
 		// Prepare the asset.
 		const asset = {
-			filename: filename,
+			filename,
 			path: group.path,
 			extension: group.extension
 		};
 		// Additional options
-		if (tempAsset[2]) asset.options = tempAsset[2];
+		if (rawAsset[2]) asset.options = rawAsset[2];
 		assets.set(filename, asset);
 
-		const toolOptions = { assetId: asset.filename };
+		const toolOptions = { assetId: filename };
 
-		const imageTool = createImageToolButton(tempAsset[0], resourceURL + group.path + filename + group.extension,
+		const imageTool = createImageToolButton(rawAsset[0], resourceURL + group.path + filename + group.extension,
 			`setTool('imageplacer', '${JSON.stringify(toolOptions)}')`);
 		table.appendChild(imageTool);
-	}
+	});
 	target.appendChild(table);
 	target.appendChild(createHR());
 }
