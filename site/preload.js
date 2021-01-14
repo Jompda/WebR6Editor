@@ -8,15 +8,14 @@ import {
 	createHR
 } from './gui.js';
 
-const resourceURL = 'https://raw.githubusercontent.com/Jompda/Jompda.github.io/main/WebR6Editor/'//'https://jompda.github.io/WebR6Editor/';
+//'https://jompda.github.io/WebR6Editor/'
+const resourceURL = 'https://raw.githubusercontent.com/Jompda/Jompda.github.io/main/WebR6Editor/';
 
 /**@type {Map<String,Object>} */
 const assets = new Map();
 
 const sidebar_left = document.getElementById('sidebar-left');
 const sidebar_right = document.getElementById('sidebar-right');
-/**@type {HTMLElement}*/ var sidebar_left_toggle;
-/**@type {HTMLElement}*/ var sidebar_right_toggle;
 
 /**
  * @param {String} url 
@@ -39,17 +38,15 @@ function handleXMLHttpRequestResource(xhr) {}
 /**
  * Preload function called by the p5js library before setup.
  * Is in charge of building the GUI (sidebars), setting up the tools,
- * and preloading the resources such as the images.
+ * and preloading the assets.
  */
 window.preload = function preload() {
 	getHttpResource('/UI/sidebar-left.html', (sbleftxhr) => {
 		sidebar_left.innerHTML = sbleftxhr.responseText;
-		sidebar_left_toggle = document.getElementById('sidebar-left-toggle');
 		getHttpResource('/maps.json', loadMapList);
 	});
 	getHttpResource('/UI/sidebar-right.html', (sbrightxhr) => {
 		sidebar_right.innerHTML = sbrightxhr.responseText;
-		sidebar_right_toggle = document.getElementById('sidebar-right-toggle');
 		setToolPageContainer(document.getElementById('subtools-container'));
 		const tool_page_buttons = document.getElementById('tool-page-buttons');
 
@@ -144,6 +141,5 @@ export {
 	resourceURL,
 	assets,
 	getHttpResource,
-	sidebar_left, sidebar_right,
-	sidebar_left_toggle, sidebar_right_toggle
+	sidebar_left, sidebar_right
 };

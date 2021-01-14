@@ -23,16 +23,13 @@ function setToolPage(group) {
 }
 window.setToolPage = setToolPage;
 
-function clearSelectedTool() {
-	const elem = document.getElementsByName("tool");
-	for (let i=0;i<elem.length;i++)
-		elem[i].checked = false;
-}
+const clearSelectedTool = () =>
+	document.getElementsByName('tool').forEach((elem) => elem.checked = false);
 
 
 // Tool functionality.
 /**@type {Map<String, Tool>}*/ const tools = new Map();
-/**@type {Tool}*/ var tool = undefined;
+/**@type {Tool}*/ var tool;
 /**@returns {Tool}*/
 const getTool = () => tool;
 /**
@@ -61,11 +58,10 @@ const setOutline = (newOutline) => outline = newOutline;
 window.setOutline = setOutline;
 
 
-{   // Temporary way of initializing the tools.
-	tools.set('notool', new Tool());
-	tools.set('remover', new Remover());
-	tools.set('imageplacer', new ImagePlacer());
-}
+// Temporary way of initializing the tools.
+tools.set('notool', new Tool());
+tools.set('remover', new Remover());
+tools.set('imageplacer', new ImagePlacer());
 
 export {
 	setToolPageContainer,

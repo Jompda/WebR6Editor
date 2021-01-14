@@ -24,6 +24,10 @@ const objects = [];
 window.windowResized = () =>
 	update(resizeCanvas(viewport.offsetWidth, viewport.offsetHeight));
 
+/**
+ * Function setup is called the by p5js library right before the draw-loop begins.
+ * It is in charge of creating the canvas and making the software ready for use.
+ */
 window.setup = function setup() {
 	backgroundImage = createImage(1,1); // Just to avoid background-image drawing errors.
 	setTool('notool');
