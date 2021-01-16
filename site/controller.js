@@ -37,6 +37,31 @@ const isDragOriginatedFromViewport = () => dragOriginatedFromViewport;
 	}
 }
 
+// Placeholder for media key support with the room system.
+window.enableMediaKeys = function () {
+	document.getElementById('mkEnabler').remove();
+	if (!('mediaSession' in navigator)) return alert(`The current browser doesn't support mediakeys. ` + navigator.appVersion);
+	document.getElementById('mk').play();
+	navigator.mediaSession.metadata = new MediaMetadata({
+		artist: 'Jompda',
+		artwork: [
+			{
+				src: 'https://Jompda.github.io/WebR6Editor/assets/operators/ash.png', sizes: '100x100'
+			}
+		]
+	});
+	[
+		[ 'play', () => console.log('play') ],
+		[ 'pause', () => console.log('pause') ],
+		[ 'stop', () => console.log('stop') ],
+		[ 'seekbackward', () => console.log('previous') ],
+		[ 'seekforward', () => console.log('next') ],
+		[ 'seekto', () => console.log('idk what') ],
+		[ 'previoustrack', () => console.log('previous') ],
+		[ 'nexttrack', () => console.log('next') ]
+	].forEach((handler) => navigator.mediaSession.setActionHandler(handler[0], handler[1]));
+}
+
 
 // Viewport controls
 
