@@ -5,17 +5,18 @@ import Obj from "./objects/obj.js";
 import { requestHttpResource } from "./preload.js";
 
 function loadScene() {
-	showObjectProperties(setSelectedObject());
-	const objects = getObjects();
-	objects.splice(0, objects.length);
-	
 	const sceneName = document.getElementById('scene-name').value;
 	requestHttpResource({url:`saved/${sceneName}.json`}, (xhr) => {
 		const saveData = JSON.parse(xhr.responseText);
 		console.log(saveData);
 
+		// Clear the old scene.
+		showObjectProperties(setSelectedObject());
+		const objects = getObjects();
+		objects.splice(0, objects.length);
+
+		// Apply the new scene from save data.
 		changeMap(saveData.backgroundImageUrl);
-		
 		saveData.objects.forEach(obj => {
 			switch (obj.class) {
 				case 'ImageObj': objects.push(ImageObj.fromObject(obj.instance)); break;
@@ -24,7 +25,7 @@ function loadScene() {
 		});
 	
 		update();
-	}, () => alert(`Scene doesn't exist!`));
+	}, () => alert(`Scene '${sceneName}' doesn't exist!`));
 }
 window.loadScene = loadScene;
 
@@ -32,8 +33,6 @@ function saveScene() {
 	const objs = getObjects();
 	const cache = []; // Used to avoid circular structures in the JSON.
 	const saveData = JSON.stringify({
-		creator: 'Jompda', // Placeholder for a user system.
-		timestamp: new Date(),
 		backgroundImageUrl: getBackgroundImageUrl(),
 		objects: objs
 	}, replacer, /*Just for debugging purposes*/'\t');

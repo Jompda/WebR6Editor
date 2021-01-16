@@ -54,11 +54,11 @@ function get(url, request, response, sendBody) {
 			return logHttpRequest(request, response);
 		}
 
+		response.writeHead(200, {
+			'Content-Type': getContentType(resolvedFile),
+			'Content-Length': stat.size
+		});
 		if (!sendBody) { // HEAD Method
-			response.writeHead(200, {
-				'Content-Type': getContentType(resolvedFile),
-				'Content-Length': stat.size
-			});
 			response.end();
 			return logHttpRequest(request, response, resolvedFile);
 		}
@@ -66,10 +66,6 @@ function get(url, request, response, sendBody) {
 		// Send the body.
 		const stream = fs.createReadStream(resolvedFile);
 		stream.on('open', () => {
-			response.writeHead(200, {
-				'Content-Type': getContentType(resolvedFile),
-				'Content-Length': stat.size
-			});
 			stream.pipe(response);
 		});
 		stream.on('end', () => {
