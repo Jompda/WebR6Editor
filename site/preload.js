@@ -19,13 +19,16 @@ const sidebar_left = document.getElementById('sidebar-left');
 const sidebar_right = document.getElementById('sidebar-right');
 
 /**
- * @param {Obj} options 
  * @param {handleXMLHttpRequestResource} callback 
  * @param {Function} onerror 
  */
-function requestHttpResource({ method = 'GET', url, body }, callback, onerror) {
+function requestHttpResource({ method = 'GET', url, body, headers }, callback, onerror) {
 	const xhr = new XMLHttpRequest();
-	xhr.open(method, url); xhr.send(body);
+	xhr.open(method, url);
+	if (headers) Object.getOwnPropertyNames(headers).forEach((headerName) =>
+		xhr.setRequestHeader(headerName, headers[headerName])
+	);
+	xhr.send(body);
 	onerror ? xhr.onerror = () => onerror(xhr) :
 		xhr.onerror = () => console.log(`Error on request: ${method} ${url} => ${xhr.status}: ${xhr.statusText}`);
 	xhr.onload = () => {
