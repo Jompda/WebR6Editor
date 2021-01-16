@@ -7,8 +7,9 @@ import { requestHttpResource } from "./preload.js";
 function loadScene() {
 	const sceneName = document.getElementById('scene-name').value;
 	requestHttpResource({url:`saved/${sceneName}.json`}, (xhr) => {
-		const saveData = JSON.parse(xhr.responseText);
-		console.log(saveData);
+		const file = JSON.parse(xhr.responseText);
+		console.log(file);
+		const saveData = file.saveData;
 
 		// Clear the old scene.
 		showObjectProperties(setSelectedObject());
@@ -35,19 +36,17 @@ function saveScene() {
 	const saveData = JSON.stringify({
 		backgroundImageUrl: getBackgroundImageUrl(),
 		objects: objs
-	}, replacer, /*Just for debugging purposes*/'\t');
-	//console.log(saveData);
+	}, replacer);
 
+	// Save the scene.
 	const sceneName = document.getElementById('scene-name').value;
-
-	// Save the strat
 	requestHttpResource({method: 'POST', url: `saved/${sceneName}.json`, body: saveData}, (xhr) => {
 		if (xhr.status != 200) return alertXhrError(xhr);
 		alert('The scene has been succesfully saved!');
 	}, (xhr) => alertXhrError(xhr));
 
 	function alertXhrError(xhr) {
-		console.log('ERROR:', xhr.status, xhr.statusText);
+		console.log('ERROR:', xhr.status, xhr.statusText, '\nReason:',  xhr.responseText);
 		alert('An error has occurred while saving the scene! Further information has been logged to the console.');
 	}
 

@@ -96,11 +96,31 @@ function post(url, request, response) {
 		body += data;
 	});
 	request.on('end', () => {
-		fs.writeFile(rootDirectory + url.pathname, body, () => {
-			response.writeHead(200);
-			response.end();
-			logHttpRequest(request, response, 'overwritten');
-		});
+		try {
+			const saveFile = {
+				author: 'Jompda', // Placeholder for a user system.
+				timestamp: new Date(),
+				saveData: JSON.parse(body)
+			}
+
+			try {
+				fs.writeFile(rootDirectory + url.pathname,
+					JSON.stringify(saveFile, undefined, /*For debugging purposes*/'\t'),
+					() => {
+				response.writeHead(200);
+				response.end();
+				logHttpRequest(request, response, 'overwritten');
+			});
+			} catch (err) {
+				response.writeHead(500);
+				response.end(err.message);
+				logHttpRequest(request, response, err.message);
+			}
+		} catch (err) {
+			response.writeHead(400);
+			response.end(err.message);
+			logHttpRequest(request, response, err.message);
+		}
 	});
 }
 
