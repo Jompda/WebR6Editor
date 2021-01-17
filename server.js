@@ -181,7 +181,8 @@ function starMatcher(matcher, str) {
 			mpos++; continue;
 		}
 		if (a !== '*') return false;
-		if (matcher[mpos+1] === str[i+1]) ++mpos;
+		matcher[mpos+1] === str[i] ? mpos++ && i-- :
+		matcher[mpos+1] === str[i+1] ? mpos++ : 0;
 	}
 	return mpos >= matcher.length;
 }
