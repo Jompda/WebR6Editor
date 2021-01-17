@@ -59,9 +59,14 @@ function get(url, request, response, sendBody) {
 
 	// Restricted access
 	if (url.pathname.startsWith(roomsKey)) {
-		const result = checkRoomAccess(url, request, response);
-		if (!result) return;
-		filepath = result;
+		const cutUrl = url.pathname.split('/'); cutUrl.shift();
+		if (checkRoomAccess(cutUrl[1], request, response)) {
+			filepath = `${roomsDirectory}/${cutUrl[1]}/slides/${cutUrl[2]}`;
+		} else {
+			response.writeHead(403);
+			response.end();
+			return logHttpRequest(request, response);
+		}
 	}
 
 	// Default
@@ -97,90 +102,80 @@ function get(url, request, response, sendBody) {
 }
 
 /**
- * @param {url.UrlWithStringQuery} url 
- * @param {http.IncomingMessage} request 
- * @param {http.ServerResponse} response 
- * @returns {String|false}
- */
-function checkRoomAccess(url, request, response) {
-	if (!request.headers.authorization) {
-		response.writeHead(401);
-		response.end();
-		logHttpRequest(request, response);
-		return false;
-	}
-
-	const roomSection = url.pathname.slice(roomsKey.length);
-	const roomName = roomSection.slice(0, roomSection.indexOf('/'));
-	const room = rooms.find((room) => room.name === roomName);
-
-	const basicAuth = request.headers.authorization.slice('basic '.length);
-	const password = Buffer.from(basicAuth, 'base64').toString();
-
-	if (password !== room.password) {
-		response.writeHead(403);
-		response.end();
-		logHttpRequest(request, response);
-		return false;
-	}
-
-	console.log('Access granted to room:', room);
-	return roomsDirectory + '/' + roomSection;
-}
-
-/**
- * Used to handle scene saves.
+ * Handles operations such as: saving the scene.
+ * TODO: Support for creating a new room and adding slides to it.
  * @param {url.UrlWithStringQuery} url 
  * @param {http.IncomingMessage} request 
  * @param {http.ServerResponse} response 
  */
 function post(url, request, response) {
-	if (!url.pathname.startsWith('/room/')) {
-		response.writeHead(404);
+	const postRequest = url.pathname.split('/'); postRequest.shift();
+
+	switch (postRequest[0]) {
+		case 'savescene':
+			handleSaveScene(postRequest, request, response);
+			break;
+		default:
+			response.writeHead(400);
+			response.end();
+			logHttpRequest(request, response);
+			break;
+	}
+}
+
+/**
+ * @param {String[]} postRequest 
+ * @param {http.IncomingMessage} request 
+ * @param {http.ServerResponse} response 
+ */
+function handleSaveScene(postRequest, request, response) {
+	if (!checkRoomAccess(postRequest[1], request, response)) {
+		response.writeHead(403);
 		response.end();
-		logHttpRequest(request, response);
-		return;
+		return logHttpRequest(request, response);
 	}
-
-	// Check access.
-	let filepath;
-	if (url.pathname.startsWith(roomsKey)) {
-		const result = checkRoomAccess(url, request, response);
-		if (!result) return;
-		filepath = result;
-	}
-
+	
 	let body = '';
-	request.on('data', (data) => {
-		body += data;
-	});
+	request.on('data', (data) => body += data);
 	request.on('end', () => {
 		try {
-			const saveFile = {
-				author: 'Jompda', // Placeholder for a user system.
-				timestamp: new Date(),
-				saveData: JSON.parse(body)
-			}
-
-			try {
-				fs.writeFile(filepath,
-					JSON.stringify(saveFile, undefined, /*For debugging purposes*/'\t'),
-					() => {
-				response.writeHead(200);
-				response.end();
-				logHttpRequest(request, response, 'overwritten');
-			});
-			} catch (err) {
-				response.writeHead(500);
-				response.end(err.message);
-				logHttpRequest(request, response, err.message);
-			}
+			// Check the integrity of the save data.
+			const saveData = JSON.parse(body);
+			saveScene(`${roomsDirectory}/${postRequest[1]}/slides/${postRequest[2]}`,
+				saveData, request, response);
 		} catch (err) {
 			response.writeHead(400);
 			response.end(err.message);
 			logHttpRequest(request, response, err.message);
 		}
 	});
+}
+
+/**
+ * @param {String} filepath 
+ * @param {Object} saveData 
+ * @param {http.IncomingMessage} request 
+ * @param {http.ServerResponse} response 
+ */
+function saveScene(filepath, saveData, request, response) {
+	const saveFile = {
+		author: 'Jompda', // Placeholder for a user system.
+		timestamp: new Date(),
+		saveData
+	}
+	try {
+		fs.writeFile(filepath,
+			JSON.stringify(saveFile, undefined, /*For debugging purposes*/'\t'),
+		() => {
+			response.writeHead(200);
+			response.end();
+			logHttpRequest(request, response, filepath);
+		});
+	} catch (err) {
+		response.writeHead(500);
+		response.end(err.message);
+		logHttpRequest(request, response, err.message);
+	}
 }
 
 /**
@@ -197,6 +192,21 @@ function resolveFile(pathname, callback) {
 			callback(temp, result);
 		});
 	}
+}
+
+/**
+ * @param {String} roomName 
+ * @param {http.IncomingMessage} request 
+ * @param {http.ServerResponse} response 
+ * @returns {Object|false}
+ */
+function checkRoomAccess(roomName, request, response) {
+	const room = rooms.find((room) => room.name === roomName);
+
+	const basicAuth = request.headers.authorization.slice('basic '.length);
+	const password = Buffer.from(basicAuth, 'base64').toString();
+
+	return password === room.password ? room : false;
 }
 
 /**
