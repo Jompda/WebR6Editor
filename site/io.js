@@ -6,7 +6,10 @@ import { requestHttpResource } from "./preload.js";
 
 function loadScene() {
 	const sceneName = document.getElementById('scene-name').value;
-	requestHttpResource({url:`saved/${sceneName}.json`}, (xhr) => {
+	requestHttpResource({
+		url: `room/testroom/slides/${sceneName}.json`,
+		headers: { authorization: 'basic ' + btoa('lith') }
+	}, (xhr) => {
 		const file = JSON.parse(xhr.responseText);
 		console.log(file);
 		const saveData = file.saveData;
@@ -40,7 +43,10 @@ function saveScene() {
 
 	// Save the scene.
 	const sceneName = document.getElementById('scene-name').value;
-	requestHttpResource({method: 'POST', url: `saved/${sceneName}.json`, body: saveData}, (xhr) => {
+	requestHttpResource({
+		method: 'POST',	headers: { authorization: 'basic ' + btoa('lith') },
+		url: `room/testroom/slides/${sceneName}.json`, body: saveData
+	}, (xhr) => {
 		if (xhr.status != 200) return alertXhrError(xhr);
 		alert('The scene has been succesfully saved!');
 	}, (xhr) => alertXhrError(xhr));

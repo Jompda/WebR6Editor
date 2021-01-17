@@ -1,6 +1,6 @@
 {
 	"port": 443, "key": "cert/key.pem", "cert": "cert/cert.pem",
-	"rootDirectory": "site",
+	"rootDirectory": "site", "roomsDirectory": "rooms",
 	"autoComplete": [ "", "index.html", ".js" ],
 	"mimeTypes": {
 		"html": "text/html",

@@ -6,7 +6,11 @@ module.exports = {
 	starMatcher
 }
 
-const { key, cert, port, rootDirectory, mimeTypes, autoComplete } = require('./settings.json');
+const { key, cert, port, rootDirectory, roomsDirectory,
+	mimeTypes, autoComplete } = require('./settings.json');
+
+const roomsKey = '/room/'
+const rooms = require('./rooms.json');
 const liveSSE = require('./live-sse.js');
 
 const http = require('http'), https = require('https'),
@@ -51,7 +55,17 @@ function get(url, request, response, sendBody) {
 	if (url.pathname === '/live-server-updates') return liveSSE.handleSSE(request, response);
 	if (url.pathname === '/live-page') return liveSSE.injectHtml(request, response, rootDirectory);
 
-	resolveFile(rootDirectory + url.pathname, (resolvedFile, stat) => {
+	let filepath = rootDirectory + url.pathname;
+
+	// Restricted access
+	if (url.pathname.startsWith(roomsKey)) {
+		const result = checkRoomAccess(url, request, response);
+		if (!result) return;
+		filepath = result;
+	}
+
+	// Default
+	resolveFile(filepath, (resolvedFile, stat) => {
 		if (resolvedFile === undefined) {
 			response.writeHead(404);
 			response.end();
@@ -83,18 +97,59 @@ function get(url, request, response, sendBody) {
 }
 
 /**
+ * @param {url.UrlWithStringQuery} url 
+ * @param {http.IncomingMessage} request 
+ * @param {http.ServerResponse} response 
+ * @returns {String|false}
+ */
+function checkRoomAccess(url, request, response) {
+	if (!request.headers.authorization) {
+		response.writeHead(401);
+		response.end();
+		logHttpRequest(request, response);
+		return false;
+	}
+
+	const roomSection = url.pathname.slice(roomsKey.length);
+	const roomName = roomSection.slice(0, roomSection.indexOf('/'));
+	const room = rooms.find((room) => room.name === roomName);
+
+	const basicAuth = request.headers.authorization.slice('basic '.length);
+	const password = Buffer.from(basicAuth, 'base64').toString();
+
+	if (password !== room.password) {
+		response.writeHead(403);
+		response.end();
+		logHttpRequest(request, response);
+		return false;
+	}
+
+	console.log('Access granted to room:', room);
+	return roomsDirectory + '/' + roomSection;
+}
+
+/**
  * Used to handle scene saves.
  * @param {url.UrlWithStringQuery} url 
  * @param {http.IncomingMessage} request 
  * @param {http.ServerResponse} response 
  */
 function post(url, request, response) {
-	if (!url.pathname.startsWith('/saved/')) {
+	if (!url.pathname.startsWith('/room/')) {
 		response.writeHead(404);
 		response.end();
 		logHttpRequest(request, response);
 		return;
 	}
+
+	// Check access.
+	let filepath;
+	if (url.pathname.startsWith(roomsKey)) {
+		const result = checkRoomAccess(url, request, response);
+		if (!result) return;
+		filepath = result;
+	}
+
 	let body = '';
 	request.on('data', (data) => {
 		body += data;
@@ -108,7 +163,7 @@ function post(url, request, response) {
 			}
 
 			try {
-				fs.writeFile(rootDirectory + url.pathname,
+				fs.writeFile(filepath,
 					JSON.stringify(saveFile, undefined, /*For debugging purposes*/'\t'),
 					() => {
 				response.writeHead(200);
@@ -164,7 +219,7 @@ function logHttpRequest(request, response, resolved) {
  * @returns {String}
  */
 function getContentType(pathname) {
-	const mimeType = mimeTypes[pathname.substring(pathname.lastIndexOf('.')+1)];
+	const mimeType = mimeTypes[pathname.slice(pathname.lastIndexOf('.')+1)];
 	return mimeType ? mimeType : 'text/plain';
 }
 
