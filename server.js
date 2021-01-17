@@ -202,6 +202,7 @@ function resolveFile(pathname, callback) {
  */
 function checkRoomAccess(roomName, request, response) {
 	const room = rooms.find((room) => room.name === roomName);
+	if (!room) return false;
 
 	const basicAuth = request.headers.authorization.slice('basic '.length);
 	const password = Buffer.from(basicAuth, 'base64').toString();
