@@ -177,12 +177,14 @@ function getContentType(pathname) {
 function starMatcher(matcher, str) {
 	let mpos = 0, a, b;
 	for (let i = 0; i < str.length; i++) {
+		const mn = matcher[mpos+1], sn = str[i+1];
+		if (sn === undefined && mn === '*') return true;
 		if ((a = matcher[mpos]) === (b = str[i])) {
 			mpos++; continue;
 		}
 		if (a !== '*') return false;
-		matcher[mpos+1] === str[i] ? mpos++ && i-- :
-		matcher[mpos+1] === str[i+1] ? mpos++ : 0;
+		mn === b ? mpos++ && i-- :
+		mn === sn ? mpos++ : 0;
 	}
 	return mpos >= matcher.length;
 }
