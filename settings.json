@@ -1,5 +1,5 @@
 {
-	"port": 80,
+	"port": 443, "key": "cert/key.pem", "cert": "cert/cert.pem",
 	"rootDirectory": "site",
 	"autoComplete": [ "", "index.html", ".js" ],
 	"mimeTypes": {

@@ -6,12 +6,16 @@ module.exports = {
 	starMatcher
 }
 
-const { port, rootDirectory, mimeTypes, autoComplete } = require('./settings.json');
+const { key, cert, port, rootDirectory, mimeTypes, autoComplete } = require('./settings.json');
 const liveSSE = require('./live-sse.js');
 
-const http = require('http'), url = require('url'), path = require('path'), fs = require('fs');
+const http = require('http'), https = require('https'),
+	url = require('url'), path = require('path'), fs = require('fs');
 
-const server = http.createServer(function (request, response) {
+const server = https.createServer({
+	key: fs.readFileSync(key),
+	cert: fs.readFileSync(cert)
+}, function (request, response) {
 	const parsedUrl = url.parse(request.url);
 	
 	switch (request.method) {
