@@ -1,5 +1,6 @@
-const { resolveFile, getContentType, logHttpRequest } = require('./server');
+
 const http = require('http'), fs = require('fs');
+const { resolveFile, getContentType, logHttpRequest } = require('./util.js');
 
 /**@type {http.ServerResponse[]} */
 const clients = [];
@@ -27,6 +28,7 @@ function mapDirectories(rootDirectory) {
 	}
 
 	function handleEvents(event, filepath) {
+		console.log('event');
 		if (refresh) clearTimeout(refresh);
 		refresh = setTimeout(refreshClients, 100);
 		

@@ -1,20 +1,13 @@
 
-module.exports = {
-	resolveFile,
-	getContentType,
-	logHttpRequest,
-	starMatcher
-}
+const http = require('http'), https = require('https'),
+url = require('url'), path = require('path'), fs = require('fs');
 
-const { key, cert, port, rootDirectory, roomsDirectory,
-	mimeTypes, autoComplete } = require('./settings.json');
+const { resolveFile, getContentType, logHttpRequest } = require('./util.js');
+const { key, cert, port, rootDirectory, roomsDirectory } = require('./settings.json');
+const liveSSE = require('./live-sse.js');
 
 const roomsKey = '/room/'
 const rooms = require('./rooms.json');
-const liveSSE = require('./live-sse.js');
-
-const http = require('http'), https = require('https'),
-	url = require('url'), path = require('path'), fs = require('fs');
 
 const server = https.createServer({
 	key: fs.readFileSync(key),
@@ -179,22 +172,6 @@ function saveScene(filepath, saveData, request, response) {
 }
 
 /**
- * @param {String} pathname 
- * @param {Function} callback 
- */
-function resolveFile(pathname, callback) {
-	let i = 0; loop();
-	function loop() {
-		if (i >= autoComplete.length) return callback();
-		const temp = pathname + autoComplete[i++]
-		fs.stat(temp, (err, result) => {
-			if (err || result.isDirectory()) return loop();
-			callback(temp, result);
-		});
-	}
-}
-
-/**
  * @param {String} roomName 
  * @param {http.IncomingMessage} request 
  * @param {http.ServerResponse} response 
@@ -208,49 +185,4 @@ function checkRoomAccess(roomName, request, response) {
 	const password = Buffer.from(basicAuth, 'base64').toString();
 
 	return password === room.password ? room : false;
-}
-
-/**
- * @param {http.IncomingMessage} request 
- * @param {http.ServerResponse} response 
- * @param {String} resolved 
- */
-function logHttpRequest(request, response, resolved) {
-	console.log(
-		request.connection.remoteAddress + ' - - '
-		+ request.method + ' '
-		+ request.url + (resolved?' => '+resolved:'') + ' '
-		+ 'HTTP/' + request.httpVersion + ' - '
-		+ response.statusCode + ' '
-		+ response.statusMessage);
-}
-
-/**
- * @param {String} pathname 
- * @returns {String}
- */
-function getContentType(pathname) {
-	const mimeType = mimeTypes[pathname.slice(pathname.lastIndexOf('.')+1)];
-	return mimeType ? mimeType : 'text/plain';
-}
-
-/**
- * Waiting for purpose.
- * @param {String} matcher 
- * @param {String} str 
- * @returns {Boolean}
- */
-function starMatcher(matcher, str) {
-	let mpos = 0, a, b;
-	for (let i = 0; i < str.length; i++) {
-		const mn = matcher[mpos+1], sn = str[i+1];
-		if (sn === undefined && mn === '*') return true;
-		if ((a = matcher[mpos]) === (b = str[i])) {
-			mpos++; continue;
-		}
-		if (a !== '*') return false;
-		mn === b ? mpos++ && i-- :
-		mn === sn ? mpos++ : 0;
-	}
-	return mpos >= matcher.length;
 }

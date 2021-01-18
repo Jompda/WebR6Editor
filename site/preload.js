@@ -20,7 +20,7 @@ const sidebar_right = document.getElementById('sidebar-right');
 
 /**
  * @param {handleXMLHttpRequestResource} callback 
- * @param {Function} onerror 
+ * @param {handleXMLHttpRequestResource} onerror 
  */
 function requestHttpResource({ method = 'GET', url, body, headers }, callback, onerror) {
 	const xhr = new XMLHttpRequest();
