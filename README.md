@@ -1,8 +1,8 @@
-# WebR6Editor
-The simple but useful web-based Rainbow Six: Siege strategy editor.
+# WebR6Editorhe simple but useful web-based Rainbow Six: Siege strategy editor.
 ~Developed by: Joni Rapo
 
 ## TODO:
+- Divide the server by logic: basic http (get), WebR6Editor, and live-SSE.
 - A database as the backbone of the room system
   (and the possible user system).
 - Organize the server.

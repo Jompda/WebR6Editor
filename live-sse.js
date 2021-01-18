@@ -1,6 +1,7 @@
 
 const http = require('http'), fs = require('fs');
-const { resolveFile, getContentType, logHttpRequest } = require('./util.js');
+const { resolveFile } = require('./server.js');
+const { getContentType, logHttpRequest } = require('./util.js');
 
 /**@type {http.ServerResponse[]} */
 const clients = [];

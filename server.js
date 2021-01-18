@@ -1,24 +1,39 @@
 
+module.exports = {
+	sendFile,
+	resolveFile,
+	checkRoomAccess
+}
+
 const http = require('http'), https = require('https'),
 	url = require('url'), path = require('path'), fs = require('fs');
 
-const { resolveFile, getContentType, logHttpRequest } = require('./util.js');
-const { key, cert, port, rootDirectory, roomsDirectory } = require('./settings.json');
-const liveSSE = require('./live-sse.js');
-
-const roomsKey = '/room/'
+const { getContentType, logHttpRequest } = require('./util.js');
+const { key, cert, port, rootDirectory } = require('./settings.json');
+const autocompletes = require('./autocompletes.json');
 const rooms = require('./rooms.json');
+
+// Temporary way of building the handler list.
+const handlers = [].concat(
+	require('./scenehandlers.js')
+);
+
+// TODO: Turn to a handler based system.
+const liveSSE = require('./live-sse.js');
 
 const server = https.createServer({
 	key: fs.readFileSync(key),
 	cert: fs.readFileSync(cert)
 }, function (request, response) {
-	const parsedUrl = url.parse(request.url);
-	
+
+	// Try to find a suitable handler.
+	for (let i = 0; i < handlers.length; i++)
+		if (handlers[i].condition(request))
+			return handlers[i].handle(request, response);
+
+	// Default
 	switch (request.method) {
-		case 'GET': get(parsedUrl, request, response, true); break;
-		case 'HEAD': get(parsedUrl, request, response, false); break;
-		case 'POST': post(parsedUrl, request, response); break;
+		case 'GET': get(request, response); break;
 		default:
 			response.writeHead(501);
 			response.end();
@@ -38,136 +53,66 @@ server.listen(port, '0.0.0.0', () => {
 
 
 /**
- * @param {url.UrlWithStringQuery} url 
  * @param {http.IncomingMessage} request 
  * @param {http.ServerResponse} response 
- * @param {Boolean} sendBody 
  */
-function get(url, request, response, sendBody) {
+function get(request, response) {
+	const parsedUrl = url.parse(request.url);
+
 	// Awful hardcoding.
-	if (url.pathname === '/live-server-updates') return liveSSE.handleSSE(request, response);
-	if (url.pathname === '/live-page') return liveSSE.injectHtml(request, response, rootDirectory);
-
-	let filepath = rootDirectory + url.pathname;
-
-	// Restricted access
-	if (url.pathname.startsWith(roomsKey)) {
-		const cutUrl = url.pathname.split('/'); cutUrl.shift();
-		if (checkRoomAccess(cutUrl[1], request, response)) {
-			filepath = `${roomsDirectory}/${cutUrl[1]}/slides/${cutUrl[2]}`;
-		} else {
-			response.writeHead(403);
-			response.end();
-			return logHttpRequest(request, response);
-		}
-	}
+	if (parsedUrl.pathname === '/live-server-updates') return liveSSE.handleSSE(request, response);
+	if (parsedUrl.pathname === '/live-page') return liveSSE.injectHtml(request, response, rootDirectory);
 
 	// Default
-	resolveFile(filepath, (resolvedFile, stat) => {
-		if (resolvedFile === undefined) {
+	resolveFile(rootDirectory + parsedUrl.pathname, (resolvedFile, stat) => {
+		if (!resolvedFile) {
 			response.writeHead(404);
 			response.end();
 			return logHttpRequest(request, response);
 		}
-
-		response.writeHead(200, {
-			'Content-Type': getContentType(resolvedFile),
-			'Content-Length': stat.size
-		});
-		if (!sendBody) { // HEAD Method
-			response.end();
-			return logHttpRequest(request, response, resolvedFile);
-		}
-
-		// Send the body.
-		const stream = fs.createReadStream(resolvedFile);
-		stream.on('open', () => {
-			stream.pipe(response);
-		});
-		stream.on('end', () => {
-			logHttpRequest(request, response, resolvedFile);
-		});
-		stream.on('error', (err) => {
-			response.end(err);
-			logHttpRequest(request, response);
-		});
+		sendFile(resolvedFile, stat, request, response);
 	});
 }
 
 /**
- * Handles operations such as: saving the scene.
- * TODO: Support for creating a new room and adding slides to it.
- * @param {url.UrlWithStringQuery} url 
- * @param {http.IncomingMessage} request 
- * @param {http.ServerResponse} response 
- */
-function post(url, request, response) {
-	const postRequest = url.pathname.split('/'); postRequest.shift();
-
-	switch (postRequest[0]) {
-		case 'savescene':
-			handleSaveScene(postRequest, request, response);
-			break;
-		default:
-			response.writeHead(400);
-			response.end();
-			logHttpRequest(request, response);
-			break;
-	}
-}
-
-/**
- * @param {String[]} postRequest 
- * @param {http.IncomingMessage} request 
- * @param {http.ServerResponse} response 
- */
-function handleSaveScene(postRequest, request, response) {
-	if (!checkRoomAccess(postRequest[1], request, response)) {
-		response.writeHead(403);
-		response.end();
-		return logHttpRequest(request, response);
-	}
-	
-	let body = '';
-	request.on('data', (data) => body += data);
-	request.on('end', () => {
-		try {
-			// Check the integrity of the save data.
-			const saveData = JSON.parse(body);
-			saveScene(`${roomsDirectory}/${postRequest[1]}/slides/${postRequest[2]}.json`,
-				saveData, request, response);
-		} catch (err) {
-			response.writeHead(400);
-			response.end(err.message);
-			logHttpRequest(request, response, err.message);
-		}
-	});
-}
-
-/**
+ * 
  * @param {String} filepath 
- * @param {Object} saveData 
+ * @param {fs.Stats} stat 
  * @param {http.IncomingMessage} request 
  * @param {http.ServerResponse} response 
  */
-function saveScene(filepath, saveData, request, response) {
-	const saveFile = {
-		author: 'Jompda', // Placeholder for a user system.
-		timestamp: new Date(),
-		saveData
-	}
-	try {
-		fs.writeFile(filepath,
-			JSON.stringify(saveFile, undefined, /*For debugging purposes*/'\t'),
-		() => {
-			response.writeHead(200);
-			response.end();
-			logHttpRequest(request, response, filepath);
+function sendFile(filepath, stat, request, response) {
+	response.writeHead(200, {
+		'Content-Type': getContentType(filepath),
+		'Content-Length': stat.size
+	});
+
+	const stream = fs.createReadStream(filepath);
+	stream.on('open', () => {
+		stream.pipe(response);
+	});
+	stream.on('end', () => {
+		logHttpRequest(request, response, filepath);
+	});
+	stream.on('error', (err) => {
+		response.end(err);
+		logHttpRequest(request, response);
+	});
+}
+
+/**
+ * @param {String} pathname 
+ * @param {Function} callback 
+ */
+function resolveFile(pathname, callback) {
+	let i = 0; loop();
+	function loop() {
+		if (i >= autocompletes.length) return callback();
+		const temp = pathname + autocompletes[i++]
+		fs.stat(temp, (err, result) => {
+			if (err || result.isDirectory()) return loop();
+			callback(temp, result);
 		});
-	} catch (err) {
-		response.writeHead(500);
-		response.end(err.message);
-		logHttpRequest(request, response, err.message);
 	}
 }
 

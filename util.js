@@ -1,23 +1,6 @@
 
 const fs = require('fs');
-const autocompletes = require('./autocompletes.json');
 const mimeTypes = require('./mimetypes.json');
-
-/**
- * @param {String} pathname 
- * @param {Function} callback 
- */
-function resolveFile(pathname, callback) {
-	let i = 0; loop();
-	function loop() {
-		if (i >= autocompletes.length) return callback();
-		const temp = pathname + autocompletes[i++]
-		fs.stat(temp, (err, result) => {
-			if (err || result.isDirectory()) return loop();
-			callback(temp, result);
-		});
-	}
-}
 
 /**
  * @param {http.IncomingMessage} request 
@@ -64,7 +47,6 @@ function starMatcher(matcher, str) {
 }
 
 module.exports = {
-	resolveFile,
 	logHttpRequest,
 	getContentType,
 	starMatcher
