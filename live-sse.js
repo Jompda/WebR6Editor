@@ -28,7 +28,6 @@ function mapDirectories(rootDirectory) {
 	}
 
 	function handleEvents(event, filepath) {
-		console.log('event');
 		if (refresh) clearTimeout(refresh);
 		refresh = setTimeout(refreshClients, 100);
 		
