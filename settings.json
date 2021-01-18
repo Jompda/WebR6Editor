@@ -1,4 +1,4 @@
 {
 	"port": 443, "key": "cert/key.pem", "cert": "cert/cert.pem",
-	"rootDirectory": "site", "roomsDirectory": "rooms"
+	"rootDirectory": "app", "roomsDirectory": "rooms"
 }

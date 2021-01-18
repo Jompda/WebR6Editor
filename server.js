@@ -32,7 +32,7 @@ server.listen(port, '0.0.0.0', () => {
 	const serverAddress = server.address();
 	let address = serverAddress.address;
 	if (serverAddress.family === 'IPv6') address = '['+address+']';
-	console.log(`Serving http on ${address}:${serverAddress.port} from '${path.resolve(rootDirectory)}' ..`);
+	console.log(`Serving https on ${address}:${serverAddress.port} from '${path.resolve(rootDirectory)}' ..`);
 });
 
 
