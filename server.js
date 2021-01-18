@@ -1,6 +1,6 @@
 
 const http = require('http'), https = require('https'),
-url = require('url'), path = require('path'), fs = require('fs');
+	url = require('url'), path = require('path'), fs = require('fs');
 
 const { resolveFile, getContentType, logHttpRequest } = require('./util.js');
 const { key, cert, port, rootDirectory, roomsDirectory } = require('./settings.json');
@@ -134,7 +134,7 @@ function handleSaveScene(postRequest, request, response) {
 		try {
 			// Check the integrity of the save data.
 			const saveData = JSON.parse(body);
-			saveScene(`${roomsDirectory}/${postRequest[1]}/slides/${postRequest[2]}`,
+			saveScene(`${roomsDirectory}/${postRequest[1]}/slides/${postRequest[2]}.json`,
 				saveData, request, response);
 		} catch (err) {
 			response.writeHead(400);

@@ -8,7 +8,7 @@ function loadScene() {
 	const sceneName = document.getElementById('scene-name').value;
 	requestHttpResource({
 		url: `room/testroom/${sceneName}.json`,
-		headers: { authorization: 'basic ' + btoa('lith') }
+		headers: { 'Authorization': 'Basic ' + btoa('lith') }
 	}, (xhr) => {
 		const file = JSON.parse(xhr.responseText);
 		console.log(file);
@@ -44,8 +44,11 @@ function saveScene() {
 	// Save the scene.
 	const sceneName = document.getElementById('scene-name').value;
 	requestHttpResource({
-		method: 'POST',	headers: { authorization: 'basic ' + btoa('lith') },
-		url: `savescene/testroom/${sceneName}.json`, body: saveData
+		method: 'POST',	headers: {
+			'Authorization': 'Basic ' + btoa('lith'),
+			'Content-Type': 'application/json'
+		},
+		url: `savescene/testroom/${sceneName}`, body: saveData
 	}, (xhr) => {
 		if (xhr.status != 200) return alertXhrError(xhr);
 		alert('The scene has been succesfully saved!');
