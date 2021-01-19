@@ -1,5 +1,17 @@
 
+const http = require('http');
+
 const mimeTypes = require('./mimetypes.json');
+
+/**
+ * @param {http.IncomingMessage} request 
+ * @param {http.ServerResponse} response 
+ */
+function finishResponse({ statusCode = 200, headers, message, resolved }, request, response, ) {
+	response.writeHead(statusCode, headers);
+	response.end(message);
+	logHttpRequest(request, response, resolved);
+}
 
 /**
  * @param {http.IncomingMessage} request 
@@ -46,6 +58,7 @@ function starMatcher(matcher, str) {
 }
 
 module.exports = {
+	finishResponse,
 	logHttpRequest,
 	getContentType,
 	starMatcher

@@ -2,23 +2,20 @@
 module.exports = {
 	sendFile,
 	resolveFile,
-	checkRoomAccess
+	roomAccess
 }
 
 const http = require('http'), https = require('https'),
 	url = require('url'), path = require('path'), fs = require('fs');
 
-const { getContentType, logHttpRequest } = require('./util.js');
+const { getContentType, logHttpRequest, finishResponse } = require('./util.js');
 const { keyPath, certPath, port, rootDir } = require('./settings.json');
 const autocompletes = require('./autocompletes.json');
 const rooms = require('./rooms.json');
 
-// Temporary way of building the handler list.
-const handlers = [
-	require('./handlers/getroomdata.js'),
-	require('./handlers/postscene.js'),
-	require('./handlers/live-sse.js')
-];
+const handlers = [];
+fs.readdirSync('handlers').forEach(filename =>
+	handlers.push(require('./handlers/' + filename)));
 
 
 const server = https.createServer({
@@ -56,16 +53,9 @@ server.listen(port, '0.0.0.0', () => {
  * @param {http.ServerResponse} response 
  */
 function get(request, response) {
-	const parsedUrl = url.parse(request.url);
-
-	// Default
-	resolveFile(rootDir + parsedUrl.pathname, (resolvedFile, stat) => {
-		if (!resolvedFile) {
-			response.writeHead(404);
-			response.end();
-			return logHttpRequest(request, response);
-		}
-		sendFile(resolvedFile, stat, request, response);
+	resolveFile(rootDir + url.parse(request.url).pathname, (resolvedFile, stat) => {
+		if (resolvedFile) return sendFile(resolvedFile, stat, request, response);
+		finishResponse({ statusCode: 404 }, request, response);
 	});
 }
 
@@ -77,21 +67,21 @@ function get(request, response) {
  * @param {http.ServerResponse} response 
  */
 function sendFile(filepath, stat, request, response) {
-	response.writeHead(200, {
-		'Content-Type': getContentType(filepath),
-		'Content-Length': stat.size
-	});
-
 	const stream = fs.createReadStream(filepath);
 	stream.on('open', () => {
+		response.writeHead(200, {
+			'Content-Type': getContentType(filepath),
+			'Content-Length': stat.size
+		});
 		stream.pipe(response);
 	});
 	stream.on('end', () => {
+		response.end();
 		logHttpRequest(request, response, filepath);
 	});
 	stream.on('error', (err) => {
-		response.end(err);
-		logHttpRequest(request, response);
+		console.error('Internal Server Error!', err);
+		finishResponse({ statusCode: 500 }, request, response);
 	});
 }
 
@@ -115,9 +105,9 @@ function resolveFile(pathname, callback) {
  * @param {String} roomName 
  * @param {http.IncomingMessage} request 
  * @param {http.ServerResponse} response 
- * @returns {Object|false}
+ * @returns {Room|false}
  */
-function checkRoomAccess(roomName, request, response) {
+function roomAccess(roomName, request, response) {
 	const room = rooms.find((room) => room.name === roomName);
 	if (!room || !request.headers.authorization) return false;
 

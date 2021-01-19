@@ -1,7 +1,7 @@
 
 const http = require('http'), url = require('url');
-const { checkRoomAccess, resolveFile, sendFile } = require('../server.js');
-const { logHttpRequest } = require('../util.js');
+const { roomAccess, resolveFile, sendFile } = require('../server.js');
+const { finishResponse } = require('../util.js');
 const { roomsDir } = require('../settings.json');
 
 /**
@@ -20,24 +20,15 @@ function handle(request, response) {
 	const parsedUrl = url.parse(request.url);
 	const cutUrl = parsedUrl.pathname.split('/'); cutUrl.shift();
 
-	if (!checkRoomAccess(cutUrl[1], request, response)) {
-		response.writeHead(403);
-		response.end();
-		return logHttpRequest(request, response);
-	}
+	if (!roomAccess(cutUrl[1], request, response))
+		return finishResponse({ statusCode: 403 }, request, response);
 
 	if (cutUrl[2]) resolveFile(`${roomsDir}/${cutUrl[1]}/slides/${cutUrl[2]}`, postFileResolve);
 	else resolveFile(`${roomsDir}/${cutUrl[1]}/roominfo.json`, postFileResolve);
 
-	
-
 	function postFileResolve(resolvedFile, stat) {
-		if (!resolvedFile) {
-			response.writeHead(404);
-			response.end();
-			return logHttpRequest(request, response);
-		}
-		sendFile(resolvedFile, stat, request, response);
+		if (resolvedFile) return sendFile(resolvedFile, stat, request, response);
+		finishResponse({ statusCode: 404 }, request, response);
 	}
 }
 

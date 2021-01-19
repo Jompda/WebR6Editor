@@ -1,7 +1,7 @@
 
 const http = require('http'), url = require('url'), fs = require('fs');
-const { checkRoomAccess } = require('../server.js');
-const { logHttpRequest } = require('../util.js');
+const { roomAccess } = require('../server.js');
+const { finishResponse } = require('../util.js');
 const { roomsDir } = require('../settings.json');
 
 /**
@@ -9,7 +9,7 @@ const { roomsDir } = require('../settings.json');
  * @returns {Boolean}
  */
 function condition(request) {
-	return request.method === 'POST' && request.url.startsWith('/savescene/');
+	return request.method === 'POST' && /\/savescene\/\S+?\/\S+/.test(request.url);
 }
 
 /**
@@ -17,26 +17,22 @@ function condition(request) {
  * @param {http.ServerResponse} response 
  */
 function handle(request, response) {
-	const postRequest = url.parse(request.url).pathname.split('/'); postRequest.shift();
+	const cutUrl = url.parse(request.url).pathname.split('/'); cutUrl.shift();
 
-	if (!checkRoomAccess(postRequest[1], request, response)) {
-		response.writeHead(403);
-		response.end();
-		return logHttpRequest(request, response);
-	}
+	if (!roomAccess(cutUrl[1], request, response))
+		return finishResponse({ statusCode: 403 }, request, response);
 	
 	let body = '';
 	request.on('data', (data) => body += data);
 	request.on('end', () => {
 		try {
-			// Check the integrity of the save data.
-			const saveData = JSON.parse(body);
-			saveScene(`${roomsDir}/${postRequest[1]}/slides/${postRequest[2]}.json`,
-				saveData, request, response);
+			// Check the integrity of the save data while at it.
+			saveScene(`${roomsDir}/${cutUrl[1]}/slides/${cutUrl[2]}.json`,
+				JSON.parse(body), request, response);
 		} catch (err) {
-			response.writeHead(400);
-			response.end(err.message);
-			logHttpRequest(request, response, err.message);
+			finishResponse({
+				statusCode: 400, message: err.message, resolved: err.message
+			}, request, response);
 		}
 	});
 }
@@ -48,23 +44,16 @@ function handle(request, response) {
  * @param {http.ServerResponse} response 
  */
 function saveScene(filepath, saveData, request, response) {
-	const saveFile = {
+	const content = {
 		author: 'Jompda', // Placeholder for a user system.
 		timestamp: new Date(),
 		saveData
 	}
 	try {
-		fs.writeFile(filepath,
-			JSON.stringify(saveFile, undefined, /*For debugging purposes*/'\t'),
-		() => {
-			response.writeHead(200);
-			response.end();
-			logHttpRequest(request, response, filepath);
-		});
+		fs.writeFile(filepath, JSON.stringify(content, undefined, /*For debugging purposes*/'\t'),
+		() => finishResponse({ statusCode: 200, resolved: filepath }, request, response));
 	} catch (err) {
-		response.writeHead(500);
-		response.end(err.message);
-		logHttpRequest(request, response, err.message);
+		finishResponse({ statusCode: 500, message: err.message, resolved: err.message }, request, response);
 	}
 }
 
