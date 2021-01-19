@@ -9,21 +9,21 @@ const http = require('http'), https = require('https'),
 	url = require('url'), path = require('path'), fs = require('fs');
 
 const { getContentType, logHttpRequest } = require('./util.js');
-const { key, cert, port, rootDirectory } = require('./settings.json');
+const { keyPath, certPath, port, rootDir } = require('./settings.json');
 const autocompletes = require('./autocompletes.json');
 const rooms = require('./rooms.json');
 
 // Temporary way of building the handler list.
 const handlers = [
-	require('./handlers/getscene.js'),
+	require('./handlers/getroomdata.js'),
 	require('./handlers/postscene.js'),
 	require('./handlers/live-sse.js')
 ];
 
 
 const server = https.createServer({
-	key: fs.readFileSync(key),
-	cert: fs.readFileSync(cert)
+	key: fs.readFileSync(keyPath),
+	cert: fs.readFileSync(certPath)
 }, function (request, response) {
 
 	// Try to find a suitable handler.
@@ -46,7 +46,7 @@ server.listen(port, '0.0.0.0', () => {
 	const serverAddress = server.address();
 	let address = serverAddress.address;
 	if (serverAddress.family === 'IPv6') address = '['+address+']';
-	console.log(`Serving https on ${address}:${serverAddress.port} from '${path.resolve(rootDirectory)}' ..`);
+	console.log(`Serving https on ${address}:${serverAddress.port} from '${path.resolve(rootDir)}' ..`);
 });
 
 
@@ -59,7 +59,7 @@ function get(request, response) {
 	const parsedUrl = url.parse(request.url);
 
 	// Default
-	resolveFile(rootDirectory + parsedUrl.pathname, (resolvedFile, stat) => {
+	resolveFile(rootDir + parsedUrl.pathname, (resolvedFile, stat) => {
 		if (!resolvedFile) {
 			response.writeHead(404);
 			response.end();

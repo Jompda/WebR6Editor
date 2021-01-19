@@ -2,7 +2,7 @@
 const http = require('http'), url = require('url'), fs = require('fs');
 const { checkRoomAccess } = require('../server.js');
 const { logHttpRequest } = require('../util.js');
-const { roomsDirectory } = require('../settings.json');
+const { roomsDir } = require('../settings.json');
 
 /**
  * @param {http.IncomingMessage} request 
@@ -31,7 +31,7 @@ function handle(request, response) {
 		try {
 			// Check the integrity of the save data.
 			const saveData = JSON.parse(body);
-			saveScene(`${roomsDirectory}/${postRequest[1]}/slides/${postRequest[2]}.json`,
+			saveScene(`${roomsDir}/${postRequest[1]}/slides/${postRequest[2]}.json`,
 				saveData, request, response);
 		} catch (err) {
 			response.writeHead(400);

@@ -2,14 +2,14 @@
 const http = require('http'), url = require('url');
 const { checkRoomAccess, resolveFile, sendFile } = require('../server.js');
 const { logHttpRequest } = require('../util.js');
-const { roomsDirectory } = require('../settings.json');
+const { roomsDir } = require('../settings.json');
 
 /**
  * @param {http.IncomingMessage} request 
  * @returns {Boolean}
  */
 function condition(request) {
-	return request.method === 'GET' && request.url.startsWith('/room/');
+	return request.method === 'GET' && /\/room\/\S+?\/.*/.test(request.url);
 }
 
 /**
@@ -26,14 +26,19 @@ function handle(request, response) {
 		return logHttpRequest(request, response);
 	}
 
-	resolveFile(`${roomsDirectory}/${cutUrl[1]}/slides/${cutUrl[2]}`, (resolvedFile, stat) => {
+	if (cutUrl[2]) resolveFile(`${roomsDir}/${cutUrl[1]}/slides/${cutUrl[2]}`, postFileResolve);
+	else resolveFile(`${roomsDir}/${cutUrl[1]}/roominfo.json`, postFileResolve);
+
+	
+
+	function postFileResolve(resolvedFile, stat) {
 		if (!resolvedFile) {
 			response.writeHead(404);
 			response.end();
 			return logHttpRequest(request, response);
 		}
 		sendFile(resolvedFile, stat, request, response);
-	});
+	}
 }
 
 module.exports = {
