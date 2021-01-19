@@ -16,11 +16,10 @@ const rooms = require('./rooms.json');
 // Temporary way of building the handler list.
 const handlers = [
 	require('./handlers/getscene.js'),
-	require('./handlers/postscene.js')
+	require('./handlers/postscene.js'),
+	require('./handlers/live-sse.js')
 ];
 
-// TODO: Turn to a handler based system.
-const liveSSE = require('./live-sse.js');
 
 const server = https.createServer({
 	key: fs.readFileSync(key),
@@ -43,7 +42,6 @@ const server = https.createServer({
 	}
 });
 
-liveSSE.mapDirectories(rootDirectory);
 server.listen(port, '0.0.0.0', () => {
 	const serverAddress = server.address();
 	let address = serverAddress.address;
@@ -59,10 +57,6 @@ server.listen(port, '0.0.0.0', () => {
  */
 function get(request, response) {
 	const parsedUrl = url.parse(request.url);
-
-	// Awful hardcoding.
-	if (parsedUrl.pathname === '/live-server-updates') return liveSSE.handleSSE(request, response);
-	if (parsedUrl.pathname === '/live-page') return liveSSE.injectHtml(request, response, rootDirectory);
 
 	// Default
 	resolveFile(rootDirectory + parsedUrl.pathname, (resolvedFile, stat) => {

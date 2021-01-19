@@ -1,7 +1,8 @@
 
 const http = require('http'), fs = require('fs');
-const { resolveFile } = require('./server.js');
-const { getContentType, logHttpRequest } = require('./util.js');
+const { resolveFile } = require('../server.js');
+const { getContentType, logHttpRequest } = require('../util.js');
+const { rootDirectory } = require('../settings.json');
 
 /**@type {http.ServerResponse[]} */
 const clients = [];
@@ -9,11 +10,30 @@ const clients = [];
 /**@type {NodeJS.Timeout|undefined} */
 var refresh;
 
+mapDirectories();
+
+/**
+ * @param {http.IncomingMessage} request 
+ * @returns {Boolean}
+ */
+function condition(request) {
+	return request.method === 'GET' && (request.url === '/live-page'
+		|| request.url === '/live-server-updates');
+}
+
+/**
+ * @param {http.IncomingMessage} request 
+ * @param {http.ServerResponse} response 
+ */
+function handle(request, response) {
+	if (request.url === '/live-page') injectHtml(request, response);
+	else handleSSE(request, response);
+}
+
 /**
  * TODO: If a file is deleted or added, remap the directories (remember unwatch).
- * @param {String} rootDirectory 
  */
-function mapDirectories(rootDirectory) {
+function mapDirectories() {
 	const directories = [];
 	handleDirectory(rootDirectory);
 	directories.forEach((directory) => {
@@ -37,7 +57,6 @@ function mapDirectories(rootDirectory) {
 			clients.forEach((client) => client.write('data:refresh\n\n'));
 		}
 	}
-
 }
 
 /**
@@ -56,9 +75,8 @@ function handleSSE(request, response) {
 /**
  * @param {http.IncomingMessage} request 
  * @param {http.ServerResponse} response 
- * @param {String} rootDirectory 
  */
-function injectHtml(request, response, rootDirectory) {
+function injectHtml(request, response) {
 	resolveFile(rootDirectory + '/', (resolvedFile) => {
 		if (resolvedFile === undefined) {
 			response.writeHead(404);
@@ -94,7 +112,6 @@ function injectHtml(request, response, rootDirectory) {
 }
 
 module.exports = {
-	mapDirectories,
-	handleSSE,
-	injectHtml
+	condition,
+	handle
 }
