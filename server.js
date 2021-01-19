@@ -14,9 +14,10 @@ const autocompletes = require('./autocompletes.json');
 const rooms = require('./rooms.json');
 
 // Temporary way of building the handler list.
-const handlers = [].concat(
-	require('./scenehandlers.js')
-);
+const handlers = [
+	require('./handlers/getscene.js'),
+	require('./handlers/postscene.js')
+];
 
 // TODO: Turn to a handler based system.
 const liveSSE = require('./live-sse.js');
