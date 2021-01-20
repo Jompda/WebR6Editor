@@ -2,10 +2,7 @@
 ~Developed by: Joni Rapo
 
 ## TODO:
-- Divide the server by logic: basic http (get), WebR6Editor, and live-SSE.
-- A database as the backbone of the room system
-  (and the possible user system).
-- Organize the server.
+- A database as the backbone of the room system.
 - Begin using JQuery.
 - Add comments and overall documentation to the code.
 - Create images for the basic tools.
@@ -14,6 +11,7 @@
 - Optimize the rendering (even more).
 
 ## Features to implement:
+- Ability to create new rooms.
 - Room system to the GUI.
 - More tools: line, path, rectangle, circle.
 - A "Performance Mode" option for epic gaming sessions which stops the p5js loop and uses as little resources as possible.
