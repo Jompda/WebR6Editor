@@ -1,4 +1,5 @@
-# WebR6Editorhe simple but useful web-based Rainbow Six: Siege strategy editor.
+# WebR6Editor
+The simple but useful web-based Rainbow Six: Siege strategy editor.
 ~Developed by: Joni Rapo
 
 ## TODO:
