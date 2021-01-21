@@ -21,9 +21,19 @@ html, body {
 	background-color: rgb(18, 18, 18);
 	overflow: hidden;
 }
-#content {
-	width: 100%;
+#roommenu {
+	position: absolute;
+	width: 200px;
 	height: 100%;
+	background-color: bisque;
+	transition: 0.2s;
+}
+#app {
+	position: absolute;
+	left: 200px;
+	right: 0;
+	height: 100%;
+	transition: 0.2s;
 }
 
 /*

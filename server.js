@@ -14,7 +14,7 @@ const autocompletes = require('./autocompletes.json');
 const rooms = require('./rooms.json');
 
 const handlers = [];
-fs.readdirSync('handlers').forEach(filename =>
+fs.readdirSync('./handlers/').forEach(filename =>
 	handlers.push(require('./handlers/' + filename)));
 
 

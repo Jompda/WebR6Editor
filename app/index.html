@@ -8,11 +8,12 @@
 </head>
 
 <body>
-	<div id="content">
+	<div id="app">
 		<div id="viewport" ondrop="dropHandler(event)" ondragover="event.preventDefault()"></div>
 		<div id="sidebar-left"></div>
 		<div id="sidebar-right"></div>
 	</div>
+	<div id="roommenu" style="left:0px" onclick="console.log('yeet');this.style.left==='0px'?(this.style.left='-180px')&&(app.style.left='20px'):(this.style.left='0px')&&(app.style.left='200px')"></div>
 </body>
 
 <!--Used to enable media key controls for the slides.-->
