@@ -4,22 +4,22 @@ import ImageObj from "./objects/imageobj.js";
 import Obj from "./objects/obj.js";
 import { requestHttpResource } from "./preload.js";
 
-function loadScene() {
-	const sceneName = document.getElementById('scene-name').value;
+function loadSlide() {
+	const slideName = document.getElementById('slide-name').value;
 	requestHttpResource({
-		url: `room/testroom/${sceneName}.json`,
+		url: `room/testroom/${slideName}.json`,
 		headers: { 'Authorization': 'Basic ' + btoa('lith') }
 	}, (xhr) => {
 		const file = JSON.parse(xhr.responseText);
 		console.log(file);
 		const saveData = file.saveData;
 
-		// Clear the old scene.
+		// Clear the old slide.
 		showObjectProperties(setSelectedObject());
 		const objects = getObjects();
 		objects.splice(0, objects.length);
 
-		// Apply the new scene from save data.
+		// Apply the new slide from save data.
 		changeMap(saveData.backgroundImageUrl);
 		saveData.objects.forEach(obj => {
 			switch (obj.class) {
@@ -29,11 +29,11 @@ function loadScene() {
 		});
 	
 		update();
-	}, () => alert(`Scene '${sceneName}' doesn't exist!`));
+	}, () => alert(`Slide '${slideName}' doesn't exist!`));
 }
-window.loadScene = loadScene;
+window.loadSlide = loadSlide;
 
-function saveScene() {
+function saveSlide() {
 	const objs = getObjects();
 	const cache = []; // Used to avoid circular structures in the JSON.
 	const saveData = JSON.stringify({
@@ -41,22 +41,22 @@ function saveScene() {
 		objects: objs
 	}, replacer);
 
-	// Save the scene.
-	const sceneName = document.getElementById('scene-name').value;
+	// Save the slide.
+	const slideName = document.getElementById('slide-name').value;
 	requestHttpResource({
 		method: 'POST',	headers: {
 			'Authorization': 'Basic ' + btoa('lith'),
 			'Content-Type': 'application/json'
 		},
-		url: `savescene/testroom/${sceneName}`, body: saveData
+		url: `saveslide/testroom/${slideName}`, body: saveData
 	}, (xhr) => {
 		if (xhr.status != 200) return alertXhrError(xhr);
-		alert('The scene has been succesfully saved!');
+		alert('The slide has been succesfully saved!');
 	}, (xhr) => alertXhrError(xhr));
 
 	function alertXhrError(xhr) {
 		console.log('ERROR:', xhr.status, xhr.statusText, '\nReason:',  xhr.responseText);
-		alert('An error has occurred while saving the scene! Further information has been logged to the console.');
+		alert('An error has occurred while saving the slide! Further information has been logged to the console.');
 	}
 
 	function replacer(key, value) {
@@ -73,9 +73,9 @@ function saveScene() {
 		return value;
 	}
 }
-window.saveScene = saveScene;
+window.saveSlide = saveSlide;
 
 export default {
-	loadScene,
-	saveScene
+	loadSlide,
+	saveSlide
 }

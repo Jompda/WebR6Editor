@@ -6,11 +6,10 @@
 </div>
 <div class="sidebar">
 	<div class="sidebar-aligner">
-		<button id="mkEnabler" onclick="enableMediaKeys()">Enable media key controls</button>
-		<p class="sidebar-header">Scene:</p>
-		<input id="scene-name" type="text" value="teststrat">
-		<button onclick="saveScene()">Save</button>
-		<button onclick="loadScene('saved/teststrat.json')">Load</button>
+		<p class="sidebar-header">Slide:</p>
+		<input id="slide-name" type="text" value="teststrat">
+		<button onclick="saveSlide()">Save</button>
+		<button onclick="loadSlide('saved/teststrat.json')">Load</button>
 		<hr class="sidebar-hr">
 		<p class="sidebar-header">Map:</p>
 		<select id="mapchooser" onchange="changeMap(`assets/maps/${this.value}.jpg`)"></select>

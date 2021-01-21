@@ -9,7 +9,7 @@ const { roomsDir } = require('../settings.json');
  * @returns {Boolean}
  */
 function condition(request) {
-	return request.method === 'POST' && /\/savescene\/\S+?\/\S+/.test(request.url);
+	return request.method === 'POST' && /\/saveslide\/\S+?\/\S+/.test(request.url);
 }
 
 /**
@@ -27,7 +27,7 @@ function handle(request, response) {
 	request.on('end', () => {
 		try {
 			// Check the integrity of the save data while at it.
-			saveScene(`${roomsDir}/${cutUrl[1]}/slides/${cutUrl[2]}.json`,
+			saveSlide(`${roomsDir}/${cutUrl[1]}/slides/${cutUrl[2]}.json`,
 				JSON.parse(body), request, response);
 		} catch (err) {
 			finishResponse({
@@ -43,7 +43,7 @@ function handle(request, response) {
  * @param {http.IncomingMessage} request 
  * @param {http.ServerResponse} response 
  */
-function saveScene(filepath, saveData, request, response) {
+function saveSlide(filepath, saveData, request, response) {
 	const content = {
 		author: 'Jompda', // Placeholder for a user system.
 		timestamp: new Date(),
