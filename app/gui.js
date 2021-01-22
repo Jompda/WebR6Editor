@@ -28,16 +28,23 @@ function showObjectProperties(obj) {
 }
 
 // Sidebar functionality.
-const sidebarLeftToggle = () => sidebar_left.style.left === '0px' ?
-	sidebar_left.style.left = `-${sidebar_left.getBoundingClientRect().width}px` :
-	sidebar_left.style.left = '0px';
-
+var sidebar_left_toggle_state = true;
+function sidebarLeftToggle() {
+	sidebar_left_toggle_state ?
+		sidebar_left.style.transform=`translate(${-sidebar_left.getBoundingClientRect().width}px)` :
+		sidebar_left.style.transform='translate(0px)';
+	sidebar_left_toggle_state = !sidebar_left_toggle_state;
+}
 window.sidebarLeftToggle = sidebarLeftToggle;
 
-const sidebarRightToggle = () => sidebar_right.style.right === '0px' ?
-	sidebar_right.style.right = `-${sidebar_left.getBoundingClientRect().width}px` :
-	sidebar_right.style.right = '0px';
-
+// Sidebar functionality.
+var sidebar_right_toggle_state = true;
+function sidebarRightToggle() {
+	sidebar_right_toggle_state ?
+		sidebar_right.style.transform=`translate(${sidebar_right.getBoundingClientRect().width}px)` :
+		sidebar_right.style.transform='translate(0px)';
+		sidebar_right_toggle_state = !sidebar_right_toggle_state;
+}
 window.sidebarRightToggle = sidebarRightToggle;
 
 

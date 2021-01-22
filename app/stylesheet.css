@@ -22,14 +22,15 @@ html, body {
 }
 #roommenu {
 	position: absolute;
-	width: 200px;
+	left: -200px;
+	width: 215px;
 	height: 100%;
-	background-color: bisque;
+	background-color: dimgray;
 	transition: 0.2s;
 }
-#app {
+#editor {
 	position: absolute;
-	left: 20px;
+	left: 15px;
 	right: 0;
 	height: 100%;
 	transition: 0.2s;
@@ -51,12 +52,14 @@ html, body {
 /*USED TO POSITION THE SIDEBARS*/
 #sidebar-left {
 	position: absolute;
+	left: 0px;
 	height: 100%;
 	border-right: 1px solid white;
 	transition: 0.2s;
 }
 #sidebar-right {
 	position: absolute;
+	right: 0px;
 	height: 100%;
 	border-left: 1px solid white;
 	transition: 0.2s;

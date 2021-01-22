@@ -8,17 +8,22 @@
 </head>
 
 <body>
-	<div id="app">
+	<div id="editor">
 		<div id="viewport" ondrop="dropHandler(event)" ondragover="event.preventDefault()"></div>
-		<div id="sidebar-left" style="left:0px"></div>
-		<div id="sidebar-right" style="right:0px"></div>
+		<div id="sidebar-left"></div>
+		<div id="sidebar-right"></div>
 	</div>
-	<div id="roommenu" style="left:-180px" onmouseover="this.style.left='0px'" onmouseout="this.style.left='-180px'">
-		<button onclick="enableMediaKeys();this.remove()">Enable media key controls</button>
-		<p class="sidebar-header">Slide:</p>
-		<input id="slide-name" style="width:160px" type="text" value="teststrat">
-		<button onclick="saveSlide()">Save</button>
-		<button onclick="loadSlide('saved/teststrat.json')">Load</button>
+	<div id="roommenu" onmouseover="this.style.transform='translate(200px)'" onmouseout="this.style.transform='translate(0px)'">
+		<div style="float:left;width:200px">
+			<button onclick="enableMediaKeys();this.remove()">Enable media key controls</button>
+			<p class="sidebar-header">Slide:</p>
+			<input id="slide-name" style="width:160px" type="text" value="teststrat">
+			<button onclick="saveSlide()">Save</button>
+			<button onclick="loadSlide('saved/teststrat.json')">Load</button>
+		</div>
+		<div style="float:right;height:100%;width:15px;background-color:red">
+			<p style="transform:rotate(90deg);">testroom</p>
+		</div>
 	</div>
 </body>
 
