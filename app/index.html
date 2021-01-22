@@ -10,11 +10,15 @@
 <body>
 	<div id="app">
 		<div id="viewport" ondrop="dropHandler(event)" ondragover="event.preventDefault()"></div>
-		<div id="sidebar-left"></div>
-		<div id="sidebar-right"></div>
+		<div id="sidebar-left" style="left:0px"></div>
+		<div id="sidebar-right" style="right:0px"></div>
 	</div>
-	<div id="roommenu" style="left:0px" onclick="this.style.left==='0px'?(this.style.left='-180px')&&(app.style.left='20px'):(this.style.left='0px')&&(app.style.left='200px')">
-		<button id="mkEnabler" onclick="enableMediaKeys()">Enable media key controls</button>
+	<div id="roommenu" style="left:-180px" onmouseover="this.style.left='0px'" onmouseout="this.style.left='-180px'">
+		<button onclick="enableMediaKeys();this.remove()">Enable media key controls</button>
+		<p class="sidebar-header">Slide:</p>
+		<input id="slide-name" style="width:160px" type="text" value="teststrat">
+		<button onclick="saveSlide()">Save</button>
+		<button onclick="loadSlide('saved/teststrat.json')">Load</button>
 	</div>
 </body>
 

@@ -27,20 +27,17 @@ function showObjectProperties(obj) {
 	if (obj) object_properties.appendChild(obj.getObjectPropertiesGUI());
 }
 
-
 // Sidebar functionality.
-function sidebarLeftToggle() {
-	if (!sidebar_left.style.left) sidebar_left.style.left = '0px';
-	if (sidebar_left.style.left == '0px') sidebar_left.style.left = '-301px';
-	else sidebar_left.style.left = '0px';
-}
+const sidebarLeftToggle = () => sidebar_left.style.left === '0px' ?
+	sidebar_left.style.left = `-${sidebar_left.getBoundingClientRect().width}px` :
+	sidebar_left.style.left = '0px';
+
 window.sidebarLeftToggle = sidebarLeftToggle;
 
-function sidebarRightToggle() {
-	if (!sidebar_right.style.right) sidebar_right.style.right = '0px';
-	if (sidebar_right.style.right == '0px') sidebar_right.style.right = '-301px';
-	else sidebar_right.style.right = '0px';
-}
+const sidebarRightToggle = () => sidebar_right.style.right === '0px' ?
+	sidebar_right.style.right = `-${sidebar_left.getBoundingClientRect().width}px` :
+	sidebar_right.style.right = '0px';
+
 window.sidebarRightToggle = sidebarRightToggle;
 
 

@@ -39,7 +39,6 @@ const isDragOriginatedFromViewport = () => dragOriginatedFromViewport;
 
 // Placeholder for media key support with the room system.
 window.enableMediaKeys = function () {
-	document.getElementById('mkEnabler').remove();
 	if (!('mediaSession' in navigator)) return alert(`The current browser doesn't support mediakeys. ` + navigator.appVersion);
 	document.getElementById('mk').play();
 	navigator.mediaSession.metadata = new MediaMetadata({
