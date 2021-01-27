@@ -2,7 +2,7 @@
 const http = require('http'), https = require('https'),
 	url = require('url'), path = require('path'), fs = require('fs');
 
-const { getContentType, logHttpRequest, finishResponse, applyToObject } = require('./util.js');
+const { getContentType, logHttpRequest, finishResponse, applyToObject } = require('./util');
 
 /**
  * @type {{port:Number,keyPath:String,certPath:String,rootDir:String,roomsDir:String}}
@@ -20,7 +20,7 @@ const autoCompletes = settings.autoCompletes.split(',');
 autoCompletes.unshift('');
 delete settings.autoCompletes;
 
-const RoomManager = require('./database/RoomManager.js');
+const { RoomManager } = require('./database');
 
 module.exports = {
 	sendFile,
@@ -28,9 +28,7 @@ module.exports = {
 	settings
 }
 
-const handlers = [];
-fs.readdirSync('./handlers/').forEach(filename =>
-	handlers.push(require('./handlers/' + filename)));
+const handlers = require('./handlers');
 
 
 const server = https.createServer({

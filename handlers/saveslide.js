@@ -1,8 +1,8 @@
 
 const http = require('http'), url = require('url'), path = require('path'), fs = require('fs');
-const { settings } = require('../server.js');
-const { roomAccess } = require('../database/RoomManager.js');
-const { finishResponse } = require('../util.js');
+const { settings } = require('../server');
+const { roomAccess } = require('../database/RoomManager');
+const { finishResponse } = require('../util');
 
 /**
  * @param {http.IncomingMessage} request 
