@@ -8,9 +8,9 @@ module.exports = {
 const http = require('http'), https = require('https'),
 	url = require('url'), path = require('path'), fs = require('fs');
 
-const { getContentType, logHttpRequest, finishResponse } = require('./util.js');
+const { getContentType, logHttpRequest, finishResponse, fileToLineArray } = require('./util.js');
 const { keyPath, certPath, port, rootDir } = require('./settings.json');
-const autocompletes = require('./autocompletes.json');
+const autocompletes = fileToLineArray('./autocompletes'); autocompletes.unshift('');
 const rooms = require('./rooms.json');
 
 const handlers = [];

@@ -1,7 +1,8 @@
 
-const http = require('http');
+const http = require('http'), fs = require('fs');
 
-const mimeTypes = require('./mimetypes.json');
+const mimeTypes = {};
+applyToObject(mimeTypes, './mimetypes');
 
 /**
  * @param {http.IncomingMessage} request 
@@ -38,6 +39,26 @@ function getContentType(pathname) {
 }
 
 /**
+ * @param {Object} obj 
+ * @param {String} filepath 
+ */
+function applyToObject(obj, filepath) {
+	fileToLineArray(filepath).forEach((line) => {
+		const parts = line.split('=');
+		if (parts.length !== 2) return;
+		obj[parts[0]] = parts[1];
+	});
+}
+
+/**
+ * @param {String} filepath 
+ * @returns {String[]}
+ */
+function fileToLineArray(filepath) {
+	return fs.readFileSync(filepath).toString().split(/\r?\n/);
+}
+
+/**
  * @param {String} matcher 
  * @param {String} str 
  * @returns {Boolean}
@@ -61,5 +82,7 @@ module.exports = {
 	finishResponse,
 	logHttpRequest,
 	getContentType,
+	applyToObject,
+	fileToLineArray,
 	starMatcher
 }
