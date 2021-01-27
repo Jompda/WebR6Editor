@@ -1,17 +1,27 @@
 
-module.exports = {
-	sendFile,
-	resolveFile,
-	roomAccess
-}
-
 const http = require('http'), https = require('https'),
 	url = require('url'), path = require('path'), fs = require('fs');
 
-const { getContentType, logHttpRequest, finishResponse, fileToLineArray } = require('./util.js');
-const { keyPath, certPath, port, rootDir } = require('./settings.json');
-const autocompletes = fileToLineArray('./autocompletes'); autocompletes.unshift('');
+const { getContentType, logHttpRequest, finishResponse, applyToObject } = require('./util.js');
+
+/**
+ * @type {{port:Number,keyPath:String,certPath:String,rootDir:String,roomsDir:String}}
+ */
+const settings = {};
+applyToObject(settings, './config.cfg');
+
+const autocompletes = settings.autoCompletes.split(',');
+autocompletes.unshift('');
+delete settings.autoCompletes;
+
 const rooms = require('./rooms.json');
+
+module.exports = {
+	sendFile,
+	resolveFile,
+	roomAccess,
+	settings
+}
 
 const handlers = [];
 fs.readdirSync('./handlers/').forEach(filename =>
@@ -19,8 +29,8 @@ fs.readdirSync('./handlers/').forEach(filename =>
 
 
 const server = https.createServer({
-	key: fs.readFileSync(keyPath),
-	cert: fs.readFileSync(certPath)
+	key: fs.readFileSync(settings.keyPath),
+	cert: fs.readFileSync(settings.certPath)
 }, function (request, response) {
 
 	// Try to find a suitable handler.
@@ -39,11 +49,11 @@ const server = https.createServer({
 	}
 });
 
-server.listen(port, '0.0.0.0', () => {
+server.listen(settings.port, '0.0.0.0', () => {
 	const serverAddress = server.address();
 	let address = serverAddress.address;
 	if (serverAddress.family === 'IPv6') address = '['+address+']';
-	console.log(`Serving https on ${address}:${serverAddress.port} from '${path.resolve(rootDir)}' ..`);
+	console.log(`Serving https on ${address}:${serverAddress.port} from '${path.resolve(settings.rootDir)}' ..`);
 });
 
 
@@ -53,7 +63,7 @@ server.listen(port, '0.0.0.0', () => {
  * @param {http.ServerResponse} response 
  */
 function get(request, response) {
-	resolveFile(rootDir + url.parse(request.url).pathname, (resolvedFile, stat) => {
+	resolveFile(settings.rootDir + url.parse(request.url).pathname, (resolvedFile, stat) => {
 		if (resolvedFile) return sendFile(resolvedFile, stat, request, response);
 		finishResponse({ statusCode: 404 }, request, response);
 	});

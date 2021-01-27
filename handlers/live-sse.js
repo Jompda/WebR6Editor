@@ -1,8 +1,7 @@
 
 const http = require('http'), fs = require('fs');
-const { resolveFile } = require('../server.js');
+const { resolveFile, settings } = require('../server.js');
 const { getContentType, logHttpRequest } = require('../util.js');
-const { rootDir } = require('../settings.json');
 
 /**@type {http.ServerResponse[]} */
 const clients = [];
@@ -35,7 +34,7 @@ function handle(request, response) {
  */
 function mapDirectories() {
 	const directories = [];
-	handleDirectory(rootDir);
+	handleDirectory(settings.rootDir);
 	directories.forEach((directory) => {
 		fs.watch(directory, (event, filename) => handleEvents(event, directory+'/'+filename));
 	});
@@ -77,7 +76,7 @@ function handleSSE(request, response) {
  * @param {http.ServerResponse} response 
  */
 function injectHtml(request, response) {
-	resolveFile(rootDir + '/', (resolvedFile) => {
+	resolveFile(settings.rootDir + '/', (resolvedFile) => {
 		if (resolvedFile === undefined) 
 			return finishResponse({ statusCode: 404 }, request, response);
 

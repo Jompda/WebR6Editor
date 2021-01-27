@@ -2,7 +2,7 @@
 const http = require('http'), fs = require('fs');
 
 const mimeTypes = {};
-applyToObject(mimeTypes, './mimetypes');
+applyToObject(mimeTypes, './mimetypes.cfg');
 
 /**
  * @param {http.IncomingMessage} request 
