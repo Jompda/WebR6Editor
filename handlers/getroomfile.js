@@ -1,8 +1,8 @@
 
-const http = require('http'), url = require('url');
-const { roomAccess, resolveFile, sendFile } = require('../server.js');
+const http = require('http'), url = require('url'), path = require('path');
+const { resolveFile, sendFile, settings } = require('../server.js');
+const { roomAccess } = require('../database/RoomManager.js');
 const { finishResponse } = require('../util.js');
-const { roomsDir } = require('../settings.json');
 
 /**
  * @param {http.IncomingMessage} request 
@@ -20,11 +20,12 @@ function handle(request, response) {
 	const parsedUrl = url.parse(request.url);
 	const cutUrl = parsedUrl.pathname.split('/'); cutUrl.shift();
 
-	if (!roomAccess(cutUrl[1], request, response))
+	if (!roomAccess(cutUrl[1], request))
 		return finishResponse({ statusCode: 403 }, request, response);
 
-	if (cutUrl[2]) resolveFile(`${roomsDir}/${cutUrl[1]}/slides/${cutUrl[2]}`, postFileResolve);
-	else resolveFile(`${roomsDir}/${cutUrl[1]}/roominfo.json`, postFileResolve);
+	// tbh why resolve file in this point?
+	if (cutUrl[2]) resolveFile(path.join(settings.roomsDir, cutUrl[1], 'slides', cutUrl[2]), postFileResolve);
+	else resolveFile(path.join(settings.roomsDir, cutUrl[1], 'roominfo.json'), postFileResolve);
 
 	function postFileResolve(resolvedFile, stat) {
 		if (resolvedFile) return sendFile(resolvedFile, stat, request, response);

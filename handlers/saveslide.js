@@ -1,8 +1,8 @@
 
-const http = require('http'), url = require('url'), fs = require('fs');
-const { roomAccess } = require('../server.js');
+const http = require('http'), url = require('url'), path = require('path'), fs = require('fs');
+const { settings } = require('../server.js');
+const { roomAccess } = require('../database/RoomManager.js');
 const { finishResponse } = require('../util.js');
-const { roomsDir } = require('../settings.json');
 
 /**
  * @param {http.IncomingMessage} request 
@@ -19,7 +19,7 @@ function condition(request) {
 function handle(request, response) {
 	const cutUrl = url.parse(request.url).pathname.split('/'); cutUrl.shift();
 
-	if (!roomAccess(cutUrl[1], request, response))
+	if (!roomAccess(cutUrl[1], request))
 		return finishResponse({ statusCode: 403 }, request, response);
 	
 	let body = '';
@@ -27,7 +27,7 @@ function handle(request, response) {
 	request.on('end', () => {
 		try {
 			// Check the integrity of the save data while at it.
-			saveSlide(`${roomsDir}/${cutUrl[1]}/slides/${cutUrl[2]}.json`,
+			saveSlide(path.join(settings.roomsDir, cutUrl[1], 'slides', cutUrl[2] + '.json'),
 				JSON.parse(body), request, response);
 		} catch (err) {
 			finishResponse({

@@ -9,17 +9,22 @@ const { getContentType, logHttpRequest, finishResponse, applyToObject } = requir
  */
 const settings = {};
 applyToObject(settings, './config.cfg');
+{	// Handle the settings.
+	settings.port = parseInt(settings.port);
+	settings.rootDir = path.resolve(settings.rootDir);
+	settings.roomsDir = path.resolve(settings.roomsDir);
+	console.log(settings);
+}
 
-const autocompletes = settings.autoCompletes.split(',');
-autocompletes.unshift('');
+const autoCompletes = settings.autoCompletes.split(',');
+autoCompletes.unshift('');
 delete settings.autoCompletes;
 
-const rooms = require('./rooms.json');
+const RoomManager = require('./database/RoomManager.js');
 
 module.exports = {
 	sendFile,
 	resolveFile,
-	roomAccess,
 	settings
 }
 
@@ -63,7 +68,7 @@ server.listen(settings.port, '0.0.0.0', () => {
  * @param {http.ServerResponse} response 
  */
 function get(request, response) {
-	resolveFile(settings.rootDir + url.parse(request.url).pathname, (resolvedFile, stat) => {
+	resolveFile(path.join(settings.rootDir, url.parse(request.url).pathname), (resolvedFile, stat) => {
 		if (resolvedFile) return sendFile(resolvedFile, stat, request, response);
 		finishResponse({ statusCode: 404 }, request, response);
 	});
@@ -102,27 +107,11 @@ function sendFile(filepath, stat, request, response) {
 function resolveFile(pathname, callback) {
 	let i = 0; loop();
 	function loop() {
-		if (i >= autocompletes.length) return callback();
-		const temp = pathname + autocompletes[i++]
+		if (i >= autoCompletes.length) return callback();
+		const temp = path.join(pathname, autoCompletes[i++]);
 		fs.stat(temp, (err, result) => {
 			if (err || result.isDirectory()) return loop();
 			callback(temp, result);
 		});
 	}
-}
-
-/**
- * @param {String} roomName 
- * @param {http.IncomingMessage} request 
- * @param {http.ServerResponse} response 
- * @returns {Room|false}
- */
-function roomAccess(roomName, request, response) {
-	const room = rooms.find((room) => room.name === roomName);
-	if (!room || !request.headers.authorization) return false;
-
-	const basicAuth = request.headers.authorization.slice('basic '.length);
-	const password = Buffer.from(basicAuth, 'base64').toString();
-
-	return password === room.password ? room : false;
 }
