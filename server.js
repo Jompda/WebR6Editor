@@ -2,13 +2,11 @@
 const http = require('http'), https = require('https'),
 	url = require('url'), path = require('path'), fs = require('fs');
 
-const { getContentType, logHttpRequest, finishResponse, applyToObject } = require('./util');
+const { getContentType, logHttpRequest, finishResponse, cfgToObject } = require('./util');
 
-/**
- * @type {{port:Number,keyPath:String,certPath:String,rootDir:String,roomsDir:String}}
- */
+/**@type {{port:Number,keyPath:String,certPath:String,rootDir:String,roomsDir:String}}*/
 const settings = {};
-applyToObject(settings, './config.cfg');
+cfgToObject(settings, './config.cfg');
 {	// Handle the settings.
 	settings.port = parseInt(settings.port);
 	settings.rootDir = path.resolve(settings.rootDir);
@@ -20,14 +18,13 @@ const autoCompletes = settings.autoCompletes.split(',');
 autoCompletes.unshift('');
 delete settings.autoCompletes;
 
-const { RoomManager } = require('./database');
-
 module.exports = {
 	sendFile,
 	resolveFile,
 	settings
 }
 
+const { RoomManager } = require('./database');
 const handlers = require('./handlers');
 
 

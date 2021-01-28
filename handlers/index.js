@@ -1,3 +1,7 @@
+
 module.exports = [];
-require('fs').readdirSync(__dirname).forEach((filename) =>
-	filename==='index.js'?0:module.exports.push(require('./'+filename)));
+module.exports.getroomfile = require('./getroomfile');
+module.exports.live_sse = require('./live-sse');
+module.exports.saveslide = require('./saveslide');
+
+module.exports.push(module.exports.getroomfile, module.exports.live_sse, module.exports.saveslide);

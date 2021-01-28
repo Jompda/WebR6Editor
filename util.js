@@ -2,7 +2,7 @@
 const http = require('http'), fs = require('fs');
 
 const mimeTypes = {};
-applyToObject(mimeTypes, './mimetypes.cfg');
+cfgToObject(mimeTypes, './mimetypes.cfg');
 
 /**
  * @param {http.IncomingMessage} request 
@@ -42,7 +42,7 @@ function getContentType(pathname) {
  * @param {Object} obj 
  * @param {String} filepath 
  */
-function applyToObject(obj, filepath) {
+function cfgToObject(obj, filepath) {
 	fileToLineArray(filepath).forEach((line) => {
 		const parts = line.split('=');
 		if (parts.length !== 2) return;
@@ -82,7 +82,7 @@ module.exports = {
 	finishResponse,
 	logHttpRequest,
 	getContentType,
-	applyToObject,
+	cfgToObject,
 	fileToLineArray,
 	starMatcher
 }
