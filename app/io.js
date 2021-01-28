@@ -75,7 +75,23 @@ function saveSlide() {
 }
 window.saveSlide = saveSlide;
 
-export default {
+/**
+ * Sets the app to work with the room.
+ * @param {String} roomName 
+ * @param {String} password 
+ */
+function loadRoom(roomName, password) {
+	requestHttpResource({
+		method: 'GET',
+		headers: { 'Authorization': 'Basic ' + btoa(password) },
+		url: `room/${roomName}/`
+	}, (xhr) => {
+		console.log('RoomInfo:', JSON.parse(xhr.responseText));
+	}, (xhr) => alertXhrError(xhr));
+}
+
+export {
 	loadSlide,
-	saveSlide
+	saveSlide,
+	loadRoom
 }

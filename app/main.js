@@ -1,4 +1,4 @@
-import io from './io.js';
+import { loadRoom } from './io.js';
 import { getTool, setTool } from './toolhandler.js';
 import {
 	getTranslateX, setTranslateX,
@@ -36,6 +36,13 @@ window.setup = function setup() {
 	canvas.parent(viewport);
 
 	document.oncontextmenu = () => false;
+
+	// temp room testing
+	if (location.search) {
+		const params = new URL(location).searchParams;
+		loadRoom(params.get('room'), params.get('pw'));
+	}
+
 	update();
 }
 
