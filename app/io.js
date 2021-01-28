@@ -87,11 +87,19 @@ function loadRoom(roomName, password) {
 		url: `room/${roomName}/`
 	}, (xhr) => {
 		console.log('RoomInfo:', JSON.parse(xhr.responseText));
-	}, (xhr) => alertXhrError(xhr));
+	}, () => alert('Authorization forbidden.'));
+}
+
+function initRoomFromURL() {
+	const params = new URL(location).searchParams;
+	const roomName = params.get('room'), password = params.get('pw');
+	if (!roomName || !password) return alert(`Bad URL query. Format: https://${location.host}/?room=ROOMNAME&pw=PASSWORD`);
+	loadRoom(roomName, password);
 }
 
 export {
 	loadSlide,
 	saveSlide,
-	loadRoom
+	loadRoom,
+	initRoomFromURL
 }

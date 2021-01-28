@@ -1,4 +1,4 @@
-import { loadRoom } from './io.js';
+import { initRoomFromURL } from './io.js';
 import { getTool, setTool } from './toolhandler.js';
 import {
 	getTranslateX, setTranslateX,
@@ -38,10 +38,7 @@ window.setup = function setup() {
 	document.oncontextmenu = () => false;
 
 	// temp room testing
-	if (location.search) {
-		const params = new URL(location).searchParams;
-		loadRoom(params.get('room'), params.get('pw'));
-	}
+	if (location.search) initRoomFromURL();
 
 	update();
 }
