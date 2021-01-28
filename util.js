@@ -43,9 +43,9 @@ function getContentType(pathname) {
  * @param {String} filepath 
  */
 function cfgToObject(obj, filepath) {
-	fileToLineArray(filepath).forEach((line) => {
+	fileToLineArray(filepath).filter((line)=>!line.match(/(#.*)|(\[.*])/)).forEach((line) => {
 		const parts = line.split('=');
-		if (parts.length !== 2) return;
+		if (parts.length !== 2) return; // Filter out bad lines.
 		obj[parts[0]] = parts[1];
 	});
 }
