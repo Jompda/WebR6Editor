@@ -6,7 +6,9 @@ const { getContentType, logHttpRequest, finishResponse } = require('./util')
 const { settings, autoCompletes } = require('.')
 
 module.exports = {
+	sendContent,
 	sendFile,
+	sendStream,
 	resolveFile
 }
 
@@ -54,28 +56,49 @@ function get(request, response) {
 }
 
 /**
- * 
+ * @param {String} string 
+ * @param {String} mimetype 
+ * @param {http.IncomingMessage} request 
+ * @param {http.ServerResponse} response 
+ */
+function sendContent(string, mimetype, request, response) {
+	response.writeHead(200, {
+		'Content-Type': mimetype,
+		'Content-Length': string.length
+	}).end(string)
+	logHttpRequest(request, response)
+}
+
+/**
  * @param {String} filepath 
  * @param {fs.Stats} stat 
  * @param {http.IncomingMessage} request 
  * @param {http.ServerResponse} response 
  */
 function sendFile(filepath, stat, request, response) {
-	const stream = fs.createReadStream(filepath)
+	sendStream(fs.createReadStream(filepath), getContentType(filepath), request, response).on('end', () =>
+		logHttpRequest(request, response, filepath)
+	)
+}
+
+/**
+ * @param {fs.ReadStream} stream 
+ * @param {String} mimetype 
+ * @param {http.IncomingMessage} request 
+ * @param {http.ServerResponse} response 
+ */
+function sendStream(stream, mimetype, request, response) {
 	stream.on('open', () => 
 		stream.pipe(response.writeHead(200, {
-			'Content-Type': getContentType(filepath),
-			'Content-Length': stat.size
+			'Content-Type': mimetype
 		}))
 	)
-	stream.on('end', () => {
-		response.end()
-		logHttpRequest(request, response, filepath)
-	})
+	stream.on('end', () => response.end())
 	stream.on('error', (err) => {
 		console.error('Internal Server Error!', err)
 		finishResponse({ statusCode: 500 }, request, response)
 	})
+	return stream;
 }
 
 /**

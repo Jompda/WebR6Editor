@@ -1,6 +1,6 @@
 
 const http = require('http'), url = require('url'), path = require('path'), fs = require('fs')
-const { roomAccess, saveSlide } = require('../database/RoomManager')
+const { roomAccess, getRoomByName } = require('../database/RoomManager')
 const { finishResponse } = require('../util')
 
 /**
@@ -18,15 +18,16 @@ function condition(request) {
 function handle(request, response) {
 	const cutUrl = url.parse(request.url).pathname.split('/'); cutUrl.shift()
 
-	const room = roomAccess(cutUrl[1], request);
-	if (!room) return finishResponse({ statusCode: 403 }, request, response)
+	const room = getRoomByName(cutUrl[1])
+	if (!room || !roomAccess(room, request))
+		return finishResponse({ statusCode: 403 }, request, response)
 	
 	let body = ''
 	request.on('data', (data) => body += data)
 	request.on('end', () => {
 		try {
 			// Check the integrity of the save data while at it.
-			saveSlide(room, cutUrl[2], JSON.parse(body), request, response)
+			room.saveSlide(cutUrl[2], JSON.parse(body), request, response)
 		} catch (err) {
 			finishResponse({
 				statusCode: 400, message: err.message, resolved: err.message
