@@ -1,22 +1,21 @@
 
-const http = require('http'), https = require('https'),
-	url = require('url'), path = require('path'), fs = require('fs');
+const http = require('http'), https = require('https')
+const url = require('url'), path = require('path'), fs = require('fs')
 
-const { getContentType, logHttpRequest, finishResponse, cfgToObject } = require('./util');
+const { getContentType, logHttpRequest, finishResponse, cfgToObject } = require('./util')
 
 /**@type {{port:Number,keyPath:String,certPath:String,rootDir:String,roomsDir:String}}*/
-const settings = {};
-cfgToObject(settings, './config.cfg');
-{	// Handle the settings.
-	settings.port = parseInt(settings.port);
-	settings.rootDir = path.resolve(settings.rootDir);
-	settings.roomsDir = path.resolve(settings.roomsDir);
-	console.log(settings);
+const settings = {}
+cfgToObject(settings, './config.cfg')
+const autoCompletes = settings.autoCompletes.split(',')
+{	// Handle the config.
+	settings.port = parseInt(settings.port) || 443
+	settings.rootDir = path.resolve(settings.rootDir) || '.'
+	settings.roomsDir = path.resolve(settings.roomsDir) || 'database/rooms'
+	autoCompletes.unshift('')
+	delete settings.autoCompletes
+	console.log(settings)
 }
-
-const autoCompletes = settings.autoCompletes.split(',');
-autoCompletes.unshift('');
-delete settings.autoCompletes;
 
 module.exports = {
 	sendFile,
@@ -24,37 +23,36 @@ module.exports = {
 	settings
 }
 
-const { RoomManager } = require('./database');
-const handlers = require('./handlers');
+const { RoomManager } = require('./database')
+const handlers = require('./handlers')
 
 
 const server = https.createServer({
 	key: fs.readFileSync(settings.keyPath),
 	cert: fs.readFileSync(settings.certPath)
-}, function (request, response) {
+}, function handleHttpRequest(request, response) {
 
 	// Try to find a suitable handler.
 	for (let i = 0; i < handlers.length; i++)
 		if (handlers[i].condition(request))
-			return handlers[i].handle(request, response);
+			return handlers[i].handle(request, response)
 
 	// Default
 	switch (request.method) {
-		case 'GET': get(request, response); break;
+		case 'GET': get(request, response); break
 		default:
-			response.writeHead(501);
-			response.end();
-			logHttpRequest(request, response);
-			break;
+			response.writeHead(501)
+			response.end()
+			logHttpRequest(request, response)
+			break
 	}
-});
+})
 
 server.listen(settings.port, '0.0.0.0', () => {
-	const serverAddress = server.address();
-	let address = serverAddress.address;
-	if (serverAddress.family === 'IPv6') address = '['+address+']';
-	console.log(`Serving https on ${address}:${serverAddress.port} from '${path.resolve(settings.rootDir)}' ..`);
-});
+	const serverAddress = server.address()
+	const address = serverAddress.family !== 'IPv6' ? serverAddress.address : '['+serverAddress.address+']'
+	console.log(`Serving https on ${address}:${serverAddress.port} from '${path.resolve(settings.rootDir)}' ..`)
+})
 
 
 
@@ -63,10 +61,10 @@ server.listen(settings.port, '0.0.0.0', () => {
  * @param {http.ServerResponse} response 
  */
 function get(request, response) {
-	resolveFile(path.join(settings.rootDir, url.parse(request.url).pathname), (resolvedFile, stat) => {
-		if (resolvedFile) return sendFile(resolvedFile, stat, request, response);
-		finishResponse({ statusCode: 404 }, request, response);
-	});
+	resolveFile(path.join(settings.rootDir, url.parse(request.url).pathname), (resolvedFile, stat) =>
+		resolvedFile ? sendFile(resolvedFile, stat, request, response)
+			: finishResponse({ statusCode: 404 }, request, response)
+	)
 }
 
 /**
@@ -77,22 +75,21 @@ function get(request, response) {
  * @param {http.ServerResponse} response 
  */
 function sendFile(filepath, stat, request, response) {
-	const stream = fs.createReadStream(filepath);
-	stream.on('open', () => {
-		response.writeHead(200, {
+	const stream = fs.createReadStream(filepath)
+	stream.on('open', () => 
+		stream.pipe(response.writeHead(200, {
 			'Content-Type': getContentType(filepath),
 			'Content-Length': stat.size
-		});
-		stream.pipe(response);
-	});
+		}))
+	)
 	stream.on('end', () => {
-		response.end();
-		logHttpRequest(request, response, filepath);
-	});
+		response.end()
+		logHttpRequest(request, response, filepath)
+	})
 	stream.on('error', (err) => {
-		console.error('Internal Server Error!', err);
-		finishResponse({ statusCode: 500 }, request, response);
-	});
+		console.error('Internal Server Error!', err)
+		finishResponse({ statusCode: 500 }, request, response)
+	})
 }
 
 /**
@@ -100,13 +97,13 @@ function sendFile(filepath, stat, request, response) {
  * @param {Function} callback 
  */
 function resolveFile(pathname, callback) {
-	let i = 0; loop();
+	let i = 0; loop()
 	function loop() {
-		if (i >= autoCompletes.length) return callback();
-		const temp = path.join(pathname, autoCompletes[i++]);
-		fs.stat(temp, (err, result) => {
-			if (err || result.isDirectory()) return loop();
-			callback(temp, result);
-		});
+		if (i >= autoCompletes.length) return callback()
+		const temp = path.join(pathname, autoCompletes[i++])
+		fs.stat(temp, (err, result) =>
+			err || result.isDirectory() ? loop()
+			: callback(temp, result)
+		)
 	}
 }
