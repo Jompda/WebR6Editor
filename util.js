@@ -9,8 +9,7 @@ cfgToObject(mimeTypes, './mimetypes.cfg')
  * @param {http.ServerResponse} response 
  */
 function finishResponse({ statusCode = 200, headers, message, resolved }, request, response, ) {
-	response.writeHead(statusCode, headers)
-	response.end(message)
+	response.writeHead(statusCode, headers).end(message)
 	logHttpRequest(request, response, resolved)
 }
 

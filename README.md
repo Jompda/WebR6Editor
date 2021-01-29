@@ -3,6 +3,7 @@ The simple but useful web-based Rainbow Six: Siege strategy editor.
 ~Developed by: Joni Rapo
 
 ## TODO:
+- Permission manager.
 - A database as the backbone of the room system.
 - Begin using JQuery.
 - Add comments and overall documentation to the code.

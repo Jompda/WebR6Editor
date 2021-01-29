@@ -28,8 +28,7 @@ const httpsServer = https.createServer({
 	switch (request.method) {
 		case 'GET': get(request, response); break
 		default:
-			response.writeHead(501)
-			response.end()
+			response.writeHead(501).end()
 			logHttpRequest(request, response)
 			break
 	}
