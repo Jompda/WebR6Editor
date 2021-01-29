@@ -16,7 +16,7 @@ function finishResponse({ statusCode = 200, headers, message, resolved }, reques
 /**
  * @param {http.IncomingMessage} request 
  * @param {http.ServerResponse} response 
- * @param {String} resolved 
+ * @param {String=} resolved 
  */
 function logHttpRequest(request, response, resolved) {
 	console.log(

@@ -25,7 +25,7 @@ function handle(request, response) {
 		return finishResponse({ statusCode: 403 }, request, response)
 
 	// tbh why resolve file in this point?
-	if (cutUrl[2]) resolveFile(path.join(settings.roomsDir, cutUrl[1], 'slides', cutUrl[2]), postFileResolve)
+	if (cutUrl[2]) resolveFile(path.join(settings.roomsDir, cutUrl[1], 'slides', cutUrl[2] + '.json'), postFileResolve)
 	else resolveFile(path.join(settings.roomsDir, cutUrl[1], 'roominfo.json'), postFileResolve)
 
 	function postFileResolve(resolvedFile, stat) {

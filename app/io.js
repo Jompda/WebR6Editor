@@ -7,7 +7,7 @@ import { requestHttpResource } from "./preload.js";
 function loadSlide() {
 	const slideName = document.getElementById('slide-name').value;
 	requestHttpResource({
-		url: `room/testroom/${slideName}.json`,
+		url: `room/testroom/${slideName}`,
 		headers: { 'Authorization': 'Basic ' + btoa('lith') }
 	}, (xhr) => {
 		const file = JSON.parse(xhr.responseText);
