@@ -102,8 +102,7 @@ function resolveFile(pathname, callback) {
 		if (i >= autoCompletes.length) return callback()
 		const temp = path.join(pathname, autoCompletes[i++])
 		fs.stat(temp, (err, result) =>
-			err || result.isDirectory() ? loop()
-			: callback(temp, result)
+			err || result.isDirectory() ? loop() : callback(temp, result)
 		)
 	}
 }

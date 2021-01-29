@@ -1,15 +1,15 @@
 
-const http = require('http'), url = require('url'), path = require('path'), fs = require('fs');
-const { settings } = require('../server');
-const { roomAccess } = require('../database/RoomManager');
-const { finishResponse } = require('../util');
+const http = require('http'), url = require('url'), path = require('path'), fs = require('fs')
+const { settings } = require('../server')
+const { roomAccess } = require('../database/RoomManager')
+const { finishResponse } = require('../util')
 
 /**
  * @param {http.IncomingMessage} request 
  * @returns {Boolean}
  */
 function condition(request) {
-	return request.method === 'POST' && /\/saveslide\/\S+?\/\S+/.test(request.url);
+	return request.method === 'POST' && /\/saveslide\/\S+?\/\S+/.test(request.url)
 }
 
 /**
@@ -17,24 +17,24 @@ function condition(request) {
  * @param {http.ServerResponse} response 
  */
 function handle(request, response) {
-	const cutUrl = url.parse(request.url).pathname.split('/'); cutUrl.shift();
+	const cutUrl = url.parse(request.url).pathname.split('/'); cutUrl.shift()
 
 	if (!roomAccess(cutUrl[1], request))
-		return finishResponse({ statusCode: 403 }, request, response);
+		return finishResponse({ statusCode: 403 }, request, response)
 	
-	let body = '';
-	request.on('data', (data) => body += data);
+	let body = ''
+	request.on('data', (data) => body += data)
 	request.on('end', () => {
 		try {
 			// Check the integrity of the save data while at it.
 			saveSlide(path.join(settings.roomsDir, cutUrl[1], 'slides', cutUrl[2] + '.json'),
-				JSON.parse(body), request, response);
+				JSON.parse(body), request, response)
 		} catch (err) {
 			finishResponse({
 				statusCode: 400, message: err.message, resolved: err.message
-			}, request, response);
+			}, request, response)
 		}
-	});
+	})
 }
 
 /**
@@ -51,9 +51,9 @@ function saveSlide(filepath, saveData, request, response) {
 	}
 	try {
 		fs.writeFile(filepath, JSON.stringify(content, undefined, /*For debugging purposes*/'\t'),
-		() => finishResponse({ statusCode: 200, resolved: filepath }, request, response));
+		() => finishResponse({ statusCode: 200, resolved: filepath }, request, response))
 	} catch (err) {
-		finishResponse({ statusCode: 500, message: err.message, resolved: err.message }, request, response);
+		finishResponse({ statusCode: 500, message: err.message, resolved: err.message }, request, response)
 	}
 }
 
