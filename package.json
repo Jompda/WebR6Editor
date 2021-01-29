@@ -2,7 +2,7 @@
 	"name": "webr6editor",
 	"version": "1.0.0",
 	"description": "Web version of R6Editor.",
-	"main": "server.js",
+	"main": "index.js",
 	"repository": {
 	  "type": "git",
 	  "url": "git+https://github.com/Jompda/WebR6Editor.git"

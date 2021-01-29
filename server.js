@@ -2,32 +2,19 @@
 const http = require('http'), https = require('https')
 const url = require('url'), path = require('path'), fs = require('fs')
 
-const { getContentType, logHttpRequest, finishResponse, cfgToObject } = require('./util')
-
-/**@type {{port:Number,keyPath:String,certPath:String,rootDir:String,roomsDir:String}}*/
-const settings = {}
-cfgToObject(settings, './config.cfg')
-const autoCompletes = settings.autoCompletes.split(',')
-{	// Handle the config.
-	settings.port = parseInt(settings.port) || 443
-	settings.rootDir = path.resolve(settings.rootDir) || '.'
-	settings.roomsDir = path.resolve(settings.roomsDir) || 'database/rooms'
-	autoCompletes.unshift('')
-	delete settings.autoCompletes
-	console.log(settings)
-}
+const { getContentType, logHttpRequest, finishResponse } = require('./util')
+const { settings, autoCompletes } = require('.')
 
 module.exports = {
 	sendFile,
-	resolveFile,
-	settings
+	resolveFile
 }
 
 const { RoomManager } = require('./database')
 const handlers = require('./handlers')
 
 
-const server = https.createServer({
+const httpsServer = https.createServer({
 	key: fs.readFileSync(settings.keyPath),
 	cert: fs.readFileSync(settings.certPath)
 }, function handleHttpRequest(request, response) {
@@ -48,8 +35,8 @@ const server = https.createServer({
 	}
 })
 
-server.listen(settings.port, '0.0.0.0', () => {
-	const serverAddress = server.address()
+httpsServer.listen(settings.port, '0.0.0.0', () => {
+	const serverAddress = httpsServer.address()
 	const address = serverAddress.family !== 'IPv6' ? serverAddress.address : '['+serverAddress.address+']'
 	console.log(`Serving https on ${address}:${serverAddress.port} from '${path.resolve(settings.rootDir)}' ..`)
 })

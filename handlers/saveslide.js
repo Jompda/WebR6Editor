@@ -1,6 +1,6 @@
 
 const http = require('http'), url = require('url'), path = require('path'), fs = require('fs')
-const { settings } = require('../server')
+const { settings } = require('..')
 const { roomAccess } = require('../database/RoomManager')
 const { finishResponse } = require('../util')
 
