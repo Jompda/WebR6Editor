@@ -7,6 +7,7 @@ import {
 	createImageToolButton,
 	createHR
 } from './gui.js';
+import { initRoomFromURL } from './io.js';
 
 //'https://jompda.github.io/WebR6Editor/'
 const resourceURL = 'https://raw.githubusercontent.com/Jompda/Jompda.github.io/main/WebR6Editor/';
@@ -108,6 +109,9 @@ function loadAssetList(xhr) {
 		createImagePlacerGroup(matchingPage, group);
 	});
 	console.log(assets);
+
+	// temp room testing
+	if (location.search) initRoomFromURL();
 }
 
 /**

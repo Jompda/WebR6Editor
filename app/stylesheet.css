@@ -101,6 +101,10 @@ html, body {
 .sidebar-aligner {
 	padding: 6px 6px;
 }
+.sidebar-text {
+	color: white;
+	user-select: none;
+}
 .sidebar-header {
 	margin-bottom: 10px;
 	font-size: 18px;

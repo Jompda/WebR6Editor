@@ -1,3 +1,4 @@
 module.exports = {
-	RoomManager: require('./RoomManager')
+	RoomManager: require('./RoomManager'),
+	Room: require('./room')
 }

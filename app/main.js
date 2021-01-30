@@ -37,9 +37,6 @@ window.setup = function setup() {
 
 	document.oncontextmenu = () => false;
 
-	// temp room testing
-	if (location.search) initRoomFromURL();
-
 	update();
 }
 

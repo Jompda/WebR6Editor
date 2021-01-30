@@ -2,14 +2,15 @@
 const http = require('http'), https = require('https')
 const url = require('url'), path = require('path'), fs = require('fs')
 
-const { getContentType, logHttpRequest, finishResponse } = require('./util')
-const { settings, autoCompletes } = require('.')
+const { logHttpRequest, finishResponse } = require('./util')
+const { settings, autoCompletes, mimeTypes } = require('.')
 
 module.exports = {
 	sendContent,
 	sendFile,
 	sendStream,
-	resolveFile
+	resolveFile,
+	getContentType
 }
 
 const { RoomManager } = require('./database')
@@ -114,4 +115,12 @@ function resolveFile(pathname, callback) {
 			err || result.isDirectory() ? loop() : callback(temp, result)
 		)
 	}
+}
+
+/**
+ * @param {String} pathname 
+ * @returns {String}
+ */
+function getContentType(pathname) {
+	return mimeTypes[pathname.slice(pathname.lastIndexOf('.')+1)] || 'text/plain'
 }

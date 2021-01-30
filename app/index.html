@@ -16,14 +16,18 @@
 	<div id="roommenu" onmouseover="this.style.transform='translate(200px)'" onmouseout="this.style.transform='translate(0px)'">
 		<div style="float:left;width:200px">
 			<button onclick="enableMediaKeys();this.remove()">Enable media key controls</button>
-			<p class="sidebar-header">Slide:</p>
-			<input id="slide-name" style="width:160px" type="text" value="teststrat">
+			<p class="sidebar-header">Room controls:</p>
+			<p class="sidebar-text">Room:</p>
+			<input id="room-name" style="width:100px" type="text" onchange="Room.name = this.value">
+			<p class="sidebar-text">Password:</p>
+			<input id="room-pw" style="width:100px" type="password" onchange="Room.password = this.value">
+			<button onclick="loadRoom()">Load Room</button>
+			<p class="sidebar-text">Slide:</p>
+			<input id="slide-name" style="width:100px" type="text" onchange="Room.slide = this.value">
 			<button onclick="saveSlide()">Save</button>
-			<button onclick="loadSlide('saved/teststrat.json')">Load</button>
+			<button onclick="loadSlide()">Load</button>
 		</div>
-		<div style="float:right;height:100%;width:15px;background-color:#101010">
-			<p style="transform:rotate(90deg);color:white;letter-spacing:2px;">testroom</p>
-		</div>
+		<div style="float:right;height:100%;width:15px;background-color:#101010"></div>
 	</div>
 </body>
 

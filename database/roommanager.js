@@ -2,6 +2,7 @@
 const http = require('http'), path = require('path'), fs = require('fs')
 
 const Room = require('./room')
+// Construct the cache.
 const rooms = require('./temproomsdb.json').map((obj) => new Room(obj))
 
 

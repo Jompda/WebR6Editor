@@ -4,10 +4,17 @@ import ImageObj from "./objects/imageobj.js";
 import Obj from "./objects/obj.js";
 import { requestHttpResource } from "./preload.js";
 
+
+const Room = {
+	name: undefined,
+	password: undefined,
+	slide: undefined
+}
+window.Room = Room;
+
 function loadSlide() {
-	const slideName = document.getElementById('slide-name').value;
 	requestHttpResource({
-		url: `room/testroom/${slideName}`,
+		url: `room/${Room.name}/${Room.slide}`,
 		headers: { 'Authorization': 'Basic ' + btoa('lith') }
 	}, (xhr) => {
 		const file = JSON.parse(xhr.responseText);
@@ -29,7 +36,7 @@ function loadSlide() {
 		});
 	
 		update();
-	}, () => alert(`Slide '${slideName}' doesn't exist!`));
+	}, () => alert(`Slide '${Room.slide}' doesn't exist!`));
 }
 window.loadSlide = loadSlide;
 
@@ -42,13 +49,12 @@ function saveSlide() {
 	}, replacer);
 
 	// Save the slide.
-	const slideName = document.getElementById('slide-name').value;
 	requestHttpResource({
 		method: 'POST',	headers: {
 			'Authorization': 'Basic ' + btoa('lith'),
 			'Content-Type': 'application/json'
 		},
-		url: `saveslide/testroom/${slideName}`, body: saveData
+		url: `saveslide/${Room.name}/${Room.slide}`, body: saveData
 	}, (xhr) => {
 		if (xhr.status != 200) return alertXhrError(xhr);
 		alert('The slide has been succesfully saved!');
@@ -77,27 +83,32 @@ window.saveSlide = saveSlide;
 
 /**
  * Sets the app to work with the room.
- * @param {String} roomName 
- * @param {String} password 
  */
-function loadRoom(roomName, password) {
+function loadRoom() {
 	requestHttpResource({
 		method: 'GET',
-		headers: { 'Authorization': 'Basic ' + btoa(password) },
-		url: `room/${roomName}/`
+		headers: { 'Authorization': 'Basic ' + btoa(Room.password) },
+		url: `room/${Room.name}/`
 	}, (xhr) => {
 		console.log('RoomInfo:', JSON.parse(xhr.responseText));
 	}, () => alert('Authorization forbidden.'));
 }
+window.loadRoom = loadRoom;
 
 function initRoomFromURL() {
-	const params = new URL(location).searchParams;
-	const roomName = params.get('room'), password = params.get('pw');
-	if (!roomName || !password) return alert(`Bad URL query. Format: https://${location.host}/?room=ROOMNAME&pw=PASSWORD`);
-	loadRoom(roomName, password);
+	const params = new URL(location).searchParams
+	const roomName = params.get('room'), password = params.get('pw'), slideName = params.get('slide')
+	document.getElementById('room-name').value = Room.name = roomName
+	document.getElementById('room-pw').value = Room.password = password
+	document.getElementById('slide-name').value = Room.slide = slideName
+	if (Room.name && Room.password) {
+		loadRoom()
+		if (Room.slide) loadSlide()
+	}
 }
 
 export {
+	Room,
 	loadSlide,
 	saveSlide,
 	loadRoom,

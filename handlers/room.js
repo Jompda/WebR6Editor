@@ -30,8 +30,6 @@ function handle(request, response) {
 	} else { // roominfo
 		sendContent(JSON.stringify(room.roominfo), 'application/json', request, response)
 	}
-
-	
 }
 
 module.exports = {

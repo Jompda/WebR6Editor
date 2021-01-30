@@ -1,9 +1,6 @@
 
 const http = require('http'), fs = require('fs')
 
-const mimeTypes = {}
-cfgToObject(mimeTypes, './mimetypes.cfg')
-
 /**
  * @param {http.IncomingMessage} request 
  * @param {http.ServerResponse} response 
@@ -26,14 +23,6 @@ function logHttpRequest(request, response, resolved) {
 		+ 'HTTP/' + request.httpVersion + ' - '
 		+ response.statusCode + ' '
 		+ response.statusMessage)
-}
-
-/**
- * @param {String} pathname 
- * @returns {String}
- */
-function getContentType(pathname) {
-	return mimeTypes[pathname.slice(pathname.lastIndexOf('.')+1)] || 'text/plain'
 }
 
 /**
@@ -78,7 +67,6 @@ function starMatcher(matcher, str) {
 module.exports = {
 	finishResponse,
 	logHttpRequest,
-	getContentType,
 	cfgToObject,
 	fileToLineArray,
 	starMatcher

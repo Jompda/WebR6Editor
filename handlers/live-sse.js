@@ -1,8 +1,8 @@
 
 const http = require('http'), fs = require('fs')
 const { settings } = require('..')
-const { resolveFile } = require('../server')
-const { getContentType, logHttpRequest } = require('../util')
+const { resolveFile, getContentType } = require('../server')
+const { logHttpRequest } = require('../util')
 
 /**@type {http.ServerResponse[]} */
 const clients = []
@@ -17,8 +17,8 @@ mapDirectories()
  * @returns {Boolean}
  */
 function condition(request) {
-	return request.method === 'GET' && (request.url === '/live-page'
-		|| request.url === '/live-server-updates')
+	return request.method === 'GET' && (request.url.startsWith('/live-page')
+		|| request.url.startsWith('/live-server-updates'))
 }
 
 /**
@@ -26,8 +26,8 @@ function condition(request) {
  * @param {http.ServerResponse} response 
  */
 function handle(request, response) {
-	if (request.url === '/live-page') injectHtml(request, response)
-	else if (request.url === '/live-server-updates') handleSSE(request, response)
+	if (request.url.startsWith('/live-page')) injectHtml(request, response)
+	else handleSSE(request, response)
 }
 
 /**
@@ -77,7 +77,7 @@ function handleSSE(request, response) {
  * @param {http.ServerResponse} response 
  */
 function injectHtml(request, response) {
-	resolveFile(settings.rootDir + '/', (resolvedFile) => {
+	resolveFile(settings.rootDir, (resolvedFile) => {
 		if (resolvedFile === undefined) 
 			return finishResponse({ statusCode: 404 }, request, response)
 
