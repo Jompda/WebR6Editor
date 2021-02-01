@@ -3,6 +3,7 @@ const http = require('http'), fs = require('fs'), path = require('path')
 
 const { settings } = require('..')
 const { finishResponse } = require('../util')
+const { saveRooms } = require('./RoomManager')
 
 /**
  * Room representing a room in the datastructure.
@@ -19,6 +20,7 @@ module.exports = class Room {
 		this.password = obj.password
 		this.owner = obj.owner
 		this.roominfo = require(path.join(settings.roomsDir, this.name, 'roominfo.json'))
+		/**@type {String[]} */
 		this.slides = this.roominfo.slides
 	}
 
@@ -30,6 +32,11 @@ module.exports = class Room {
 	 */
 	saveSlide(slideName, saveData, request, response) {
 		const filepath = path.join(settings.roomsDir, this.name, 'slides', slideName + '.json')
+
+		if (!this.slides.find(temp=>temp===slideName)) {
+			this.slides.push(slideName)
+			this.saveRoomInfo()
+		}
 
 		// TODO: Check for permissions.
 		const content = {
@@ -52,5 +59,14 @@ module.exports = class Room {
 	 */
 	slideReadStream(slideName) {
 		return fs.createReadStream(path.join(settings.roomsDir, this.name, 'slides', slideName + '.json'))
+	}
+
+	saveRoomInfo() {
+		const result = JSON.stringify({
+			slides: this.slides
+		}, undefined, '\t')
+		fs.writeFile(path.join(settings.roomsDir, this.name, 'roominfo.json'), result, () =>
+			console.log('saved roominfo')
+		)
 	}
 }

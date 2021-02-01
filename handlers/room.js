@@ -25,6 +25,9 @@ function handle(request, response) {
 		return finishResponse({ statusCode: 403 }, request, response)
 
 	if (cutUrl[2]) { // slide
+		if (!room.slides.find(temp=>temp===cutUrl[2]))
+			return finishResponse({ statusCode: 404 }, request, response)
+		
 		sendStream(room.slideReadStream(cutUrl[2]), 'application/json', request, response)
 			.on('end', () => logHttpRequest(request, response))
 	} else { // roominfo

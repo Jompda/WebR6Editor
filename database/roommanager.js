@@ -1,5 +1,12 @@
 
+const { settings } = require('..')
 const http = require('http'), path = require('path'), fs = require('fs')
+
+module.exports = {
+	roomAccess,
+	getRoomByName,
+	saveRooms
+}
 
 const Room = require('./room')
 // Construct the cache.
@@ -28,7 +35,18 @@ function getRoomByName(roomName) {
 	return rooms.find((room) => room.name === roomName)
 }
 
-module.exports = {
-	roomAccess,
-	getRoomByName
+/**
+ * Temporary solution until a proper databse.
+ */
+function saveRooms() {
+	const result = JSON.stringify(rooms, replacer, '\t')
+	fs.writeFile('./temproomsdb.json', result, () =>
+		console.log('saved roomsdb')
+	)
+
+	function replacer(key, value) {
+		// Filter out roominfo
+		if (key === 'roominfo') return
+		return value
+	}
 }
