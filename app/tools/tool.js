@@ -1,5 +1,5 @@
-import { dragObject, dragViewport, isDragOriginatedFromViewport } from '../controller.js';
-import Obj from '../objects/obj.js';
+import { dragObject, dragViewport, isDragOriginatedFromViewport } from '../controller.js'
+import Obj from '../objects/obj.js'
 
 /**
  * Representing a default tool.
@@ -7,8 +7,8 @@ import Obj from '../objects/obj.js';
 class Tool {
 
 	constructor() {
-		this.options = {};
-		this.editAllowed = true;
+		this.options = {}
+		this.editAllowed = true
 	}
 
 	/**
@@ -24,8 +24,8 @@ class Tool {
 	 * @param {Obj} onObject 
 	 */
 	mouseDragged(event, onObject) {
-		if (onObject) dragObject(onObject);
-		else if (isDragOriginatedFromViewport()) dragViewport();
+		if (onObject) dragObject(onObject)
+		else if (isDragOriginatedFromViewport()) dragViewport()
 	}
 
 	/**
@@ -38,4 +38,4 @@ class Tool {
 
 }
 
-export default Tool;
+export default Tool

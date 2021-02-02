@@ -1,29 +1,29 @@
-import Obj from './objects/obj.js';
-import { sidebar_left, sidebar_right } from './preload.js';
+import Obj from './objects/obj.js'
+import { sidebar_left, sidebar_right } from './preload.js'
 
 /* BEGIN SEGMENT
  * Functions for object selection with the controller.
  */
 /**@type {Obj} */
-var selectedObject;
-const getSelectedObject = window.getSelectedObject = () => selectedObject;
+var selectedObject
+const getSelectedObject = window.getSelectedObject = () => selectedObject
 
 /**
  * Sets the selected object variable and calls showObjectProperties().
  * @param {Obj} obj
  */
 const setSelectedObject = window.setSelectedObject = (obj) =>
-	showObjectProperties(selectedObject = obj);
+	showObjectProperties(selectedObject = obj)
 
 /**
  * @param {Obj} obj 
  */
 function showObjectProperties(obj) {
-	const object_properties = document.getElementById('object-properties');
+	const object_properties = document.getElementById('object-properties')
 	if (!object_properties) return;
-	if (object_properties.firstChild) object_properties.removeChild(object_properties.firstChild);
-	if (obj) object_properties.appendChild(obj.getObjectPropertiesGUI());
-	return obj;
+	if (object_properties.firstChild) object_properties.removeChild(object_properties.firstChild)
+	if (obj) object_properties.appendChild(obj.getObjectPropertiesGUI())
+	return obj
 }
 /*
  * END SEGMENT
@@ -33,22 +33,22 @@ function showObjectProperties(obj) {
 /* BEGIN SEGMENT
  * Functions for the sidebar animations.
  */
-var slts = true;
+var slts = true
 const sidebarLeftToggle = window.sidebarLeftToggle = () => (slts = !slts) ?
-		translateElement(sidebar_left, '0px') :
-		translateElement(sidebar_left, -sidebar_left.getBoundingClientRect().width+'px');
+	translateElement(sidebar_left, '0px') :
+	translateElement(sidebar_left, -sidebar_left.getBoundingClientRect().width+'px')
 
-var srts = true;
+var srts = true
 const sidebarRightToggle = window.sidebarRightToggle = () => (srts = !srts) ?
-		translateElement(sidebar_right, '0px') :
-		translateElement(sidebar_right, sidebar_right.getBoundingClientRect().width+'px');
+	translateElement(sidebar_right, '0px') :
+	translateElement(sidebar_right, sidebar_right.getBoundingClientRect().width+'px')
 
 /**
  * @param {HTMLElement} element 
  * @param {String} value 
  */
 const translateElement = window.translateElement = (element, value) =>
-	element.style.transform=`translate(${value})`;
+	element.style.transform=`translate(${value})`
 /*
  * END SEGMENT
  */
@@ -67,7 +67,7 @@ const translateElement = window.translateElement = (element, value) =>
  * Functions for creating the editor sidebars.
  */
 function createImageToolButton(title, imgurl, onchange) {
-	const label = formElement('label', [[ 'class', 'imagetool' ]]);
+	const label = formElement('label', [[ 'class', 'imagetool' ]])
 	label.append(
 		formElement('input', [
 			[ 'type', 'radio' ],
@@ -78,34 +78,33 @@ function createImageToolButton(title, imgurl, onchange) {
 			[ 'src', imgurl ],
 			[ 'title', title ]
 		])
-	);
-	return label;
+	)
+	return label
 }
 
 function createToolPageButton(title, group) {
-	const label = formElement('label', [[ 'class', 'tool-page-button' ]]);
+	const label = formElement('label', [[ 'class', 'tool-page-button' ]])
 	const input = formElement('input', [
 		[ 'type', 'radio' ],
 		[ 'name', 'tool-page-button' ],
-		[ 'onchange', `setToolPage('${group}');` ]
-	]);
-	const txt = document.createElement('div');
-	txt.innerHTML = title;
-	label.appendChild(input);
-	label.appendChild(txt);
-	return label;
+		[ 'onchange', `setToolPage('${group}')` ]
+	])
+	const txt = document.createElement('div')
+	txt.textContent = title
+	label.append(input, txt)
+	return label
 }
 
 function createToolButton(title) {
 	return formElement('button', [
 		[ 'class', 'toolbutton' ],
 		[ 'onclick', `setTool('${title.toLowerCase()}')` ]
-	], title);
+	], title)
 }
 
-const createHeader = (header) => formElement('p', [[ 'class', 'sidebar-header' ]], header);
-const createHR = () => formElement('hr', [[ 'class', 'sidebar-hr' ]]);
-const createFlexTable = () => formElement('div', [[ 'class', 'flex-table' ]]);
+const createHeader = (header) => formElement('p', [[ 'class', 'sidebar-header' ]], header)
+const createHR = () => formElement('hr', [[ 'class', 'sidebar-hr' ]])
+const createFlexTable = () => formElement('div', [[ 'class', 'flex-table' ]])
 
 /**
  * @param {String} tag 
@@ -114,10 +113,10 @@ const createFlexTable = () => formElement('div', [[ 'class', 'flex-table' ]]);
  * @returns {HTMLElement}
  */
 function formElement(tag, attribs, innerHTML) {
-	const elem = document.createElement(tag);
-	if (attribs) attribs.forEach(attrib => elem.setAttribute(attrib[0], attrib[1]));
-	if (innerHTML) elem.innerHTML = innerHTML;
-	return elem;
+	const elem = document.createElement(tag)
+	if (attribs) attribs.forEach(attrib => elem.setAttribute(attrib[0], attrib[1]))
+	if (innerHTML) elem.innerHTML = innerHTML
+	return elem
 }
 /*
  * END SEGMENT
@@ -134,4 +133,4 @@ export {
 	createHR,
 	createFlexTable,
 	formElement
-};
+}

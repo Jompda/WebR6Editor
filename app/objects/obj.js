@@ -9,11 +9,11 @@ class Obj {
 	 * @param {color|undefined} outline 
 	 */
 	constructor(x, y, outline) {
-		this.x = x; this.y = y;
-		this.outline = outline;
-		this.rotation = 0;
+		this.x = x; this.y = y
+		this.outline = outline
+		this.rotation = 0
 		/**@type {ControlPoint[]} */
-		this.controlPoints = [];
+		this.controlPoints = []
 	}
 
 	/**
@@ -55,11 +55,11 @@ class Obj {
 	 */
 	parseOutline(outline) {
 		if (outline === '') {
-			this.outline = undefined;
-			return true;
+			this.outline = undefined
+			return true
 		}
-		this.outline = color(outline);
-		return true;
+		this.outline = color(outline)
+		return true
 	}
 
 }
@@ -77,4 +77,4 @@ export class ControlPoint {
 
 }
 
-export default Obj;
+export default Obj

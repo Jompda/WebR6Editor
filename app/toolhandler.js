@@ -1,6 +1,6 @@
-import Tool from './tools/tool.js';
-import Remover from './tools/remover.js';
-import ImagePlacer from './tools/imageplacer.js';
+import Tool from './tools/tool.js'
+import Remover from './tools/remover.js'
+import ImagePlacer from './tools/imageplacer.js'
 
 
 /**
@@ -9,60 +9,56 @@ import ImagePlacer from './tools/imageplacer.js';
  */
 const toolGroups = new Map([
 	[ 'basic', document.createElement('div') ]
-]);
+])
 
-/**@type {HTMLElement}*/ var subtools_container;
-/**@param {HTMLElement} element */
-const setToolPageContainer = (element) => subtools_container = element;
+/**@type {HTMLElement}*/ var subtools_container
+/**@param {HTMLElement} element*/
+const setToolPageContainer = (element) => subtools_container = element
 
 /**@param {String} group the group name in toolGroups*/
-function setToolPage(group) {
-	clearSelectedTool();
-	if (subtools_container.firstChild) subtools_container.removeChild(subtools_container.firstChild);
-	subtools_container.appendChild(toolGroups.get(group));
+const setToolPage = window.setToolPage = (group) => {
+	clearSelectedTool()
+	if (subtools_container.firstChild) subtools_container.removeChild(subtools_container.firstChild)
+	subtools_container.appendChild(toolGroups.get(group))
 }
-window.setToolPage = setToolPage;
 
 const clearSelectedTool = () =>
-	document.getElementsByName('tool').forEach((elem) => elem.checked = false);
+	document.getElementsByName('tool').forEach((elem) => elem.checked = false)
 
 
 // Tool functionality.
-/**@type {Map<String, Tool>}*/ const tools = new Map();
-/**@type {Tool}*/ var tool;
-/**@returns {Tool}*/
-const getTool = () => tool;
+/**@type {Map<String, Tool>}*/ const tools = new Map()
+/**@type {Tool}*/
+var tool
+const getTool = () => tool
 /**
  * @param {String} name 
  * @param {String=} options 
  * @returns {Tool=}
  */
-function setTool(name, options) {
-	const ctool = tools.get(name);
+const setTool = window.setTool = (name, options) => {
+	const ctool = tools.get(name)
 	if (!ctool) return;
-	if (options) ctool.options = JSON.parse(options);
-	return tool = ctool;
+	if (options) ctool.options = JSON.parse(options)
+	return tool = ctool
 }
-window.setTool = setTool;
 
 
 // Outline functionality.
-/**@type {color}*/ var outline = undefined;
-/**@returns {color}*/
+/**@type {color}*/
+var outline
 const getOutline = () => outline;
 /**
- * @param {color|undefined} newOutline 
- * @returns {color|undefined}
+ * @param {color=} newOutline 
  */
-const setOutline = (newOutline) => outline = newOutline;
-window.setOutline = setOutline;
+const setOutline = window.setOutline = (newOutline) => outline = newOutline
 
 
 // Temporary way of initializing the tools.
-tools.set('notool', new Tool());
-tools.set('remover', new Remover());
-tools.set('imageplacer', new ImagePlacer());
-setTool('notool');
+tools.set('notool', new Tool())
+tools.set('remover', new Remover())
+tools.set('imageplacer', new ImagePlacer())
+setTool('notool')
 
 export {
 	setToolPageContainer,
@@ -70,4 +66,4 @@ export {
 	getTool, setTool,
 	getOutline, setOutline,
 	setToolPage
-};
+}
