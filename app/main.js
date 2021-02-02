@@ -10,6 +10,9 @@ import { getSelectedObject, showObjectProperties } from './gui.js';
 import Obj from './objects/obj.js';
 import ImagePlacer from './tools/imageplacer.js';
 
+/*
+ * After initializing the imports, set up the DOM and wait for p5.
+ */
 document.getElementsByTagName('body')[0].setAttribute('onresize', 'windowResized()');
 const viewport = document.getElementById('viewport');
 const imageobj_size = 100;
@@ -24,6 +27,7 @@ const getObjects = () => objects;
 
 window.windowResized = () =>
 	update(resizeCanvas(viewport.offsetWidth, viewport.offsetHeight));
+document.oncontextmenu = () => false;
 
 /**
  * Function setup is called the by p5js library right before the draw-loop begins.
@@ -31,23 +35,18 @@ window.windowResized = () =>
  */
 window.setup = function setup() {
 	backgroundImage = createImage(1,1); // Just to avoid background-image drawing errors.
-	setTool('notool');
 	canvas = createCanvas(viewport.offsetWidth, viewport.offsetHeight);
 	canvas.parent(viewport);
-
-	document.oncontextmenu = () => false;
-
 	update();
 }
 
+/**Determines whether or not the slide needs to be redrawn.*/
 var scheduledUpdate = false;
+/**Redraw the slide.*/
 const update = () => scheduledUpdate = true;
 window.update = update;
 
-/**
- * Function draw called by the p5js library in a loop.
- * Is in charge of updating the canvas.
- */
+/**Called by the p5js library in a continuous loop.*/
 window.draw = function draw() {
 	if (!scheduledUpdate) return;
 	scheduledUpdate = false;
@@ -83,12 +82,19 @@ window.draw = function draw() {
 	//console.log(`${renderTime} millisecond${renderTime==1?'':'s'} render time.`);
 }
 
+/**
+ * @param {Number} x 
+ * @param {Number} y 
+ */
 function getIntersectingObject(x, y) {
 	for (let i = 0; i < objects.length; i++)
 		if (objects[i].intersects(x, y))
 			return { obj: objects[i], i };
 }
 
+/**
+ * @param {String} name 
+ */
 function changeMap(name) {
 	if (name !== '-----') {
 		backgroundImageUrl = name;
@@ -117,6 +123,7 @@ window.changeMap = changeMap;
 
 /**
  * Loads images and possibly strats from json files in the future.
+ * NOTE: Currently there is no support for saving or loading objects from save data created this way.
  * @param {DragEvent} event 
  */
 window.dropHandler = function dropHandler(event) {

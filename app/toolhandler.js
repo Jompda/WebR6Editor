@@ -62,6 +62,7 @@ window.setOutline = setOutline;
 tools.set('notool', new Tool());
 tools.set('remover', new Remover());
 tools.set('imageplacer', new ImagePlacer());
+setTool('notool');
 
 export {
 	setToolPageContainer,
