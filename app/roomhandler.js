@@ -12,7 +12,7 @@ const Room = {
 }
 window.Room = Room;
 
-function loadSlide() {
+const loadSlide = window.loadSlide = () => {
 	requestHttpResource({
 		url: `room/${Room.name}/${Room.slide}`,
 		headers: { 'Authorization': 'Basic ' + btoa('lith') }
@@ -38,9 +38,8 @@ function loadSlide() {
 		update();
 	}, () => alert(`Slide '${Room.slide}' doesn't exist!`));
 }
-window.loadSlide = loadSlide;
 
-function saveSlide() {
+const saveSlide = window.saveSlide = () => {
 	const objs = getObjects();
 	const cache = []; // Used to avoid circular structures in the JSON.
 	const saveData = JSON.stringify({
@@ -79,12 +78,11 @@ function saveSlide() {
 		return value;
 	}
 }
-window.saveSlide = saveSlide;
 
 /**
  * Assigns the room to the session.
  */
-function loadRoom() {
+const loadRoom = window.loadRoom = () => {
 	requestHttpResource({
 		method: 'GET',
 		headers: { 'Authorization': 'Basic ' + btoa(Room.password) },
@@ -96,7 +94,6 @@ function loadRoom() {
 		console.log('RoomInfo:', JSON.parse(xhr.responseText));
 	}, () => alert('Authorization forbidden.'));
 }
-window.loadRoom = loadRoom;
 
 function initRoomFromURL() {
 	const params = new URL(location).searchParams

@@ -30,10 +30,10 @@ window.windowResized = () =>
 document.oncontextmenu = () => false;
 
 /**
- * Function setup is called the by p5js library right before the draw-loop begins.
+ * Called the by p5js library right before the draw-loop begins.
  * It is in charge of creating the canvas and making the software ready for use.
  */
-window.setup = function setup() {
+window.setup = function() {
 	backgroundImage = createImage(1,1); // Just to avoid background-image drawing errors.
 	canvas = createCanvas(viewport.offsetWidth, viewport.offsetHeight);
 	canvas.parent(viewport);
@@ -43,11 +43,10 @@ window.setup = function setup() {
 /**Determines whether or not the slide needs to be redrawn.*/
 var scheduledUpdate = false;
 /**Redraw the slide.*/
-const update = () => scheduledUpdate = true;
-window.update = update;
+const update = window.update = () => scheduledUpdate = true;
 
 /**Called by the p5js library in a continuous loop.*/
-window.draw = function draw() {
+window.draw = function() {
 	if (!scheduledUpdate) return;
 	scheduledUpdate = false;
 
@@ -95,7 +94,7 @@ function getIntersectingObject(x, y) {
 /**
  * @param {String} name 
  */
-function changeMap(name) {
+const changeMap = window.changeMap = (name) => {
 	if (name !== '-----') {
 		backgroundImageUrl = name;
 		backgroundImage = loadImage(resourceURL + backgroundImageUrl, focusToImage);
@@ -119,14 +118,13 @@ function changeMap(name) {
 		}
 	}
 }
-window.changeMap = changeMap;
 
 /**
  * Loads images and possibly strats from json files in the future.
  * NOTE: Currently there is no support for saving or loading objects from save data created this way.
  * @param {DragEvent} event 
  */
-window.dropHandler = function dropHandler(event) {
+window.dropHandler = function(event) {
 	event.preventDefault();
 
 	if (event.dataTransfer.items) {

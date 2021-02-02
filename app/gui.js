@@ -1,21 +1,19 @@
 import Obj from './objects/obj.js';
 import { sidebar_left, sidebar_right } from './preload.js';
 
-// Object selection functionality.
+/* BEGIN
+ * Functions for object selection with the controller.
+ */
+/**@type {Obj} */
 var selectedObject;
-/**@returns {Obj}*/
-const getSelectedObject = () => selectedObject;
-window.getSelectedObject = getSelectedObject;
+const getSelectedObject = window.getSelectedObject = () => selectedObject;
+
 /**
  * Sets the selected object variable and calls showObjectProperties().
  * @param {Obj} obj
- * @returns {Obj}
  */
-function setSelectedObject(obj) {
+const setSelectedObject = window.setSelectedObject = (obj) =>
 	showObjectProperties(selectedObject = obj);
-	return obj;
-}
-window.setSelectedObject = setSelectedObject;
 
 /**
  * @param {Obj} obj 
@@ -25,39 +23,49 @@ function showObjectProperties(obj) {
 	if (!object_properties) return;
 	if (object_properties.firstChild) object_properties.removeChild(object_properties.firstChild);
 	if (obj) object_properties.appendChild(obj.getObjectPropertiesGUI());
+	return obj;
 }
+/* END
+ * Functions for object selection with the controller.
+ */
 
-// Sidebar functionality.
-var sidebar_left_toggle_state = true;
-function sidebarLeftToggle() {
-	sidebar_left_toggle_state ?
-		translateElement(sidebar_left, -sidebar_left.getBoundingClientRect().width+'px') :
-		translateElement(sidebar_left, '0px')
-	sidebar_left_toggle_state = !sidebar_left_toggle_state;
-}
-window.sidebarLeftToggle = sidebarLeftToggle;
 
-// Sidebar functionality.
-var sidebar_right_toggle_state = true;
-function sidebarRightToggle() {
-	sidebar_right_toggle_state ?
-		translateElement(sidebar_right, sidebar_right.getBoundingClientRect().width+'px') :
-		translateElement(sidebar_right, '0px')
-	sidebar_right_toggle_state = !sidebar_right_toggle_state;
-}
-window.sidebarRightToggle = sidebarRightToggle;
+/* BEGIN
+ * Functions for the sidebar animations.
+ */
+var slts = true;
+const sidebarLeftToggle = window.sidebarLeftToggle = () => (slts = !slts) ?
+		translateElement(sidebar_left, '0px') :
+		translateElement(sidebar_left, -sidebar_left.getBoundingClientRect().width+'px');
+
+var srts = true;
+const sidebarRightToggle = window.sidebarRightToggle = () => (srts = !srts) ?
+		translateElement(sidebar_right, '0px') :
+		translateElement(sidebar_right, sidebar_right.getBoundingClientRect().width+'px');
 
 /**
  * @param {HTMLElement} element 
  * @param {String} value 
  */
-function translateElement(element, value) {
-	element.style.transform=`translate(${value})`
-}
-window.translateElement = translateElement;
+const translateElement = window.translateElement = (element, value) =>
+	element.style.transform=`translate(${value})`;
+/* END
+ * Functions for the sidebar animations.
+ */
 
 
-// Functions to create HTML elements.
+/* BEGIN
+ * Functions for creating the Room controls.
+ */
+// TODO
+/* END
+ * Functions for creating the Room controls.
+ */
+
+
+/* BEGIN
+ * Functions for creating the editor sidebars.
+ */
 function createImageToolButton(title, imgurl, onchange) {
 	const label = formElement('label', [[ 'class', 'imagetool' ]]);
 	label.append(
@@ -111,6 +119,9 @@ function formElement(tag, attribs, innerHTML) {
 	if (innerHTML) elem.innerHTML = innerHTML;
 	return elem;
 }
+/* END
+ * Functions for creating the editor sidebars.
+ */
 
 export {
 	getSelectedObject, setSelectedObject,

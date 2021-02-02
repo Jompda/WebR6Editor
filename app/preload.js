@@ -41,11 +41,11 @@ function requestHttpResource({ method = 'GET', url, body, headers }, callback, o
 function handleXMLHttpRequestResource(xhr) {}
 
 /**
- * Preload function called by the p5js library before setup.
+ * Called by the p5js library before setup.
  * Is in charge of building the GUI (sidebars), setting up the tools,
  * and preloading the assets.
  */
-window.preload = function preload() {
+window.preload = function() {
 	requestHttpResource({url:'/UI/sidebar-left.html'}, (sbleftxhr) => {
 		sidebar_left.innerHTML = sbleftxhr.responseText;
 		requestHttpResource({url:'/maps.json'}, loadMapList);
