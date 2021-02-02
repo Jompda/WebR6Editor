@@ -3,7 +3,7 @@ import { getTool } from './toolhandler.js';
 import { setSelectedObject } from './gui.js';
 import Obj from './objects/obj.js';
 
-/* BEGIN
+/* BEGIN SEGMENT
  * Filtering events outside the viewport.
  */
 var dragOriginatedFromViewport = false
@@ -33,12 +33,12 @@ const isDragOriginatedFromViewport = () => dragOriginatedFromViewport;
 		mouseWheel(e);
 	}
 }
-/* END
- * Filtering events outside the viewport.
+/*
+ * END SEGMENT
  */
 
 
-/* BEGIN
+/* BEGIN SEGMENT
  * Placeholder for media key controls -support.
  */
 window.enableMediaKeys = function () {
@@ -63,12 +63,12 @@ window.enableMediaKeys = function () {
 		[ 'nexttrack', () => console.log('next') ]
 	].forEach((handler) => navigator.mediaSession.setActionHandler(handler[0], handler[1]));
 }
-/* END
- * Placeholder for media key controls -support.
+/* 
+ * END SEGMENT
  */
 
 
-/* BEGIN
+/* BEGIN SEGMENT
  * Viewport controls.
  */
 var translateX = 0, translateY = 0;
@@ -170,8 +170,8 @@ function dragObject(obj) {
 }
 
 const updateLastMousePosition = () => { lastMouseX = mouseX; lastMouseY = mouseY; };
-/* END
- * Viewport controls.
+/*
+ * END SEGMENT
  */
 
 export {

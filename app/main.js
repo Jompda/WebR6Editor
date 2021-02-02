@@ -10,8 +10,8 @@ import { getSelectedObject, showObjectProperties } from './gui.js';
 import Obj from './objects/obj.js';
 import ImagePlacer from './tools/imageplacer.js';
 
-/*
- * After initializing the imports, set up the DOM and wait for p5.
+/* BEGIN SEGMENT
+ * Set up the DOM.
  */
 document.getElementsByTagName('body')[0].setAttribute('onresize', 'windowResized()');
 const viewport = document.getElementById('viewport');
@@ -28,7 +28,14 @@ const getObjects = () => objects;
 window.windowResized = () =>
 	update(resizeCanvas(viewport.offsetWidth, viewport.offsetHeight));
 document.oncontextmenu = () => false;
+/*
+ * END SEGMENT
+ */
 
+
+/* BEGIN SEGMENT
+ * Various functions related to drawing and interacting with the slide.
+ */
 /**
  * Called the by p5js library right before the draw-loop begins.
  * It is in charge of creating the canvas and making the software ready for use.
@@ -94,14 +101,19 @@ function getIntersectingObject(x, y) {
 }
 
 /**
- * @param {String} name 
+ * @param {String} mapUrl 
  */
-const changeMap = window.changeMap = (name) => {
-	if (name !== '-----') {
-		backgroundImageUrl = name;
-		backgroundImage = loadImage(resourceURL + backgroundImageUrl, focusToImage);
+const changeMap = window.changeMap = (mapUrl) => {
+	if (mapUrl !== '-----') {
+		const loadingbg = createGraphics(viewport.offsetWidth, viewport.offsetHeight);
+		loadingbg.fill(255, 0, 0); loadingbg.textSize(64); loadingbg.textAlign(CENTER);
+		loadingbg.text('Loading background image..', loadingbg.width/2, loadingbg.height/2);
+		focusToImage(loadingbg);
+
+		loadImage(resourceURL + mapUrl, focusToImage);
 		
 		function focusToImage(img) {
+			backgroundImage = img;
 			// Focus the viewport to the background-image.
 			const tx = -(img.width/2 - width/2), zoom = 1;
 			setTranslateX(tx);
@@ -158,6 +170,9 @@ window.dropHandler = function(event) {
 		reader.readAsDataURL(file);
 	}
 }
+/*
+ * END SEGMENT
+ */
 
 export {
 	imageobj_size,

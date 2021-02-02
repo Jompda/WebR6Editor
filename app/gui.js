@@ -1,7 +1,7 @@
 import Obj from './objects/obj.js';
 import { sidebar_left, sidebar_right } from './preload.js';
 
-/* BEGIN
+/* BEGIN SEGMENT
  * Functions for object selection with the controller.
  */
 /**@type {Obj} */
@@ -25,12 +25,12 @@ function showObjectProperties(obj) {
 	if (obj) object_properties.appendChild(obj.getObjectPropertiesGUI());
 	return obj;
 }
-/* END
- * Functions for object selection with the controller.
+/*
+ * END SEGMENT
  */
 
 
-/* BEGIN
+/* BEGIN SEGMENT
  * Functions for the sidebar animations.
  */
 var slts = true;
@@ -49,21 +49,21 @@ const sidebarRightToggle = window.sidebarRightToggle = () => (srts = !srts) ?
  */
 const translateElement = window.translateElement = (element, value) =>
 	element.style.transform=`translate(${value})`;
-/* END
- * Functions for the sidebar animations.
+/*
+ * END SEGMENT
  */
 
 
-/* BEGIN
+/* BEGIN SEGMENT
  * Functions for creating the Room controls.
  */
 // TODO
-/* END
- * Functions for creating the Room controls.
+/*
+ * END SEGMENT
  */
 
 
-/* BEGIN
+/* BEGIN SEGMENT
  * Functions for creating the editor sidebars.
  */
 function createImageToolButton(title, imgurl, onchange) {
@@ -119,8 +119,8 @@ function formElement(tag, attribs, innerHTML) {
 	if (innerHTML) elem.innerHTML = innerHTML;
 	return elem;
 }
-/* END
- * Functions for creating the editor sidebars.
+/*
+ * END SEGMENT
  */
 
 export {
