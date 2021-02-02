@@ -4,6 +4,7 @@ The simple but useful web-based Rainbow Six: Siege strategy editor.
 
 ## TODO:
 - Clean up the app code.
+- Begin working on the app's Room controls.
 - A database as the backbone of the room system.
 - Begin using JQuery.
 - Add comments and overall documentation to the code.
