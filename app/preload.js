@@ -7,7 +7,7 @@ import {
 	createImageToolButton,
 	createHR
 } from './gui.js';
-import { initRoomFromURL } from './io.js';
+import { initRoomFromURL } from './roomhandler.js';
 
 //'https://jompda.github.io/WebR6Editor/'
 const resourceURL = 'https://raw.githubusercontent.com/Jompda/Jompda.github.io/main/WebR6Editor/';
