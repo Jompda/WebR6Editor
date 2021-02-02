@@ -31,8 +31,8 @@ function showObjectProperties(obj) {
 var sidebar_left_toggle_state = true;
 function sidebarLeftToggle() {
 	sidebar_left_toggle_state ?
-		sidebar_left.style.transform=`translate(${-sidebar_left.getBoundingClientRect().width}px)` :
-		sidebar_left.style.transform='translate(0px)';
+		translateElement(sidebar_left, -sidebar_left.getBoundingClientRect().width+'px') :
+		translateElement(sidebar_left, '0px')
 	sidebar_left_toggle_state = !sidebar_left_toggle_state;
 }
 window.sidebarLeftToggle = sidebarLeftToggle;
@@ -41,11 +41,19 @@ window.sidebarLeftToggle = sidebarLeftToggle;
 var sidebar_right_toggle_state = true;
 function sidebarRightToggle() {
 	sidebar_right_toggle_state ?
-		sidebar_right.style.transform=`translate(${sidebar_right.getBoundingClientRect().width}px)` :
-		sidebar_right.style.transform='translate(0px)';
-		sidebar_right_toggle_state = !sidebar_right_toggle_state;
+		translateElement(sidebar_right, sidebar_right.getBoundingClientRect().width+'px') :
+		translateElement(sidebar_right, '0px')
+	sidebar_right_toggle_state = !sidebar_right_toggle_state;
 }
 window.sidebarRightToggle = sidebarRightToggle;
+
+/**
+ * @param {HTMLElement} element 
+ * @param {String} value 
+ */
+function translateElement(element, value) {
+	element.style.transform=`translate(${value})`
+}
 
 
 // Functions to create HTML elements.
