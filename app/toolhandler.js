@@ -34,8 +34,8 @@ const clearSelectedTool = () =>
 const getTool = () => tool;
 /**
  * @param {String} name 
- * @param {String} options 
- * @returns {Tool|undefined}
+ * @param {String=} options 
+ * @returns {Tool=}
  */
 function setTool(name, options) {
 	const ctool = tools.get(name);

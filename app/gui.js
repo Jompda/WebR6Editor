@@ -54,6 +54,7 @@ window.sidebarRightToggle = sidebarRightToggle;
 function translateElement(element, value) {
 	element.style.transform=`translate(${value})`
 }
+window.translateElement = translateElement;
 
 
 // Functions to create HTML elements.

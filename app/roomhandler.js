@@ -1,4 +1,4 @@
-import { setSelectedObject, showObjectProperties } from "./gui.js";
+import { formElement, setSelectedObject, showObjectProperties } from "./gui.js";
 import { changeMap, getBackgroundImageUrl, getObjects, update } from "./main.js";
 import ImageObj from "./objects/imageobj.js";
 import Obj from "./objects/obj.js";
@@ -82,7 +82,7 @@ function saveSlide() {
 window.saveSlide = saveSlide;
 
 /**
- * Sets the app to work with the room.
+ * Assigns the room to the session.
  */
 function loadRoom() {
 	requestHttpResource({
@@ -90,6 +90,9 @@ function loadRoom() {
 		headers: { 'Authorization': 'Basic ' + btoa(Room.password) },
 		url: `room/${Room.name}/`
 	}, (xhr) => {
+		const roomInfo = document.getElementById('room-info');
+		roomInfo.textContent = '';
+		roomInfo.appendChild(formElement('p', [['class','sidebar-text']], 'Room: ' + Room.name));
 		console.log('RoomInfo:', JSON.parse(xhr.responseText));
 	}, () => alert('Authorization forbidden.'));
 }
