@@ -45,7 +45,9 @@ var scheduledUpdate = false;
 /**Redraw the slide.*/
 const update = window.update = () => scheduledUpdate = true;
 
-/**Called by the p5js library in a continuous loop.*/
+/**
+ * Called by the p5js library in a continuous loop.
+ */
 window.draw = function() {
 	if (!scheduledUpdate) return;
 	scheduledUpdate = false;

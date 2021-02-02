@@ -7,7 +7,7 @@ import { requestHttpResource } from "./preload.js";
 
 const Room = {
 	name: undefined,
-	password: undefined,
+	key: undefined,
 	slide: undefined
 }
 window.Room = Room;
@@ -85,7 +85,7 @@ const saveSlide = window.saveSlide = () => {
 const loadRoom = window.loadRoom = () => {
 	requestHttpResource({
 		method: 'GET',
-		headers: { 'Authorization': 'Basic ' + btoa(Room.password) },
+		headers: { 'Authorization': 'Basic ' + btoa(Room.key) },
 		url: `room/${Room.name}/`
 	}, (xhr) => {
 		const roomInfo = document.getElementById('room-info');
@@ -97,11 +97,11 @@ const loadRoom = window.loadRoom = () => {
 
 function initRoomFromURL() {
 	const params = new URL(location).searchParams
-	const roomName = params.get('room'), password = params.get('pw'), slideName = params.get('slide')
+	const roomName = params.get('room'), key = params.get('key'), slideName = params.get('slide')
 	document.getElementById('room-name').value = Room.name = roomName
-	document.getElementById('room-pw').value = Room.password = password
+	document.getElementById('room-key').value = Room.key = key
 	document.getElementById('slide-name').value = Room.slide = slideName
-	if (Room.name && Room.password) {
+	if (Room.name && Room.key) {
 		loadRoom()
 		if (Room.slide) loadSlide()
 	}

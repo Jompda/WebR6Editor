@@ -22,14 +22,14 @@ function roomAccess(room, request) {
 	if (!request.headers.authorization) return false
 
 	const basicAuth = request.headers.authorization.slice('Basic '.length)
-	const password = Buffer.from(basicAuth, 'base64').toString()
+	const key = Buffer.from(basicAuth, 'base64').toString()
 
-	return password === room.password ? room : false
+	return key === room.key ? room : false
 }
 
 /**
  * @param {String} roomName 
- * @returns {Room}
+ * @returns {Room}s
  */
 function getRoomByName(roomName) {
 	return rooms.find((room) => room.name === roomName)

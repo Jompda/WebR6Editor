@@ -3,23 +3,20 @@ import { getTool } from './toolhandler.js';
 import { setSelectedObject } from './gui.js';
 import Obj from './objects/obj.js';
 
-// Filtering events outside the viewport.
+/* BEGIN
+ * Filtering events outside the viewport.
+ */
 var dragOriginatedFromViewport = false
 const isDragOriginatedFromViewport = () => dragOriginatedFromViewport;
 {
-	let dragging = false;
-	let mouseOnViewport = true;
+	var dragging = false;
+	var mouseOnViewport = false;
 
 	const viewport = document.getElementById('viewport');
 	viewport.onmouseenter = () => mouseOnViewport = true;
 	viewport.onmouseleave = () => mouseOnViewport = false;
-	window.onmousedown = (e) => {
-		if (mouseOnViewport) {
-			dragOriginatedFromViewport = true;
-			mousePressed(e);
-		}
-		else dragOriginatedFromViewport = false;
-	}
+	window.onmousedown = (e) =>
+		(dragOriginatedFromViewport = mouseOnViewport) ? mousePressed(e) : 0;
 	window.onmouseup = (e) => {
 		dragging = false;
 		if (mouseOnViewport) mouseReleased(e);
@@ -36,8 +33,14 @@ const isDragOriginatedFromViewport = () => dragOriginatedFromViewport;
 		mouseWheel(e);
 	}
 }
+/* END
+ * Filtering events outside the viewport.
+ */
 
-// Placeholder for media key support with the room system.
+
+/* BEGIN
+ * Placeholder for media key controls -support.
+ */
 window.enableMediaKeys = function () {
 	if (!('mediaSession' in navigator)) return alert(`The current browser doesn't support mediakeys. ` + navigator.appVersion);
 	document.getElementById('mk').play();
@@ -60,10 +63,14 @@ window.enableMediaKeys = function () {
 		[ 'nexttrack', () => console.log('next') ]
 	].forEach((handler) => navigator.mediaSession.setActionHandler(handler[0], handler[1]));
 }
+/* END
+ * Placeholder for media key controls -support.
+ */
 
 
-// Viewport controls
-
+/* BEGIN
+ * Viewport controls.
+ */
 var translateX = 0, translateY = 0;
 const getTranslateX = () => translateX;
 function setTranslateX(tx) { translateX = tx }
@@ -163,6 +170,9 @@ function dragObject(obj) {
 }
 
 const updateLastMousePosition = () => { lastMouseX = mouseX; lastMouseY = mouseY; };
+/* END
+ * Viewport controls.
+ */
 
 export {
 	isDragOriginatedFromViewport,

@@ -3,7 +3,6 @@ const http = require('http'), fs = require('fs'), path = require('path')
 
 const { settings } = require('..')
 const { finishResponse } = require('../util')
-const { saveRooms } = require('./RoomManager')
 
 /**
  * Room representing a room in the datastructure.
@@ -12,12 +11,12 @@ module.exports = class Room {
 	/**
 	 * @param {Object} obj 
 	 * @param {String} obj.name 
-	 * @param {String} obj.password 
+	 * @param {String} obj.key 
 	 * @param {String} obj.owner 
 	 */
 	constructor(obj) {
 		this.name = obj.name
-		this.password = obj.password
+		this.key = obj.key
 		this.owner = obj.owner
 		this.roominfo = require(path.join(settings.roomsDir, this.name, 'roominfo.json'))
 		/**@type {String[]} */
