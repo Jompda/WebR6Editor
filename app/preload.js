@@ -1,13 +1,10 @@
-import { changeMap } from './main.js'
 import { setToolPageContainer, setToolPage, toolGroups } from './toolhandler.js'
 import {
 	createToolPageButton,
-	createHeader,
-	createFlexTable,
 	createImageToolButton,
-	createHR
+	loadMapList,
+	loadAssetList
 } from './gui.js'
-import { initRoomFromURL } from './roomhandler.js'
 
 //'https://jompda.github.io/WebR6Editor/'
 const resourceURL = 'https://raw.githubusercontent.com/Jompda/Jompda.github.io/main/WebR6Editor/'
@@ -48,7 +45,7 @@ function handleXMLHttpRequestResource(xhr) {}
 window.preload = function() {
 	requestHttpResource({ url:'/UI/sidebar-left.html' }, (sbleftxhr) => {
 		sidebar_left_wrapper.innerHTML = sbleftxhr.responseText
-		requestHttpResource({ url:'/maps.json' }, loadMapList)
+		requestHttpResource({ url:'/maps.json' }, (xhr) => loadMapList(JSON.parse(xhr.responseText)))
 	})
 	requestHttpResource({ url:'/UI/sidebar-right.html' }, (sbrightxhr) => {
 		sidebar_right_wrapper.innerHTML = sbrightxhr.responseText
@@ -75,70 +72,9 @@ window.preload = function() {
 			
 			// Load the tools
 			setToolPage('basic')
-			requestHttpResource({ url:'/assets.json' }, loadAssetList)
+			requestHttpResource({ url:'/assets.json' }, (xhr) => loadAssetList(JSON.parse(xhr.responseText)))
 		})
 	})
-}
-
-/**@param {XMLHttpRequest} xhr*/
-function loadMapList(xhr) {
-	const mapConfig = JSON.parse(xhr.responseText)
-	const mapChooser = document.getElementById('mapchooser')
-	mapConfig.forEach((map, i) => {
-		if (i > 0) {
-			const line = document.createElement('option')
-			line.innerHTML = '-----'
-			mapChooser.appendChild(line)
-		}
-		map.floors.forEach((floor) => {
-			const option = document.createElement('option')
-			option.setAttribute('value', `${map.name.toLowerCase()}/${floor[1]}`)
-			if (map.esl) option.setAttribute('class', 'map-pool-esl')
-			option.innerHTML = `${map.name} ${floor[0]}`
-			mapChooser.appendChild(option)
-		});
-	});
-	changeMap(`assets/maps/${mapConfig[0].name.toLowerCase()}/${mapConfig[0].floors[0][1]}.jpg`)
-}
-
-/**@param {XMLHttpRequest} xhr*/
-function loadAssetList(xhr) {
-	const assetConfig = JSON.parse(xhr.responseText)
-	assetConfig.forEach((group) => {
-		const matchingPage = toolGroups.get(group.page)
-		createImagePlacerGroup(matchingPage, group)
-	})
-	console.log(assets)
-
-	// temp room testing
-	if (location.search) initRoomFromURL()
-}
-
-/**
- * @param {HTMLElement} target
- * @param {Object} group
- */
-function createImagePlacerGroup(target, group) {
-	target.appendChild(createHeader(group.name))
-	const table = createFlexTable()
-	group.assets.forEach((rawAsset) => {
-		const filename = rawAsset[1] ?
-			rawAsset[1] : rawAsset[0].toLowerCase()
-
-		// Prepare the asset.
-		const asset = { path: group.path, filename }
-		// Additional options
-		if (rawAsset[2]) asset.options = rawAsset[2]
-		assets.set(filename, asset)
-
-		const toolOptions = { assetId: filename }
-
-		const imageTool = createImageToolButton(rawAsset[0], resourceURL + group.path + filename + '.png',
-			`setTool('imageplacer', '${JSON.stringify(toolOptions)}')`)
-		table.appendChild(imageTool)
-	});
-	target.appendChild(table)
-	target.appendChild(createHR())
 }
 
 export {

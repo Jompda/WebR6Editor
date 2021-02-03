@@ -1,25 +1,135 @@
 {
 	"author": "Jompda",
-	"timestamp": "2021-02-01T08:51:51.941Z",
+	"timestamp": "2021-02-03T13:41:11.881Z",
 	"saveData": {
-		"backgroundImageUrl": "assets/maps/bank/bank-1.jpg",
+		"backgroundImageUrl": "assets/maps/villa/basement.jpg",
 		"objects": [
 			{
 				"class": "ImageObj",
 				"instance": {
-					"x": 1075.955,
-					"y": 331.365,
+					"x": 2001.089,
+					"y": 1047.462,
 					"rotation": 0,
-					"w": 693.944,
-					"h": 269.386,
-					"assetId": "jager"
+					"w": 100,
+					"h": 100,
+					"assetId": "iq"
 				}
 			},
 			{
 				"class": "ImageObj",
 				"instance": {
-					"x": 1260.351,
-					"y": 699.917,
+					"x": 2252.327,
+					"y": 869.164,
+					"rotation": 0,
+					"w": 100,
+					"h": 100,
+					"assetId": "iq"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 2441.431,
+					"y": 734.089,
+					"rotation": 0,
+					"w": 100,
+					"h": 100,
+					"assetId": "iq"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 2638.639,
+					"y": 817.836,
+					"rotation": 0,
+					"w": 100,
+					"h": 100,
+					"assetId": "iq"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 2781.818,
+					"y": 869.164,
+					"rotation": 0,
+					"w": 100,
+					"h": 100,
+					"assetId": "iq"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 2635.938,
+					"y": 693.567,
+					"rotation": 0,
+					"w": 100,
+					"h": 100,
+					"assetId": "iq"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 2592.714,
+					"y": 1185.237,
+					"rotation": 0,
+					"w": 100,
+					"h": 100,
+					"assetId": "iq"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 2184.79,
+					"y": 966.417,
+					"rotation": 0,
+					"w": 100,
+					"h": 100,
+					"assetId": "iq"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 2449.535,
+					"y": 855.656,
+					"rotation": 0,
+					"w": 100,
+					"h": 100,
+					"assetId": "iq"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 2641.341,
+					"y": 920.492,
+					"rotation": 0,
+					"w": 100,
+					"h": 100,
+					"assetId": "iq"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 2395.506,
+					"y": 1009.641,
+					"rotation": 0,
+					"w": 100,
+					"h": 100,
+					"assetId": "iq"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 1989.203,
+					"y": 925.385,
 					"outline": {
 						"type": "p5RgbColor",
 						"levels": [
@@ -29,10 +139,21 @@
 							255
 						]
 					},
-					"rotation": 0,
-					"w": 266.667,
-					"h": 100,
+					"rotation": 3.142,
+					"w": 212.256,
+					"h": 14.467,
 					"assetId": "reinforcement"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 1400.986,
+					"y": 871.644,
+					"rotation": 15.708,
+					"w": 382.696,
+					"h": 100,
+					"assetId": "jager"
 				}
 			},
 			{

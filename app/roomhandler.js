@@ -42,6 +42,7 @@ const loadSlide = window.loadSlide = () => {
 const saveSlide = window.saveSlide = () => {
 	const objs = getObjects()
 	const cache = [] // Used to avoid circular structures in the JSON.
+	console.log(getBackgroundImageUrl())
 	const saveData = JSON.stringify({
 		backgroundImageUrl: getBackgroundImageUrl(),
 		objects: objs

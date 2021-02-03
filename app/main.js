@@ -112,7 +112,7 @@ const changeMap = window.changeMap = (mapUrl) => {
 		loadingbg.text('Loading background image..', loadingbg.width/2, loadingbg.height/2)
 		focusToImage(loadingbg)
 
-		loadImage(resourceURL + mapUrl, focusToImage)
+		loadImage(resourceURL+(backgroundImageUrl=mapUrl), focusToImage)
 		
 		function focusToImage(img) {
 			backgroundImage = img
@@ -167,7 +167,8 @@ window.dropHandler = function(event) {
 		reader.onload = (file) => {
 			// Save the target location until the image is loaded.
 			const posX = mouseX, posY = mouseY
-			loadImage(file.target.result, (img) => ImagePlacer.placeImage(img, posX, posY))
+			// Temporary hack, doesn't support saving the slide.
+			loadImage(file.target.result, (img) => ImagePlacer.placeImage(img, posX, posY, { path: '', filename: file.target.result }))
 		}
 		reader.readAsDataURL(file)
 	}
