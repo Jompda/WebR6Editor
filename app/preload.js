@@ -16,8 +16,8 @@ const resourceURL = 'https://raw.githubusercontent.com/Jompda/Jompda.github.io/m
 const assets = new Map()
 const getAssets = () => assets
 
-const sidebar_left = document.getElementById('sidebar-left')
-const sidebar_right = document.getElementById('sidebar-right')
+const sidebar_left_wrapper = document.getElementById('editor-sidebar-left-wrapper')
+const sidebar_right_wrapper = document.getElementById('editor-sidebar-right-wrapper')
 
 /**
  * @param {handleXMLHttpRequestResource} callback 
@@ -47,12 +47,12 @@ function handleXMLHttpRequestResource(xhr) {}
  */
 window.preload = function() {
 	requestHttpResource({ url:'/UI/sidebar-left.html' }, (sbleftxhr) => {
-		sidebar_left.innerHTML = sbleftxhr.responseText
+		sidebar_left_wrapper.innerHTML = sbleftxhr.responseText
 		requestHttpResource({ url:'/maps.json' }, loadMapList)
 	})
 	requestHttpResource({ url:'/UI/sidebar-right.html' }, (sbrightxhr) => {
-		sidebar_right.innerHTML = sbrightxhr.responseText
-		setToolPageContainer(document.getElementById('subtools-container'))
+		sidebar_right_wrapper.innerHTML = sbrightxhr.responseText
+		setToolPageContainer(document.getElementById('editor-subtools-container'))
 		const tool_page_buttons = document.getElementById('tool-page-buttons')
 
 		{   // Hard coded basic tools page.
@@ -145,5 +145,5 @@ export {
 	resourceURL,
 	getAssets,
 	requestHttpResource,
-	sidebar_left, sidebar_right
+	sidebar_left_wrapper, sidebar_right_wrapper
 }

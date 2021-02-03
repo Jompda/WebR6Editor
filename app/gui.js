@@ -1,5 +1,5 @@
 import Obj from './objects/obj.js'
-import { sidebar_left, sidebar_right } from './preload.js'
+import { sidebar_left_wrapper, sidebar_right_wrapper } from './preload.js'
 
 /* BEGIN SEGMENT
  * Functions for object selection with the controller.
@@ -35,13 +35,13 @@ function showObjectProperties(obj) {
  */
 var slts = true
 const sidebarLeftToggle = window.sidebarLeftToggle = () => (slts = !slts) ?
-	translateElement(sidebar_left, '0px') :
-	translateElement(sidebar_left, -sidebar_left.getBoundingClientRect().width+'px')
+	translateElement(sidebar_left_wrapper, '0px') :
+	translateElement(sidebar_left_wrapper, -sidebar_left_wrapper.getBoundingClientRect().width+'px')
 
 var srts = true
 const sidebarRightToggle = window.sidebarRightToggle = () => (srts = !srts) ?
-	translateElement(sidebar_right, '0px') :
-	translateElement(sidebar_right, sidebar_right.getBoundingClientRect().width+'px')
+	translateElement(sidebar_right_wrapper, '0px') :
+	translateElement(sidebar_right_wrapper, sidebar_right_wrapper.getBoundingClientRect().width+'px')
 
 /**
  * @param {HTMLElement} element 
