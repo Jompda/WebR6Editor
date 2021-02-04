@@ -19,6 +19,6 @@ const autoCompletes = module.exports.autoCompletes = settings.autoCompletes.spli
 }
 
 module.exports.mimeTypes = {}
-cfgToObject(module.exports.mimeTypes, './mimetypes.cfg')
+cfgToObject(module.exports.mimeTypes, './.mimetypes')
 
 const server = require('./server')
