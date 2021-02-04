@@ -1,5 +1,5 @@
 import Obj from './objects/obj.js'
-import { getAssets, resourceURL, sidebar_left_wrapper, sidebar_right_wrapper } from './preload.js'
+import { getAssets, resourceURL } from './preload.js'
 import { initRoomFromURL } from './roomhandler.js'
 import { toolGroups } from './toolhandler.js'
 
@@ -23,7 +23,7 @@ const setSelectedObject = window.setSelectedObject = (obj) =>
 function showObjectProperties(obj) {
 	const object_properties = document.getElementById('object-properties')
 	if (!object_properties) return;
-	if (object_properties.firstChild) object_properties.removeChild(object_properties.firstChild)
+	object_properties.textContent = ''
 	if (obj) object_properties.appendChild(obj.getObjectPropertiesGUI())
 	return obj
 }
@@ -36,14 +36,18 @@ function showObjectProperties(obj) {
  * Functions for the sidebar animations.
  */
 var slts = true
-const sidebarLeftToggle = window.sidebarLeftToggle = () => (slts = !slts) ?
-	translateElement(sidebar_left_wrapper, '0px') :
-	translateElement(sidebar_left_wrapper, -sidebar_left_wrapper.getBoundingClientRect().width+'px')
+const sidebarLeftToggle = window.sidebarLeftToggle = () => {
+	const wrapper = document.getElementById('editor-sidebar-left-wrapper')
+	if (slts = !slts) translateElement(wrapper, '0px')
+	else translateElement(wrapper, -wrapper.getBoundingClientRect().width+'px')
+}
 
 var srts = true
-const sidebarRightToggle = window.sidebarRightToggle = () => (srts = !srts) ?
-	translateElement(sidebar_right_wrapper, '0px') :
-	translateElement(sidebar_right_wrapper, sidebar_right_wrapper.getBoundingClientRect().width+'px')
+const sidebarRightToggle = window.sidebarRightToggle = () => {
+	const wrapper = document.getElementById('editor-sidebar-right-wrapper')
+	if (srts = !srts) translateElement(wrapper, '0px')
+	else translateElement(wrapper, wrapper.getBoundingClientRect().width+'px')
+}
 
 /**
  * @param {HTMLElement} element 

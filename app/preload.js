@@ -13,9 +13,6 @@ const resourceURL = 'https://raw.githubusercontent.com/Jompda/Jompda.github.io/m
 const assets = new Map()
 const getAssets = () => assets
 
-const sidebar_left_wrapper = document.getElementById('editor-sidebar-left-wrapper')
-const sidebar_right_wrapper = document.getElementById('editor-sidebar-right-wrapper')
-
 /**
  * @param {handleXMLHttpRequestResource} callback 
  * @param {handleXMLHttpRequestResource} onerror 
@@ -44,11 +41,11 @@ function handleXMLHttpRequestResource(xhr) {}
  */
 window.preload = function() {
 	requestHttpResource({ url:'/UI/sidebar-left.html' }, (sbleftxhr) => {
-		sidebar_left_wrapper.innerHTML = sbleftxhr.responseText
+		$('#editor-sidebar-left-wrapper').append($.parseHTML(sbleftxhr.responseText))
 		requestHttpResource({ url:'/maps.json' }, (xhr) => loadMapList(JSON.parse(xhr.responseText)))
 	})
 	requestHttpResource({ url:'/UI/sidebar-right.html' }, (sbrightxhr) => {
-		sidebar_right_wrapper.innerHTML = sbrightxhr.responseText
+		$('#editor-sidebar-right-wrapper').append($.parseHTML(sbrightxhr.responseText))
 		setToolPageContainer(document.getElementById('editor-subtools-container'))
 		const tool_page_buttons = document.getElementById('tool-page-buttons')
 
@@ -80,6 +77,5 @@ window.preload = function() {
 export {
 	resourceURL,
 	getAssets,
-	requestHttpResource,
-	sidebar_left_wrapper, sidebar_right_wrapper
+	requestHttpResource
 }
