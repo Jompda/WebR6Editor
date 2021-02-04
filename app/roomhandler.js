@@ -16,7 +16,7 @@ const loadSlide = window.loadSlide = () => {
 	requestHttpResource({
 		url: `room/${Room.name}/${Room.slide}`,
 		headers: { 'Authorization': 'Basic ' + btoa('lith') }
-	}, (xhr) => {
+	}).then((xhr) => {
 		const file = JSON.parse(xhr.responseText)
 		console.log(file)
 		const saveData = file.saveData
@@ -33,10 +33,10 @@ const loadSlide = window.loadSlide = () => {
 				case 'ImageObj': objects.push(ImageObj.fromObject(obj.instance)); break
 				default: break
 			}
-		});
-	
+		})
+		
 		update()
-	}, () => alert(`Slide '${Room.slide}' doesn't exist!`))
+	}).catch(() => alert(`Slide '${Room.slide}' doesn't exist!`))
 }
 
 const saveSlide = window.saveSlide = () => {
@@ -55,10 +55,10 @@ const saveSlide = window.saveSlide = () => {
 			'Content-Type': 'application/json'
 		},
 		url: `saveslide/${Room.name}/${Room.slide}`, body: saveData
-	}, (xhr) => {
+	}).then((xhr) => {
 		if (xhr.status != 200) return alertXhrError(xhr)
 		alert('The slide has been succesfully saved!')
-	}, (xhr) => alertXhrError(xhr))
+	}).catch(alertXhrError)
 
 	function alertXhrError(xhr) {
 		console.log('ERROR:', xhr.status, xhr.statusText, '\nReason:',  xhr.responseText)
@@ -88,12 +88,12 @@ const loadRoom = window.loadRoom = () => {
 		method: 'GET',
 		headers: { 'Authorization': 'Basic ' + btoa(Room.key) },
 		url: `room/${Room.name}/`
-	}, (xhr) => {
+	}).then((xhr) => {
 		const roomInfo = document.getElementById('room-info')
 		roomInfo.textContent = ''
 		roomInfo.appendChild(formElement('p', [['class','sidebar-text']], 'Room: ' + Room.name))
 		console.log('RoomInfo:', JSON.parse(xhr.responseText))
-	}, () => alert('Authorization forbidden.'))
+	}).catch(() => alert('Authorization forbidden.'))
 }
 
 function initRoomFromURL() {

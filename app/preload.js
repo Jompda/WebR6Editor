@@ -15,22 +15,23 @@ const assets = new Map()
 
 /**
  * @param {{method: String, url: String, body: String, headers: Object}} param0 
- * @param {function(XMLHttpRequest)} callback 
- * @param {function(XMLHttpRequest)} onerror 
+ * @returns {Promise<XMLHttpRequest, XMLHttpRequest>}
  */
-function requestHttpResource({ method = 'GET', url, body, headers }, callback, onerror) {
-	const xhr = new XMLHttpRequest()
-	xhr.open(method, url)
-	if (headers) Object.getOwnPropertyNames(headers).forEach((headerName) =>
-		xhr.setRequestHeader(headerName, headers[headerName])
-	)
-	xhr.send(body)
-	onerror ? xhr.onerror = () => onerror(xhr) :
-		xhr.onerror = () => console.log(`Error on request: ${method} ${url} => ${xhr.status}: ${xhr.statusText}`)
-	xhr.onload = () => {
-		if (xhr.status != 200) return xhr.onerror()
-		callback(xhr)
-	}
+async function requestHttpResource({ method = 'GET', url, body, headers }) {
+	return new Promise((callback, onerror) => {
+		const xhr = new XMLHttpRequest()
+		xhr.open(method, url)
+		if (headers) Object.getOwnPropertyNames(headers).forEach((headerName) =>
+			xhr.setRequestHeader(headerName, headers[headerName])
+		)
+		xhr.send(body)
+		onerror ? xhr.onerror = () => onerror(xhr) :
+			xhr.onerror = () => console.log(`Error on request: ${method} ${url} => ${xhr.status}: ${xhr.statusText}`)
+		xhr.onload = () => {
+			if (xhr.status != 200) return xhr.onerror()
+			callback(xhr)
+		}
+	})
 }
 
 /**
@@ -39,11 +40,11 @@ function requestHttpResource({ method = 'GET', url, body, headers }, callback, o
  * and preloading the assets.
  */
 window.preload = function() {
-	requestHttpResource({ url:'/UI/sidebar-left.html' }, (sbleftxhr) => {
+	requestHttpResource({ url:'/UI/sidebar-left.html' }).then((sbleftxhr) => {
 		$('#editor-sidebar-left-wrapper').append($.parseHTML(sbleftxhr.responseText))
 		requestHttpResource({ url:'/maps.json' }, (xhr) => loadMapList(JSON.parse(xhr.responseText)))
 	})
-	requestHttpResource({ url:'/UI/sidebar-right.html' }, (sbrightxhr) => {
+	requestHttpResource({ url:'/UI/sidebar-right.html' }).then((sbrightxhr) => {
 		$('#editor-sidebar-right-wrapper').append($.parseHTML(sbrightxhr.responseText))
 		setToolPageContainer(document.getElementById('editor-subtools-container'))
 		const tool_page_buttons = document.getElementById('tool-page-buttons')
@@ -59,7 +60,7 @@ window.preload = function() {
 		}
 
 		// Init the toolpage.
-		requestHttpResource({url:'/toolpages.json'}, (toolpagesxhr) => {
+		requestHttpResource({url:'/toolpages.json'}).then((toolpagesxhr) => {
 			const toolpagesConfig = JSON.parse(toolpagesxhr.responseText)
 			toolpagesConfig.forEach((page) => {
 				toolGroups.set(page.group, document.createElement('div'))
@@ -68,7 +69,7 @@ window.preload = function() {
 			
 			// Load the tools
 			setToolPage('basic')
-			requestHttpResource({ url:'/assets.json' }, (xhr) => {
+			requestHttpResource({ url:'/assets.json' }).then((xhr) => {
 				const assetConfig = JSON.parse(xhr.responseText)
 				prepareAssets(assetConfig)
 				loadToolPages(assetConfig)
