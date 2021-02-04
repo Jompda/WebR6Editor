@@ -18,18 +18,17 @@ const assets = new Map()
  * @returns {Promise<XMLHttpRequest, XMLHttpRequest>}
  */
 async function requestHttpResource({ method = 'GET', url, body, headers }) {
-	return new Promise((callback, onerror) => {
+	return new Promise((resolve, reject) => {
 		const xhr = new XMLHttpRequest()
 		xhr.open(method, url)
 		if (headers) Object.getOwnPropertyNames(headers).forEach((headerName) =>
 			xhr.setRequestHeader(headerName, headers[headerName])
 		)
 		xhr.send(body)
-		onerror ? xhr.onerror = () => onerror(xhr) :
-			xhr.onerror = () => console.log(`Error on request: ${method} ${url} => ${xhr.status}: ${xhr.statusText}`)
+		xhr.onerror = reject
 		xhr.onload = () => {
-			if (xhr.status != 200) return xhr.onerror()
-			callback(xhr)
+			if (xhr.status != 200) return reject()
+			resolve(xhr)
 		}
 	})
 }
@@ -40,11 +39,11 @@ async function requestHttpResource({ method = 'GET', url, body, headers }) {
  * and preloading the assets.
  */
 window.preload = function() {
-	requestHttpResource({ url:'/UI/sidebar-left.html' }).then((sbleftxhr) => {
+	requestHttpResource({ url:'/UI/sidebar-left.html' }).then(async (sbleftxhr) => {
 		$('#editor-sidebar-left-wrapper').append($.parseHTML(sbleftxhr.responseText))
-		requestHttpResource({ url:'/maps.json' }).then((xhr) => loadMapList(JSON.parse(xhr.responseText)))
+		loadMapList(JSON.parse((await requestHttpResource({ url:'/maps.json' })).responseText))
 	})
-	requestHttpResource({ url:'/UI/sidebar-right.html' }).then((sbrightxhr) => {
+	requestHttpResource({ url:'/UI/sidebar-right.html' }).then(async (sbrightxhr) => {
 		$('#editor-sidebar-right-wrapper').append($.parseHTML(sbrightxhr.responseText))
 		setToolPageContainer(document.getElementById('editor-subtools-container'))
 		const tool_page_buttons = document.getElementById('tool-page-buttons')
@@ -60,21 +59,14 @@ window.preload = function() {
 		}
 
 		// Init the toolpage.
-		requestHttpResource({ url:'/toolpages.json' }).then((toolpagesxhr) => {
-			const toolpagesConfig = JSON.parse(toolpagesxhr.responseText)
-			toolpagesConfig.forEach((page) => {
-				toolGroups.set(page.group, document.createElement('div'))
-				tool_page_buttons.appendChild(createToolPageButton(page.title, page.group))
-			})
-			
-			// Load the tools
-			setToolPage('basic')
-			requestHttpResource({ url:'/assets.json' }).then((xhr) => {
-				const assetConfig = JSON.parse(xhr.responseText)
-				prepareAssets(assetConfig)
-				loadToolPages(assetConfig)
-			})
+		JSON.parse((await requestHttpResource({ url:'/toolpages.json' })).responseText).forEach((page) => {
+			toolGroups.set(page.group, document.createElement('div'))
+			tool_page_buttons.appendChild(createToolPageButton(page.title, page.group))
 		})
+		
+		// Load the tools
+		setToolPage('basic')
+		loadToolPages(prepareAssets(JSON.parse((await requestHttpResource({ url:'/assets.json' })).responseText)))
 	})
 }
 
@@ -91,6 +83,7 @@ function prepareAssets(assetConfig) {
 			assets.set(filename, asset)
 		})
 	})
+	return assetConfig
 }
 
 export {

@@ -12,31 +12,32 @@ const Room = {
 }
 window.Room = Room
 
-const loadSlide = window.loadSlide = () => {
-	requestHttpResource({
+const loadSlide = window.loadSlide = async () => {
+	const xhr = await requestHttpResource({
 		url: `room/${Room.name}/${Room.slide}`,
 		headers: { 'Authorization': 'Basic ' + btoa('lith') }
-	}).then((xhr) => {
-		const file = JSON.parse(xhr.responseText)
-		console.log(file)
-		const saveData = file.saveData
+	})
+	if (!xhr) return alert(`Slide '${Room.slide}' doesn't exist!`)
+	const file = JSON.parse(xhr.responseText)
+	console.log(file)
 
-		// Clear the old slide.
-		showObjectProperties(setSelectedObject())
-		const objects = getObjects()
-		objects.splice(0, objects.length)
+	const saveData = file.saveData
 
-		// Apply the new slide from save data.
-		changeMap(saveData.backgroundImageUrl)
-		saveData.objects.forEach(obj => {
-			switch (obj.class) {
-				case 'ImageObj': objects.push(ImageObj.fromObject(obj.instance)); break
-				default: break
-			}
-		})
-		
-		update()
-	}).catch(() => alert(`Slide '${Room.slide}' doesn't exist!`))
+	// Clear the old slide.
+	showObjectProperties(setSelectedObject())
+	const objects = getObjects()
+	objects.splice(0, objects.length)
+
+	// Apply the new slide from save data.
+	changeMap(saveData.backgroundImageUrl)
+	saveData.objects.forEach(obj => {
+		switch (obj.class) {
+			case 'ImageObj': objects.push(ImageObj.fromObject(obj.instance)); break
+			default: break
+		}
+	})
+	
+	update()
 }
 
 const saveSlide = window.saveSlide = () => {
