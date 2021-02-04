@@ -3,7 +3,7 @@ import {
 	createToolPageButton,
 	createImageToolButton,
 	loadMapList,
-	loadAssetList
+	loadToolPages
 } from './gui.js'
 
 //'https://jompda.github.io/WebR6Editor/'
@@ -11,7 +11,6 @@ const resourceURL = 'https://raw.githubusercontent.com/Jompda/Jompda.github.io/m
 
 /**@type {Map<String,Object>}*/
 const assets = new Map()
-const getAssets = () => assets
 
 /**
  * @param {handleXMLHttpRequestResource} callback 
@@ -69,13 +68,32 @@ window.preload = function() {
 			
 			// Load the tools
 			setToolPage('basic')
-			requestHttpResource({ url:'/assets.json' }, (xhr) => loadAssetList(JSON.parse(xhr.responseText)))
+			requestHttpResource({ url:'/assets.json' }, (xhr) => {
+				const assetConfig = JSON.parse(xhr.responseText)
+				prepareAssets(assetConfig)
+				loadToolPages(assetConfig)
+			})
+		})
+	})
+}
+
+function prepareAssets(assetConfig) {
+	assetConfig.forEach((group) => {
+		group.assets.forEach((rawAsset) => {
+			const filename = rawAsset[1] ?
+				rawAsset[1] : rawAsset[0].toLowerCase()
+	
+			// Prepare the asset.
+			const asset = { path: group.path, filename }
+			// Additional options
+			if (rawAsset[2]) asset.options = rawAsset[2]
+			assets.set(filename, asset)
 		})
 	})
 }
 
 export {
 	resourceURL,
-	getAssets,
+	assets,
 	requestHttpResource
 }

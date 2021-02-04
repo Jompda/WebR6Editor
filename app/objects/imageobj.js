@@ -1,5 +1,5 @@
 import { update } from '../main.js'
-import { getAssets, resourceURL } from '../preload.js'
+import { assets, resourceURL } from '../preload.js'
 import RectangleObj from './rectangleobj.js'
 
 /**
@@ -46,7 +46,7 @@ class ImageObj extends RectangleObj {
 			outline = color(rgba[0], rgba[1], rgba[2], rgba[3])
 		}
 
-		const asset = getAssets().get(obj.assetId)
+		const asset = assets.get(obj.assetId)
 
 		const newObj = new ImageObj(
 			obj.x, obj.y, obj.w, obj.h,

@@ -1,5 +1,5 @@
 import Obj from './objects/obj.js'
-import { getAssets, resourceURL } from './preload.js'
+import { resourceURL } from './preload.js'
 import { initRoomFromURL } from './roomhandler.js'
 import { toolGroups } from './toolhandler.js'
 
@@ -96,12 +96,11 @@ function loadMapList(mapConfig) {
 /**
  * @param {Object} assetConfig
  */
-function loadAssetList(assetConfig) {
+function loadToolPages(assetConfig) {
 	assetConfig.forEach((group) => {
 		const matchingPage = toolGroups.get(group.page)
 		createImagePlacerGroup(matchingPage, group)
 	})
-	console.log(getAssets())
 
 	// temp room testing
 	if (location.search) initRoomFromURL()
@@ -113,19 +112,11 @@ function loadAssetList(assetConfig) {
  */
 function createImagePlacerGroup(target, group) {
 	target.appendChild(createHeader(group.name))
-	const table = createFlexTable(), assets = getAssets()
+	const table = createFlexTable()
 	group.assets.forEach((rawAsset) => {
-		const filename = rawAsset[1] ?
-			rawAsset[1] : rawAsset[0].toLowerCase()
-
-		// Prepare the asset.
-		const asset = { path: group.path, filename }
-		// Additional options
-		if (rawAsset[2]) asset.options = rawAsset[2]
-		assets.set(filename, asset)
-
+		// Resolve filename AKA assetId
+		const filename = rawAsset[1] ? rawAsset[1] : rawAsset[0].toLowerCase()
 		const toolOptions = { assetId: filename }
-
 		const imageTool = createImageToolButton(rawAsset[0], resourceURL + group.path + filename + '.png',
 			`setTool('imageplacer', '${JSON.stringify(toolOptions)}')`)
 		table.appendChild(imageTool)
@@ -195,7 +186,7 @@ export {
 	getSelectedObject, setSelectedObject,
 	showObjectProperties,
 	sidebarLeftToggle, sidebarRightToggle,
-	loadMapList, loadAssetList,
+	loadMapList, loadToolPages,
 	createImageToolButton,
 	createToolPageButton,
 	createToolButton,
