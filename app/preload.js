@@ -25,9 +25,9 @@ async function requestHttpResource({ method = 'GET', url, body, headers }) {
 			xhr.setRequestHeader(headerName, headers[headerName])
 		)
 		xhr.send(body)
-		xhr.onerror = reject
+		xhr.onerror = () => reject(xhr)
 		xhr.onload = () => {
-			if (xhr.status != 200) return reject()
+			if (xhr.status != 200) return reject(xhr)
 			resolve(xhr)
 		}
 	})
