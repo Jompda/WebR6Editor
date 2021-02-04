@@ -42,7 +42,7 @@ async function requestHttpResource({ method = 'GET', url, body, headers }) {
 window.preload = function() {
 	requestHttpResource({ url:'/UI/sidebar-left.html' }).then((sbleftxhr) => {
 		$('#editor-sidebar-left-wrapper').append($.parseHTML(sbleftxhr.responseText))
-		requestHttpResource({ url:'/maps.json' }, (xhr) => loadMapList(JSON.parse(xhr.responseText)))
+		requestHttpResource({ url:'/maps.json' }).then((xhr) => loadMapList(JSON.parse(xhr.responseText)))
 	})
 	requestHttpResource({ url:'/UI/sidebar-right.html' }).then((sbrightxhr) => {
 		$('#editor-sidebar-right-wrapper').append($.parseHTML(sbrightxhr.responseText))
@@ -60,7 +60,7 @@ window.preload = function() {
 		}
 
 		// Init the toolpage.
-		requestHttpResource({url:'/toolpages.json'}).then((toolpagesxhr) => {
+		requestHttpResource({ url:'/toolpages.json' }).then((toolpagesxhr) => {
 			const toolpagesConfig = JSON.parse(toolpagesxhr.responseText)
 			toolpagesConfig.forEach((page) => {
 				toolGroups.set(page.group, document.createElement('div'))

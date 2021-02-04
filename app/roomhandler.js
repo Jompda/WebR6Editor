@@ -99,9 +99,9 @@ const loadRoom = window.loadRoom = () => {
 function initRoomFromURL() {
 	const params = new URL(location).searchParams
 	const roomName = params.get('room'), key = params.get('key'), slideName = params.get('slide')
-	document.getElementById('room-name').value = Room.name = roomName
-	document.getElementById('room-key').value = Room.key = key
-	document.getElementById('slide-name').value = Room.slide = slideName
+	$('#room-name').val(Room.name = roomName)
+	$('#room-key').val(Room.key = key)
+	$('#slide-name').val(Room.slide = slideName)
 	if (Room.name && Room.key) {
 		loadRoom()
 		if (Room.slide) loadSlide()

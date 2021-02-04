@@ -137,7 +137,7 @@ const changeMap = window.changeMap = (mapUrl) => {
 
 /**
  * Loads images and possibly strats from json files in the future.
- * NOTE: Currently there is no support for saving or loading objects from save data created this way.
+ * NOTE: Saving a slide which has a custom image currently destroys the save file.
  * @param {DragEvent} event 
  */
 window.dropHandler = function(event) {
