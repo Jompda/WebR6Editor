@@ -12,9 +12,11 @@ const resourceURL = 'https://raw.githubusercontent.com/Jompda/Jompda.github.io/m
 /**@type {Map<String,Object>}*/
 const assets = new Map()
 
+
 /**
- * @param {handleXMLHttpRequestResource} callback 
- * @param {handleXMLHttpRequestResource} onerror 
+ * @param {{method: String, url: String, body: String, headers: Object}} param0 
+ * @param {function(XMLHttpRequest)} callback 
+ * @param {function(XMLHttpRequest)} onerror 
  */
 function requestHttpResource({ method = 'GET', url, body, headers }, callback, onerror) {
 	const xhr = new XMLHttpRequest()
@@ -30,8 +32,6 @@ function requestHttpResource({ method = 'GET', url, body, headers }, callback, o
 		callback(xhr)
 	}
 }
-/**@param {XMLHttpRequest} xhr*/
-function handleXMLHttpRequestResource(xhr) {}
 
 /**
  * Called by the p5js library before setup.
