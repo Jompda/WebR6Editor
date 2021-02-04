@@ -39,11 +39,11 @@ async function requestHttpResource({ method = 'GET', url, body, headers }) {
  * and preloading the assets.
  */
 window.preload = function() {
-	requestHttpResource({ url:'/UI/sidebar-left.html' }).then(async (sbleftxhr) => {
+	requestHttpResource({ url: '/UI/sidebar-left.html' }).then(async (sbleftxhr) => {
 		$('#editor-sidebar-left-wrapper').append($.parseHTML(sbleftxhr.responseText))
-		loadMapList(JSON.parse((await requestHttpResource({ url:'/maps.json' })).responseText))
+		loadMapList(JSON.parse((await requestHttpResource({ url: '/maps.json' })).responseText))
 	})
-	requestHttpResource({ url:'/UI/sidebar-right.html' }).then(async (sbrightxhr) => {
+	requestHttpResource({ url: '/UI/sidebar-right.html' }).then(async (sbrightxhr) => {
 		$('#editor-sidebar-right-wrapper').append($.parseHTML(sbrightxhr.responseText))
 		setToolPageContainer(document.getElementById('editor-subtools-container'))
 		const tool_page_buttons = document.getElementById('tool-page-buttons')
@@ -59,14 +59,14 @@ window.preload = function() {
 		}
 
 		// Init the toolpage.
-		JSON.parse((await requestHttpResource({ url:'/toolpages.json' })).responseText).forEach((page) => {
+		JSON.parse((await requestHttpResource({ url: '/toolpages.json' })).responseText).forEach((page) => {
 			toolGroups.set(page.group, document.createElement('div'))
 			tool_page_buttons.appendChild(createToolPageButton(page.title, page.group))
 		})
 		
 		// Load the tools
 		setToolPage('basic')
-		loadToolPages(prepareAssets(JSON.parse((await requestHttpResource({ url:'/assets.json' })).responseText)))
+		loadToolPages(prepareAssets(JSON.parse((await requestHttpResource({ url: '/assets.json' })).responseText)))
 	})
 }
 
