@@ -184,26 +184,20 @@ html, body {
 /*
  * Editor image tools
  */
-.toolbutton {
-	font-size: 10px;
-	font-family: verdana;
-	color: black;
-	padding: 4px;
-}
-.imagetool > input {
+.image-tool > input {
 	position: absolute;
 	opacity: 0;
 	width: 0;
 	height: 0;
 }
-.imagetool > input:checked + img {
+.image-tool > input:checked + img {
 	border: 1px solid red;
 }
-.imagetool > img {
+.image-tool > img {
 	height: 40px;
 	border: 1px solid rgba(0,0,0,0);
 	outline: none;
 }
-.imagetool > img:hover {
+.image-tool > img:hover {
 	border: 1px solid red;
 }

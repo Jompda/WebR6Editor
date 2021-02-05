@@ -130,11 +130,11 @@ function createImagePlacerGroup(target, group) {
 }
 
 function createImageToolButton(title, imgurl, onchange) {
-	const label = formElement('label', [[ 'class', 'imagetool' ]])
+	const label = formElement('label', [[ 'class', 'image-tool' ]])
 	label.append(
 		formElement('input', [
 			[ 'type', 'radio' ],
-			[ 'name', 'tool' ],
+			[ 'name', 'tool-button' ],
 			[ 'onchange', onchange ]
 		]),
 		formElement('img', [
@@ -156,13 +156,6 @@ function createToolPageButton(title, group) {
 	txt.textContent = title
 	label.append(input, txt)
 	return label
-}
-
-function createToolButton(title) {
-	return formElement('button', [
-		[ 'class', 'toolbutton' ],
-		[ 'onclick', `setTool('${title.toLowerCase()}')` ]
-	], title)
 }
 
 const createHeader = (header) => formElement('p', [[ 'class', 'sidebar-header' ]], header)
@@ -194,7 +187,6 @@ export {
 	loadMapList, loadToolPages,
 	createImageToolButton,
 	createToolPageButton,
-	createToolButton,
 	createHeader,
 	createHR,
 	createFlexTable,

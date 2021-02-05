@@ -23,7 +23,7 @@ const setToolPage = window.setToolPage = (group) => {
 }
 
 const clearSelectedTool = () =>
-	document.getElementsByName('tool').forEach((elem) => elem.checked = false)
+	document.getElementsByName('tool-button').forEach((elem) => elem.checked = false)
 
 
 // Tool functionality.
