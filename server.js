@@ -50,10 +50,9 @@ httpsServer.listen(settings.port, '0.0.0.0', () => {
  * @param {http.ServerResponse} response 
  */
 function get(request, response) {
-	resolveFile(path.join(settings.rootDir, url.parse(request.url).pathname), (resolvedFile, stat) =>
-		resolvedFile ? sendFile(resolvedFile, stat, request, response)
-			: finishResponse({ statusCode: 404 }, request, response)
-	)
+	resolveFile(path.join(settings.rootDir, url.parse(request.url).pathname))
+		.then((filename, stat) => sendFile(filename, stat, request, response))
+		.catch(() => finishResponse({ statusCode: 404 }, request, response))
 }
 
 /**
@@ -105,16 +104,19 @@ function sendStream(stream, mimetype, request, response) {
 /**
  * @param {string} pathname 
  * @param {Function} callback 
+ * @returns {Promise<string, fs.Stats>}
  */
-function resolveFile(pathname, callback) {
-	let i = 0; loop()
-	function loop() {
-		if (i >= autoCompletes.length) return callback()
-		const temp = path.join(pathname, autoCompletes[i++])
-		fs.stat(temp, (err, result) =>
-			err || result.isDirectory() ? loop() : callback(temp, result)
-		)
-	}
+function resolveFile(pathname) {
+	return new Promise((resolve, reject) => {
+		let i = 0; loop()
+		function loop() {
+			if (i >= autoCompletes.length) return reject()
+			const filename = path.join(pathname, autoCompletes[i++])
+			fs.stat(filename, (err, stats) =>
+				err || stats.isDirectory() ? loop() : resolve(filename, stats)
+			)
+		}
+	})
 }
 
 /**

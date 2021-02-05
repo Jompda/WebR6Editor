@@ -77,14 +77,11 @@ function handleSSE(request, response) {
  * @param {http.ServerResponse} response 
  */
 function injectHtml(request, response) {
-	resolveFile(settings.rootDir, (resolvedFile) => {
-		if (resolvedFile === undefined) 
-			return finishResponse({ statusCode: 404 }, request, response)
-
-		fs.readFile(resolvedFile, (err, data) => {
+	resolveFile(settings.rootDir).then((filename) => {
+		fs.readFile(filename, (err, data) => {
 			if (err) return finishResponse({ statusCode: 404 }, request, response)
 
-			response.writeHead(200, {'Content-Type': getContentType(resolvedFile)})
+			response.writeHead(200, {'Content-Type': getContentType(filename)})
 
 			const content = data.toString()
 			const codeInjection =
@@ -98,9 +95,9 @@ function injectHtml(request, response) {
 
 			response.write(result)
 			response.end()
-			logHttpRequest(request, response, resolvedFile)
+			logHttpRequest(request, response, filename)
 		});
-	});
+	}).catch(() => finishResponse({ statusCode: 404 }, request, response));
 }
 
 module.exports = {
