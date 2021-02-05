@@ -1,7 +1,7 @@
 import Obj from './objects/obj.js'
-import { resourceURL } from './preload.js'
+import { getAssetConfig, requestHttpResource, resourceURL } from './preload.js'
 import { initRoomFromURL } from './roomhandler.js'
-import { toolGroups } from './toolhandler.js'
+import { setToolPage, setToolPageContainer, toolGroups } from './toolhandler.js'
 
 /* BEGIN SEGMENT
  * Functions for object selection with the controller.
@@ -76,6 +76,41 @@ function applyRoomInfo(room) {
 /* BEGIN SEGMENT
  * Functions for creating the editor sidebars.
  */
+/**
+ * @param {XMLHttpRequest} xhr 
+ */
+async function constructLeftEditorSidebar(xhr) {
+	$('#editor-sidebar-left-wrapper').append($.parseHTML(xhr.responseText))
+	loadMapList(JSON.parse((await requestHttpResource({ url: '/maps.json' })).responseText))
+}
+
+/**
+ * @param {XMLHttpRequest} xhr 
+ */
+async function constructRightEditorSidebar(xhr) {
+	$('#editor-sidebar-right-wrapper').append($.parseHTML(xhr.responseText))
+	setToolPageContainer(document.getElementById('editor-subtools-container'))
+	const tool_page_buttons = document.getElementById('tool-page-buttons')
+
+	{ // Hard coded basic tools page.
+		const basic = toolGroups.get('basic')
+		const no_tool = createImageToolButton('No tool', '', `setTool('notool');update()`)
+		no_tool.firstChild.setAttribute('checked', '')
+		basic.append(no_tool, createImageToolButton('Remover', '', `setTool('remover');update()`))
+		const basicToolsBtn = createToolPageButton('Basic', 'basic')
+		basicToolsBtn.firstChild.setAttribute('checked', '')
+		tool_page_buttons.appendChild(basicToolsBtn)
+	}
+
+	// Init the toolpages.
+	JSON.parse((await requestHttpResource({ url: '/toolpages.json' })).responseText).forEach((page) => {
+		toolGroups.set(page.group, document.createElement('div'))
+		tool_page_buttons.appendChild(createToolPageButton(page.title, page.group))
+	})
+	setToolPage('basic')
+	loadToolPages(getAssetConfig())
+}
+
 /**
  * @param {Object} mapConfig 
  */
@@ -184,9 +219,8 @@ export {
 	showObjectProperties,
 	sidebarLeftToggle, sidebarRightToggle,
 	applyRoomInfo,
-	loadMapList, loadToolPages,
-	createImageToolButton,
-	createToolPageButton,
+	constructLeftEditorSidebar,
+	constructRightEditorSidebar,
 	createHeader,
 	createHR,
 	createFlexTable,
