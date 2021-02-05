@@ -4,9 +4,9 @@
 class Obj {
 
 	/**
-	 * @param {Number} x 
-	 * @param {Number} y 
-	 * @param {color|undefined} outline 
+	 * @param {number} x 
+	 * @param {number} y 
+	 * @param {color=} outline 
 	 */
 	constructor(x, y, outline) {
 		this.x = x; this.y = y
@@ -28,9 +28,9 @@ class Obj {
 
 	/**
 	 * Checks if a point is intersecting this object.
-	 * @param {Number} x 
-	 * @param {Number} y 
-	 * @returns {Boolean}
+	 * @param {number} x 
+	 * @param {number} y 
+	 * @returns {boolean}
 	 */
 	intersects(x, y) {}
 
@@ -50,8 +50,7 @@ class Obj {
 	getObjectPropertiesGUI() {}
 
 	/**
-	 * @param {String} outline 
-	 * @returns {Boolean}
+	 * @param {string} outline 
 	 */
 	parseOutline(outline) {
 		if (outline === '') {

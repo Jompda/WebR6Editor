@@ -7,11 +7,11 @@ import { update } from '../main.js'
  */
 class RectangleObj extends Obj {
 	/**
-	 * @param {Number} x 
-	 * @param {Number} y 
-	 * @param {Number} w 
-	 * @param {Number} h 
-	 * @param {color|undefined} outline 
+	 * @param {number} x 
+	 * @param {number} y 
+	 * @param {number} w 
+	 * @param {number} h 
+	 * @param {color=} outline 
 	 */
 	constructor(x, y, w, h, outline) {
 		super(x, y, outline)
@@ -20,14 +20,12 @@ class RectangleObj extends Obj {
 		this.initControlPoints()
 	}
 
-	drawEditMode(enabled) {
+	drawEditMode() {
 		translate(this.x, this.y)
 		noFill()
 		stroke(255,255,255,255/2)
 		strokeWeight(4)
 		rect(0, 0, this.w, this.h)
-
-		if (!enabled) return;
 
 		// Draw the control points.
 		stroke(200)
@@ -107,8 +105,8 @@ class RectangleObj extends Obj {
 	}
 
 	/**
-	 * @param {String} width 
-	 * @returns {Boolean}
+	 * @param {string} width 
+	 * @returns {boolean}
 	 */
 	parseWidth(width) {
 		const parsed = parseInt(width)
@@ -118,8 +116,8 @@ class RectangleObj extends Obj {
 	}
 
 	/**
-	 * @param {String} height 
-	 * @returns {Boolean}
+	 * @param {string} height 
+	 * @returns {boolean}
 	 */
 	parseHeight(height) {
 		const parsed = parseInt(height)

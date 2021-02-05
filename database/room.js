@@ -1,4 +1,3 @@
-
 const http = require('http'), fs = require('fs'), path = require('path')
 
 const { settings } = require('..')
@@ -10,21 +9,21 @@ const { finishResponse } = require('../util')
 module.exports = class Room {
 	/**
 	 * @param {Object} obj 
-	 * @param {String} obj.name 
-	 * @param {String} obj.key 
-	 * @param {String} obj.owner 
+	 * @param {string} obj.name 
+	 * @param {string} obj.key 
+	 * @param {string} obj.owner 
 	 */
 	constructor(obj) {
 		this.name = obj.name
 		this.key = obj.key
 		this.owner = obj.owner
 		this.roominfo = require(path.join(settings.roomsDir, this.name, 'roominfo.json'))
-		/**@type {String[]} */
+		/**@type {string[]} */
 		this.slides = this.roominfo.slides
 	}
 
 	/**
-	 * @param {String} slideName 
+	 * @param {string} slideName 
 	 * @param {Object} saveData 
 	 * @param {http.IncomingMessage} request 
 	 * @param {http.ServerResponse} response 
@@ -54,7 +53,7 @@ module.exports = class Room {
 	}
 
 	/**
-	 * @param {String} slideName 
+	 * @param {string} slideName 
 	 */
 	slideReadStream(slideName) {
 		return fs.createReadStream(path.join(settings.roomsDir, this.name, 'slides', slideName + '.json'))

@@ -6,7 +6,7 @@ const { finishResponse, logHttpRequest } = require('../util')
 
 /**
  * @param {http.IncomingMessage} request 
- * @returns {Boolean}
+ * @returns {boolean}
  */
 function condition(request) {
 	return request.method === 'GET' && /\/room\/\S+?\/.*/.test(request.url)

@@ -8,14 +8,13 @@ import RectangleObj from './rectangleobj.js'
 class ImageObj extends RectangleObj {
 
 	/**
-	 * @param {Number} x 
-	 * @param {Number} y 
-	 * @param {Number} w 
-	 * @param {Number} h 
+	 * @param {number} x 
+	 * @param {number} y 
+	 * @param {number} w 
+	 * @param {number} h 
 	 * @param {image} image 
-	 * @param {color|undefined} outline 
+	 * @param {color=} outline 
 	 * @param {Object} asset 
-	 * @param {Object} options 
 	 */
 	constructor(x, y, w, h, image, outline, asset) {
 		super(x, y, w, h, outline)

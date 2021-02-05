@@ -14,7 +14,7 @@ mapDirectories()
 
 /**
  * @param {http.IncomingMessage} request 
- * @returns {Boolean}
+ * @returns {boolean}
  */
 function condition(request) {
 	return request.method === 'GET' && (request.url.startsWith('/live-page')

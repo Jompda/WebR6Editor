@@ -5,9 +5,9 @@ import Obj from "./objects/obj.js"
 import { requestHttpResource } from "./preload.js"
 
 const Room = {
-	/**@type {String}*/ room: undefined,
-	/**@type {String}*/ key: undefined,
-	/**@type {String}*/ slide: undefined
+	/**@type {string}*/ room: undefined,
+	/**@type {string}*/ key: undefined,
+	/**@type {string}*/ slide: undefined
 }
 window.Room = Room
 
@@ -59,11 +59,18 @@ const saveSlide = window.saveSlide = () => {
 		alert('The slide has been succesfully saved!')
 	}).catch(alertXhrError)
 
+	/**
+	 * @param {XMLHttpRequest} xhr
+	 */
 	function alertXhrError(xhr) {
 		console.log('ERROR:', xhr.status, xhr.statusText, '\nReason:',  xhr.responseText)
 		alert('An error has occurred while saving the slide! Further information has been logged to the console.')
 	}
 
+	/**
+	 * @param {string} key 
+	 * @param {*} value 
+	 */
 	function replacer(key, value) {
 		if (key === 'image' || key === 'outlineImage' || key === 'controlPoints') return;
 		if (key === 'outline' && value) return { type: 'p5RgbColor', levels: value.levels }

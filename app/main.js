@@ -16,7 +16,7 @@ import ImagePlacer from './tools/imageplacer.js'
 document.getElementsByTagName('body')[0].setAttribute('onresize', 'windowResized()')
 const viewport = document.getElementById('viewport')
 const imageobj_size = 100
-/**@type {String} */
+/**@type {string} */
 var backgroundImageUrl
 const getBackgroundImageUrl = () => backgroundImageUrl
 var backgroundImage
@@ -93,8 +93,8 @@ window.draw = function() {
 }
 
 /**
- * @param {Number} x 
- * @param {Number} y 
+ * @param {number} x 
+ * @param {number} y 
  */
 function getIntersectingObject(x, y) {
 	for (let i = 0; i < objects.length; i++)
@@ -103,7 +103,7 @@ function getIntersectingObject(x, y) {
 }
 
 /**
- * @param {String} mapUrl 
+ * @param {string} mapUrl 
  */
 const changeMap = window.changeMap = (mapUrl) => {
 	if (mapUrl !== '-----') {

@@ -57,8 +57,8 @@ function get(request, response) {
 }
 
 /**
- * @param {String} string 
- * @param {String} mimetype 
+ * @param {string} string 
+ * @param {string} mimetype 
  * @param {http.IncomingMessage} request 
  * @param {http.ServerResponse} response 
  */
@@ -71,7 +71,7 @@ function sendContent(string, mimetype, request, response) {
 }
 
 /**
- * @param {String} filepath 
+ * @param {string} filepath 
  * @param {fs.Stats} stat 
  * @param {http.IncomingMessage} request 
  * @param {http.ServerResponse} response 
@@ -84,7 +84,7 @@ function sendFile(filepath, stat, request, response) {
 
 /**
  * @param {fs.ReadStream} stream 
- * @param {String} mimetype 
+ * @param {string} mimetype 
  * @param {http.IncomingMessage} request 
  * @param {http.ServerResponse} response 
  */
@@ -103,7 +103,7 @@ function sendStream(stream, mimetype, request, response) {
 }
 
 /**
- * @param {String} pathname 
+ * @param {string} pathname 
  * @param {Function} callback 
  */
 function resolveFile(pathname, callback) {
@@ -118,8 +118,8 @@ function resolveFile(pathname, callback) {
 }
 
 /**
- * @param {String} pathname 
- * @returns {String}
+ * @param {string} pathname 
+ * @returns {string}
  */
 function getContentType(pathname) {
 	return mimeTypes[pathname.slice(pathname.lastIndexOf('.')+1)] || 'text/plain'

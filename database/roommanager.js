@@ -1,6 +1,5 @@
 
-const { settings } = require('..')
-const http = require('http'), path = require('path'), fs = require('fs')
+const http = require('http'), fs = require('fs')
 
 module.exports = {
 	roomAccess,
@@ -16,7 +15,7 @@ const rooms = require('./temproomsdb.json').map((obj) => new Room(obj))
 /**
  * @param {Room} room 
  * @param {http.IncomingMessage} request 
- * @returns {Boolean}
+ * @returns {boolean}
  */
 function roomAccess(room, request) {
 	if (!request.headers.authorization) return false
@@ -28,7 +27,7 @@ function roomAccess(room, request) {
 }
 
 /**
- * @param {String} roomName 
+ * @param {string} roomName 
  * @returns {Room}s
  */
 function getRoomByName(roomName) {

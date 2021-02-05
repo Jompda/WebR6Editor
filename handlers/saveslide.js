@@ -1,11 +1,11 @@
 
-const http = require('http'), url = require('url'), path = require('path'), fs = require('fs')
+const http = require('http'), url = require('url')
 const { roomAccess, getRoomByName } = require('../database/RoomManager')
 const { finishResponse } = require('../util')
 
 /**
  * @param {http.IncomingMessage} request 
- * @returns {Boolean}
+ * @returns {boolean}
  */
 function condition(request) {
 	return request.method === 'POST' && /\/saveslide\/\S+?\/\S+/.test(request.url)

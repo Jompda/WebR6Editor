@@ -9,12 +9,12 @@ const resourceURL = 'https://raw.githubusercontent.com/Jompda/Jompda.github.io/m
 
 var assetConfig
 const getAssetConfig = () => assetConfig
-/**@type {Map<String,Object>}*/
+/**@type {Map<string,Object>}*/
 const assets = new Map()
 
 
 /**
- * @param {{method: String, url: String, body: String, headers: Object}} param0 
+ * @param {{method: string, url: string, body: string, headers: Object}} param0 
  * @returns {Promise<XMLHttpRequest, XMLHttpRequest>}
  */
 async function requestHttpResource({ method = 'GET', url, body, headers }) {
@@ -60,7 +60,6 @@ function prepareAssets(assetConfig) {
 			assets.set(filename, asset)
 		})
 	})
-	return assetConfig
 }
 
 export {

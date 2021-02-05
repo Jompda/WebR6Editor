@@ -51,7 +51,7 @@ const sidebarRightToggle = window.sidebarRightToggle = () => {
 
 /**
  * @param {HTMLElement} element 
- * @param {String} value 
+ * @param {string} value 
  */
 const translateElement = window.translateElement = (element, value) =>
 	element.style.transform=`translate(${value})`
@@ -202,8 +202,8 @@ const createFlexTable = () => formElement('div', [[ 'class', 'flex-table' ]])
 
 
  /**
- * @param {String} tag 
- * @param {String[][]} attribs 
+ * @param {string} tag 
+ * @param {string[][]} attribs 
  * @param {HTMLElement} innerHTML 
  * @returns {HTMLElement}
  */

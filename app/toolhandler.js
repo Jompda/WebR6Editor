@@ -5,7 +5,7 @@ import ImagePlacer from './tools/imageplacer.js'
 
 /**
  * Toolpages functionality
- * @type {Map<String, HTMLElement>}
+ * @type {Map<string, HTMLElement>}
  */
 const toolGroups = new Map([
 	[ 'basic', document.createElement('div') ]
@@ -15,7 +15,7 @@ const toolGroups = new Map([
 /**@param {HTMLElement} element*/
 const setToolPageContainer = (element) => subtools_container = element
 
-/**@param {String} group the group name in toolGroups*/
+/**@param {string} group the group name in toolGroups*/
 const setToolPage = window.setToolPage = (group) => {
 	clearSelectedTool()
 	if (subtools_container.firstChild) subtools_container.removeChild(subtools_container.firstChild)
@@ -27,13 +27,13 @@ const clearSelectedTool = () =>
 
 
 // Tool functionality.
-/**@type {Map<String, Tool>}*/ const tools = new Map()
+/**@type {Map<string, Tool>}*/ const tools = new Map()
 /**@type {Tool}*/
 var tool
 const getTool = () => tool
 /**
- * @param {String} name 
- * @param {String=} options 
+ * @param {string} name 
+ * @param {string=} options 
  * @returns {Tool=}
  */
 const setTool = window.setTool = (name, options) => {
