@@ -1,14 +1,13 @@
-import { formElement, setSelectedObject, showObjectProperties } from "./gui.js"
+import { applyRoomInfo, formElement, setSelectedObject, showObjectProperties } from "./gui.js"
 import { changeMap, getBackgroundImageUrl, getObjects, update } from "./main.js"
 import ImageObj from "./objects/imageobj.js"
 import Obj from "./objects/obj.js"
 import { requestHttpResource } from "./preload.js"
 
-
 const Room = {
-	name: undefined,
-	key: undefined,
-	slide: undefined
+	/**@type {String}*/ room: undefined,
+	/**@type {String}*/ key: undefined,
+	/**@type {String}*/ slide: undefined
 }
 window.Room = Room
 
@@ -98,10 +97,10 @@ const loadRoom = window.loadRoom = () => {
 
 function initRoomFromURL() {
 	const params = new URL(location).searchParams
-	const roomName = params.get('room'), key = params.get('key'), slideName = params.get('slide')
-	$('#room-name').val(Room.name = roomName)
-	$('#room-key').val(Room.key = key)
-	$('#slide-name').val(Room.slide = slideName)
+	Room.name = params.get('room')
+	Room.key = params.get('key')
+	Room.slide = params.get('slide')
+	applyRoomInfo(Room)
 	if (Room.name && Room.key) {
 		loadRoom()
 		if (Room.slide) loadSlide()

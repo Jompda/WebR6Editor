@@ -61,9 +61,13 @@ const translateElement = window.translateElement = (element, value) =>
 
 
 /* BEGIN SEGMENT
- * Functions for creating the Room controls.
+ * Functions for the Room controls.
  */
-// TODO
+function applyRoomInfo(room) {
+	$('#room-name').val(room.name)
+	$('#room-key').val(room.key)
+	$('#slide-name').val(room.slide)
+}
 /*
  * END SEGMENT
  */
@@ -186,6 +190,7 @@ export {
 	getSelectedObject, setSelectedObject,
 	showObjectProperties,
 	sidebarLeftToggle, sidebarRightToggle,
+	applyRoomInfo,
 	loadMapList, loadToolPages,
 	createImageToolButton,
 	createToolPageButton,

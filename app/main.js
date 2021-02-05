@@ -1,4 +1,4 @@
-import { initRoomFromURL } from './roomhandler.js'
+import { initRoomFromURL } from './roomhandler.js' // Just to initialize the roomhandler.
 import { getTool } from './toolhandler.js'
 import {
 	getTranslateX, setTranslateX,
