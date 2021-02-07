@@ -82,8 +82,6 @@ function loadSlides(room) {
 		slideSelector.appendChild(formElement('option', undefined, slideName))
 	})
 
-
-
 	roomInfo.append(
 		formElement('p', [['class','sidebar-text']], 'Room: ' + room.name),
 		formElement('p', [['class','sidebar-text'],['style','display:inline-block']], 'Slide:'),

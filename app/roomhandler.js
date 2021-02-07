@@ -114,9 +114,12 @@ function initRoomFromURL() {
 	const params = new URL(location).searchParams
 	Room.name = params.get('room')
 	Room.key = params.get('key')
+	Room.slide = params.get('slide')
 	applyRoomInfo(Room)
 	if (Room.name && Room.key) {
 		loadRoom()
+		// TODO: If "slide" is present in the url then set the slide selector to it.
+		if (Room.slide) loadSlide(Room.slide)
 	}
 }
 
