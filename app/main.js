@@ -136,6 +136,17 @@ const changeMap = window.changeMap = (mapUrl) => {
 }
 
 /**
+ * Clears the slide
+ */
+const clearSlide = window.clearSlide = () => {
+	showObjectProperties(setSelectedObject())
+	objects.splice(0, objects.length)
+	backgroundImageUrl = undefined
+	backgroundImage = createImage(1,1)
+	update()
+}
+
+/**
  * Loads images and possibly strats from json files in the future.
  * NOTE: Saving a slide which has a custom image currently destroys the save file.
  * @param {DragEvent} event 
@@ -182,6 +193,7 @@ export {
 	getObjects,
 	update,
 	getIntersectingObject,
+	clearSlide,
 	changeMap,
 	getBackgroundImageUrl
 }

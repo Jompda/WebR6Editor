@@ -1,5 +1,5 @@
-import { applyRoomInfo, loadSlides, setSelectedObject, showObjectProperties } from "./gui.js"
-import { changeMap, getBackgroundImageUrl, getObjects, update } from "./main.js"
+import { applyRoomInfo, formElement, loadSlides, setSelectedObject, showObjectProperties } from "./gui.js"
+import { clearSlide, changeMap, getBackgroundImageUrl, getObjects, update } from "./main.js"
 import ImageObj from "./objects/imageobj.js"
 import Obj from "./objects/obj.js"
 import { requestHttpResource } from "./preload.js"
@@ -15,9 +15,7 @@ window.Room = Room
 const loadSlide = window.loadSlide = (slideName) => {
 	if (slideName === '') {
 		Room.slide = undefined
-		const objects = getObjects()
-		objects.splice(0, objects.length)
-		return update()
+		return clearSlide()
 	}
 		
 	requestHttpResource({
@@ -26,13 +24,12 @@ const loadSlide = window.loadSlide = (slideName) => {
 	}).then((xhr) => {
 		const file = JSON.parse(xhr.responseText)
 		console.log(file)
+		clearSlide()
 		Room.slide = slideName
 		const saveData = file.saveData
 
 		// Clear the old slide.
-		showObjectProperties(setSelectedObject())
 		const objects = getObjects()
-		objects.splice(0, objects.length)
 
 		// Apply the new slide from save data.
 		changeMap(saveData.backgroundImageUrl)
@@ -94,6 +91,16 @@ const saveSlide = window.saveSlide = () => {
 	}
 }
 
+const newSlide = window.newSlide = (slideName) => {
+	if (!slideName) return console.log('newSlide cancelled')
+	clearSlide()
+	Room.slide = slideName
+	const slideSelector = document.getElementById('slide-selector')
+	slideSelector.appendChild(formElement('option', undefined, slideName))
+	slideSelector.value = slideName
+	alert(`New slide "${slideName}" has been created locally but it has not yet been saved on the server.`)
+}
+
 /**
  * Assigns the room to the session.
  */
@@ -118,7 +125,6 @@ function initRoomFromURL() {
 	applyRoomInfo(Room)
 	if (Room.name && Room.key) {
 		loadRoom()
-		// TODO: If "slide" is present in the url then set the slide selector to it.
 		if (Room.slide) loadSlide(Room.slide)
 	}
 }
@@ -127,6 +133,7 @@ export {
 	Room,
 	loadSlide,
 	saveSlide,
+	newSlide,
 	loadRoom,
 	initRoomFromURL
 }

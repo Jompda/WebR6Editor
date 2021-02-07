@@ -1,0 +1,545 @@
+{
+	"author": "Jompda",
+	"timestamp": "2021-02-07T21:16:05.629Z",
+	"saveData": {
+		"backgroundImageUrl": "assets/maps/kafe/topfloor.jpg",
+		"objs": [
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 189.972,
+					"y": 2463.782,
+					"outline": {
+						"type": "p5RgbColor",
+						"levels": [
+							255,
+							255,
+							0,
+							255
+						]
+					},
+					"rotation": 0,
+					"w": 400,
+					"h": 400,
+					"assetId": "maestro"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 189.972,
+					"y": 2057.9,
+					"outline": {
+						"type": "p5RgbColor",
+						"levels": [
+							0,
+							255,
+							255,
+							255
+						]
+					},
+					"rotation": 0,
+					"w": 400,
+					"h": 400,
+					"assetId": "wamai"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 189.972,
+					"y": 1652.017,
+					"outline": {
+						"type": "p5RgbColor",
+						"levels": [
+							196,
+							57,
+							238,
+							255
+						]
+					},
+					"rotation": 0,
+					"w": 400,
+					"h": 400,
+					"assetId": "smoke"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 189.972,
+					"y": 1246.135,
+					"outline": {
+						"type": "p5RgbColor",
+						"levels": [
+							0,
+							255,
+							0,
+							255
+						]
+					},
+					"rotation": 0,
+					"w": 400,
+					"h": 400,
+					"assetId": "goyo"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 191.515,
+					"y": 847.311,
+					"outline": {
+						"type": "p5RgbColor",
+						"levels": [
+							255,
+							0,
+							0,
+							255
+						]
+					},
+					"rotation": 0,
+					"w": 400,
+					"h": 400,
+					"assetId": "jager"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 3288.359,
+					"y": 2416.541,
+					"outline": {
+						"type": "p5RgbColor",
+						"levels": [
+							196,
+							57,
+							238,
+							255
+						]
+					},
+					"rotation": 0,
+					"w": 147.91,
+					"h": 230.833,
+					"assetId": "rotation"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 3071.611,
+					"y": 2217.994,
+					"rotation": 0,
+					"w": 100,
+					"h": 100,
+					"assetId": "head"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 3176.588,
+					"y": 2618.511,
+					"rotation": 0,
+					"w": 88.235,
+					"h": 100,
+					"assetId": "deployableshield"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 3882.655,
+					"y": 2687.267,
+					"rotation": 0,
+					"w": 150,
+					"h": 150,
+					"assetId": "jager"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 4211.723,
+					"y": 3029.985,
+					"rotation": 0,
+					"w": 150,
+					"h": 150,
+					"assetId": "goyo"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 3440.244,
+					"y": 2202.139,
+					"rotation": 0,
+					"w": 150,
+					"h": 150,
+					"assetId": "smoke"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 4206.433,
+					"y": 1664.22,
+					"rotation": 0,
+					"w": 150,
+					"h": 150,
+					"assetId": "maestro"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 2902.612,
+					"y": 3017.577,
+					"rotation": 0,
+					"w": 150,
+					"h": 150,
+					"assetId": "wamai"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 4171.72,
+					"y": 2828.345,
+					"rotation": 0,
+					"w": 105.556,
+					"h": 100,
+					"assetId": "barbedwire"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 4391.973,
+					"y": 2995.862,
+					"rotation": 0,
+					"w": 105.556,
+					"h": 100,
+					"assetId": "barbedwire"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 2805.453,
+					"y": 3028.162,
+					"rotation": 0,
+					"w": 117.021,
+					"h": 100,
+					"assetId": "activedefensesystem"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 3120.559,
+					"y": 2800.425,
+					"rotation": 0,
+					"w": 117.021,
+					"h": 100,
+					"assetId": "activedefensesystem"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 4045.746,
+					"y": 858.473,
+					"rotation": 0,
+					"w": 103.125,
+					"h": 100,
+					"assetId": "evileye"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 4026.835,
+					"y": 1303.142,
+					"outline": {
+						"type": "p5RgbColor",
+						"levels": [
+							255,
+							255,
+							0,
+							255
+						]
+					},
+					"rotation": 1.571,
+					"w": 102.629,
+					"h": 270.891,
+					"assetId": "rotation"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 4009.447,
+					"y": 1614.707,
+					"outline": {
+						"type": "p5RgbColor",
+						"levels": [
+							255,
+							255,
+							0,
+							255
+						]
+					},
+					"rotation": 1.571,
+					"w": 139.164,
+					"h": 34.965,
+					"assetId": "reinforcement"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 2884.729,
+					"y": 2539.062,
+					"rotation": 0,
+					"w": 117.021,
+					"h": 100,
+					"assetId": "activedefensesystem"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 3333.538,
+					"y": 2186.284,
+					"rotation": 0,
+					"w": 71.622,
+					"h": 100,
+					"assetId": "vulcanshield"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 2953.012,
+					"y": 2879.95,
+					"rotation": 0,
+					"w": 71.622,
+					"h": 100,
+					"assetId": "vulcanshield"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 3065.665,
+					"y": 2578.7,
+					"rotation": 0,
+					"w": 100,
+					"h": 100,
+					"assetId": "head"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 2924.95,
+					"y": 2122.863,
+					"rotation": 0,
+					"w": 100,
+					"h": 100,
+					"assetId": "head"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 3720.81,
+					"y": 2253.832,
+					"outline": {
+						"type": "p5RgbColor",
+						"levels": [
+							0,
+							255,
+							0,
+							255
+						]
+					},
+					"rotation": 1.571,
+					"w": 160.007,
+					"h": 31.973,
+					"assetId": "reinforcement"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 3728.369,
+					"y": 2325.73,
+					"outline": {
+						"type": "p5RgbColor"
+					},
+					"rotation": 1.571,
+					"w": 147.871,
+					"h": 216.737,
+					"assetId": "rotation"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 3103.386,
+					"y": 2520.413,
+					"outline": {
+						"type": "p5RgbColor",
+						"levels": [
+							0,
+							255,
+							0,
+							255
+						]
+					},
+					"rotation": 0,
+					"w": 178.545,
+					"h": 28.064,
+					"assetId": "reinforcement"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 3035.851,
+					"y": 2418.943,
+					"outline": {
+						"type": "p5RgbColor",
+						"levels": [
+							0,
+							255,
+							0,
+							255
+						]
+					},
+					"rotation": 1.571,
+					"w": 159.046,
+					"h": 26.503,
+					"assetId": "reinforcement"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 3034.539,
+					"y": 2790.365,
+					"outline": {
+						"type": "p5RgbColor",
+						"levels": [
+							255,
+							0,
+							0,
+							255
+						]
+					},
+					"rotation": 1.571,
+					"w": 162.984,
+					"h": 26.503,
+					"assetId": "reinforcement"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 2443.224,
+					"y": 2790.48,
+					"outline": {
+						"type": "p5RgbColor",
+						"levels": [
+							255,
+							0,
+							0,
+							255
+						]
+					},
+					"rotation": 0,
+					"w": 148.814,
+					"h": 142.427,
+					"assetId": "reinforcement"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 3141.58,
+					"y": 1353.831,
+					"rotation": 0,
+					"w": 103.125,
+					"h": 100,
+					"assetId": "evileye"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 2846.007,
+					"y": 1710.458,
+					"rotation": 0,
+					"w": 105.556,
+					"h": 100,
+					"assetId": "barbedwire"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 2871.48,
+					"y": 1339.68,
+					"rotation": 0,
+					"w": 105.556,
+					"h": 100,
+					"assetId": "barbedwire"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 2227.109,
+					"y": 1730.27,
+					"rotation": 0,
+					"w": 148.936,
+					"h": 100,
+					"assetId": "signaldisruptor"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 1794.063,
+					"y": 1747.253,
+					"rotation": 0,
+					"w": 148.936,
+					"h": 100,
+					"assetId": "signaldisruptor"
+				}
+			},
+			{
+				"class": "ImageObj",
+				"instance": {
+					"x": 1858.844,
+					"y": 1729.845,
+					"outline": {
+						"type": "p5RgbColor",
+						"levels": [
+							0,
+							255,
+							255,
+							255
+						]
+					},
+					"rotation": 0,
+					"w": 386.934,
+					"h": 40.821,
+					"assetId": "reinforcement"
+				}
+			}
+		]
+	}
+}

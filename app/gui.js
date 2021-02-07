@@ -76,17 +76,22 @@ function loadSlides(room) {
 	const roomInfo = document.getElementById('room-info')
 	roomInfo.textContent = ''
 
-	const slideSelector = formElement('select', [['onchange','loadSlide(this.value)']])
+	// Create the room & slide controls.
+
+	const slideSelector = formElement('select', [['id','slide-selector'],['onchange','loadSlide(this.value)']])
 	slideSelector.appendChild(formElement('option'))
 	room.slides.forEach((slideName) => {
 		slideSelector.appendChild(formElement('option', undefined, slideName))
 	})
+	if (room.slide) slideSelector.value = room.slide
 
 	roomInfo.append(
 		formElement('p', [['class','sidebar-text']], 'Room: ' + room.name),
-		formElement('p', [['class','sidebar-text'],['style','display:inline-block']], 'Slide:'),
-		slideSelector,
-		formElement('button', [['onclick','saveSlide()']], 'Save slide')
+		formElement('button', [['onclick','newSlide(prompt("Slide name:"))']], 'New slide'),
+		formElement('button', [['onclick','saveSlide()']], 'Save slide'),
+		// This needs to reworked for user-friendliness.
+		formElement('p', [['class','sidebar-text']], 'Slide:'),
+		slideSelector
 	)
 }
 /*
