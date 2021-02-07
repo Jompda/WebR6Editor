@@ -1,23 +1,32 @@
-import { applyRoomInfo, formElement, setSelectedObject, showObjectProperties } from "./gui.js"
+import { applyRoomInfo, loadSlides, setSelectedObject, showObjectProperties } from "./gui.js"
 import { changeMap, getBackgroundImageUrl, getObjects, update } from "./main.js"
 import ImageObj from "./objects/imageobj.js"
 import Obj from "./objects/obj.js"
 import { requestHttpResource } from "./preload.js"
 
 const Room = {
-	/**@type {string}*/ room: undefined,
+	/**@type {string}*/ name: undefined,
 	/**@type {string}*/ key: undefined,
+	/**@type {String[]}*/ slides: [],
 	/**@type {string}*/ slide: undefined
 }
 window.Room = Room
 
-const loadSlide = window.loadSlide = () => {
+const loadSlide = window.loadSlide = (slideName) => {
+	if (slideName === '') {
+		Room.slide = undefined
+		const objects = getObjects()
+		objects.splice(0, objects.length)
+		return update()
+	}
+		
 	requestHttpResource({
-		url: `room/${Room.name}/${Room.slide}`,
-		headers: { 'Authorization': 'Basic ' + btoa('lith') }
+		url: `room/${Room.name}/${slideName}`,
+		headers: { 'Authorization': 'Basic ' + btoa(Room.key) }
 	}).then((xhr) => {
 		const file = JSON.parse(xhr.responseText)
 		console.log(file)
+		Room.slide = slideName
 		const saveData = file.saveData
 
 		// Clear the old slide.
@@ -27,24 +36,23 @@ const loadSlide = window.loadSlide = () => {
 
 		// Apply the new slide from save data.
 		changeMap(saveData.backgroundImageUrl)
-		saveData.objects.forEach(obj => {
-			switch (obj.class) {
+		saveData.objs.forEach(obj => {
+			switch (obj.class) { // TODO: for each object type
 				case 'ImageObj': objects.push(ImageObj.fromObject(obj.instance)); break
 				default: break
 			}
 		})
 		
 		update()
-	}).catch(() => alert(`Slide '${Room.slide}' doesn't exist!`))
+	}).catch(() => alert(`Slide '${slideName}' doesn't exist!`))
 }
 
 const saveSlide = window.saveSlide = () => {
-	const objs = getObjects()
+	if (!Room.slide) return;
 	const cache = [] // Used to avoid circular structures in the JSON.
-	console.log(getBackgroundImageUrl())
 	const saveData = JSON.stringify({
 		backgroundImageUrl: getBackgroundImageUrl(),
-		objects: objs
+		objs: getObjects()
 	}, replacer)
 
 	// Save the slide.
@@ -95,10 +103,10 @@ const loadRoom = window.loadRoom = () => {
 		headers: { 'Authorization': 'Basic ' + btoa(Room.key) },
 		url: `room/${Room.name}/`
 	}).then((xhr) => {
-		const roomInfo = document.getElementById('room-info')
-		roomInfo.textContent = ''
-		roomInfo.appendChild(formElement('p', [['class','sidebar-text']], 'Room: ' + Room.name))
-		console.log('RoomInfo:', JSON.parse(xhr.responseText))
+		const roominfo = JSON.parse(xhr.responseText)
+		Room.slides = roominfo.slides
+		console.log('Room:', Room)
+		loadSlides(Room)
 	}).catch(() => alert('Authorization forbidden.'))
 }
 
@@ -106,11 +114,9 @@ function initRoomFromURL() {
 	const params = new URL(location).searchParams
 	Room.name = params.get('room')
 	Room.key = params.get('key')
-	Room.slide = params.get('slide')
 	applyRoomInfo(Room)
 	if (Room.name && Room.key) {
 		loadRoom()
-		if (Room.slide) loadSlide()
 	}
 }
 

@@ -66,7 +66,30 @@ const translateElement = window.translateElement = (element, value) =>
 function applyRoomInfo(room) {
 	$('#room-name').val(room.name)
 	$('#room-key').val(room.key)
-	$('#slide-name').val(room.slide)
+}
+
+/**
+ * Construct the slide controls
+ * @param {Room} room 
+ */
+function loadSlides(room) {
+	const roomInfo = document.getElementById('room-info')
+	roomInfo.textContent = ''
+
+	const slideSelector = formElement('select', [['onchange','loadSlide(this.value)']])
+	slideSelector.appendChild(formElement('option'))
+	room.slides.forEach((slideName) => {
+		slideSelector.appendChild(formElement('option', undefined, slideName))
+	})
+
+
+
+	roomInfo.append(
+		formElement('p', [['class','sidebar-text']], 'Room: ' + room.name),
+		formElement('p', [['class','sidebar-text'],['style','display:inline-block']], 'Slide:'),
+		slideSelector,
+		formElement('button', [['onclick','saveSlide()']], 'Save slide')
+	)
 }
 /*
  * END SEGMENT
@@ -219,6 +242,7 @@ export {
 	showObjectProperties,
 	sidebarLeftToggle, sidebarRightToggle,
 	applyRoomInfo,
+	loadSlides,
 	constructLeftEditorSidebar,
 	constructRightEditorSidebar,
 	createHeader,
