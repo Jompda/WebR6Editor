@@ -76,8 +76,6 @@ function loadSlides(room) {
 	const roomInfo = document.getElementById('room-info')
 	roomInfo.textContent = ''
 
-	// Create the room & slide controls.
-
 	const slideSelector = formElement('select', [['id','slide-selector'],['onchange','loadSlide(this.value)']])
 	slideSelector.appendChild(formElement('option'))
 	room.slides.forEach((slideName) => {
@@ -89,7 +87,7 @@ function loadSlides(room) {
 		formElement('p', [['class','sidebar-text']], 'Room: ' + room.name),
 		formElement('button', [['onclick','newSlide(prompt("Slide name:"))']], 'New slide'),
 		formElement('button', [['onclick','saveSlide()']], 'Save slide'),
-		// This needs to reworked for user-friendliness.
+		// This needs to be reworked for user-friendliness.
 		formElement('p', [['class','sidebar-text']], 'Slide:'),
 		slideSelector
 	)
@@ -154,8 +152,8 @@ function loadMapList(mapConfig) {
 			if (map.esl) option.setAttribute('class', 'map-pool-esl')
 			option.innerHTML = `${map.name} ${floor[0]}`
 			mapChooser.appendChild(option)
-		});
-	});
+		})
+	})
 }
 
 /**
@@ -185,7 +183,7 @@ function createImagePlacerGroup(target, group) {
 		const imageTool = createImageToolButton(rawAsset[0], resourceURL + group.path + filename + '.png',
 			`setTool('imageplacer', '${JSON.stringify(toolOptions)}')`)
 		table.appendChild(imageTool)
-	});
+	})
 	target.appendChild(table)
 	target.appendChild(createHR())
 }

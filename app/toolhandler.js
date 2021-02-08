@@ -47,7 +47,7 @@ const setTool = window.setTool = (name, options) => {
 // Outline functionality.
 /**@type {color}*/
 var outline
-const getOutline = () => outline;
+const getOutline = () => outline
 /**
  * @param {color=} newOutline 
  */
