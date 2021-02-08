@@ -81,7 +81,7 @@ function loadSlides(room) {
 	const slideSelector = formElement('select', [['id','slide-selector'],['onchange','loadSlide(this.value)']])
 	slideSelector.appendChild(formElement('option'))
 	room.slides.forEach((slideName) => {
-		slideSelector.appendChild(formElement('option', undefined, slideName))
+		slideSelector.appendChild(formElement('option', undefined, decodeURI(slideName)))
 	})
 	if (room.slide) slideSelector.value = room.slide
 
