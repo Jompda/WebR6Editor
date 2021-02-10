@@ -43,11 +43,25 @@ html, body {
 /*
  * Room controls
  */
-.slide-button {
-	width: 100%;
-	background-color:rgb(60, 60, 60);
-	height: 24px;
+ .slide-selector > input {
+	position: absolute;
+	opacity: 0;
+	width: 0;
+	height: 0;
 }
+.slide-selector > input:checked + p {
+	border: 1px solid red;
+}
+.slide-selector > p {
+	background-color: rgb(60, 60, 60);
+	height: 24px;
+	border: 1px solid rgba(0,0,0,0);
+	outline: none;
+}
+.slide-selector > p:hover {
+	border: 1px solid red;
+}
+
 
 /*
  * Viewport

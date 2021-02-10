@@ -77,8 +77,8 @@ function loadSlides(room) {
 	roomInfo.textContent = ''
 
 	const slideList = formElement('div', [['id','slide-list']])
-	slideList.appendChild(formElement('button', [['class','slide-button'],['onclick','loadSlide()']], 'empty'))
-	room.slides.forEach((slideName) => appendSlide(slideList, slideName))
+	appendSlide(slideList,'')
+	room.slides.forEach((slideName) => appendSlide(slideList, decodeURI(slideName)))
 	roomInfo.append(
 		formElement('h3', [['class','sidebar-text'],['id','room-name']], 'Room: ' + room.name),
 		formElement('h3', [['class','sidebar-text'],['id','room-slide']], 'Slide: ' + room.slide),
@@ -91,10 +91,18 @@ function loadSlides(room) {
 }
 
 function appendSlide(slideList, slideName) {
-	slideList.appendChild(formElement('button', [
-		['class','slide-button'],
-		['onclick','loadSlide(this.textContent)']
-	], decodeURI(slideName)))
+	const label = formElement('label', [
+		['class','slide-selector']
+	])
+	label.append(
+		formElement('input', [
+			['type','radio'],
+			['name','slide-button'],
+			['onchange',`loadSlide('${slideName}')`]
+		]),
+		formElement('p', undefined, slideName)
+	)
+	slideList.appendChild(label)
 }
 /*
  * END SEGMENT

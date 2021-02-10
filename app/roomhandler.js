@@ -4,13 +4,12 @@ import ImageObj from "./objects/imageobj.js"
 import Obj from "./objects/obj.js"
 import { requestHttpResource } from "./preload.js"
 
-const Room = {
+const Room = window.Room = {
 	/**@type {string}*/ name: undefined,
 	/**@type {string}*/ key: undefined,
-	/**@type {String[]}*/ slides: [],
+	/**@type {string[]}*/ slides: [],
 	/**@type {string}*/ slide: undefined
 }
-window.Room = Room
 
 const loadSlide = window.loadSlide = (slideName) => {
 	document.getElementById('room-slide').textContent = 'Slide: ' + (Room.slide = slideName)
