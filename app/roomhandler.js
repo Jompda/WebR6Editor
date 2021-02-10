@@ -1,4 +1,4 @@
-import { applyRoomInfo, formElement, loadSlides, setSelectedObject, showObjectProperties } from "./gui.js"
+import { appendSlide, applyRoomInfo, formElement, loadSlides, setSelectedObject, showObjectProperties } from "./gui.js"
 import { clearSlide, changeMap, getBackgroundImageUrl, getObjects, update } from "./main.js"
 import ImageObj from "./objects/imageobj.js"
 import Obj from "./objects/obj.js"
@@ -13,7 +13,8 @@ const Room = {
 window.Room = Room
 
 const loadSlide = window.loadSlide = (slideName) => {
-	if (slideName === '') {
+	document.getElementById('room-slide').textContent = 'Slide: ' + (Room.slide = slideName)
+	if (!slideName) {
 		Room.slide = undefined
 		return clearSlide()
 	}
@@ -94,10 +95,8 @@ const saveSlide = window.saveSlide = () => {
 const newSlide = window.newSlide = (slideName) => {
 	if (!slideName) return console.log('newSlide cancelled')
 	clearSlide()
-	Room.slide = slideName
-	const slideSelector = document.getElementById('slide-selector')
-	slideSelector.appendChild(formElement('option', undefined, slideName))
-	slideSelector.value = slideName
+	document.getElementById('room-slide').textContent = 'Slide: ' + (Room.slide = slideName)
+	appendSlide(document.getElementById('slide-list'), slideName)
 	alert(`New slide "${slideName}" has been created locally but it has not yet been saved on the server.`)
 }
 

@@ -76,21 +76,25 @@ function loadSlides(room) {
 	const roomInfo = document.getElementById('room-info')
 	roomInfo.textContent = ''
 
-	const slideSelector = formElement('select', [['id','slide-selector'],['onchange','loadSlide(this.value)']])
-	slideSelector.appendChild(formElement('option'))
-	room.slides.forEach((slideName) => {
-		slideSelector.appendChild(formElement('option', undefined, decodeURI(slideName)))
-	})
-	if (room.slide) slideSelector.value = room.slide
-
+	const slideList = formElement('div', [['id','slide-list']])
+	slideList.appendChild(formElement('button', [['class','slide-button'],['onclick','loadSlide()']], 'empty'))
+	room.slides.forEach((slideName) => appendSlide(slideList, slideName))
 	roomInfo.append(
-		formElement('p', [['class','sidebar-text']], 'Room: ' + room.name),
+		formElement('h3', [['class','sidebar-text'],['id','room-name']], 'Room: ' + room.name),
+		formElement('h3', [['class','sidebar-text'],['id','room-slide']], 'Slide: ' + room.slide),
 		formElement('button', [['onclick','newSlide(prompt("Slide name:"))']], 'New slide'),
 		formElement('button', [['onclick','saveSlide()']], 'Save slide'),
 		// This needs to be reworked for user-friendliness.
-		formElement('p', [['class','sidebar-text']], 'Slide:'),
-		slideSelector
+		formElement('p', [['class','sidebar-text']], 'slides:'),
+		slideList
 	)
+}
+
+function appendSlide(slideList, slideName) {
+	slideList.appendChild(formElement('button', [
+		['class','slide-button'],
+		['onclick','loadSlide(this.textContent)']
+	], decodeURI(slideName)))
 }
 /*
  * END SEGMENT
@@ -244,6 +248,7 @@ export {
 	sidebarLeftToggle, sidebarRightToggle,
 	applyRoomInfo,
 	loadSlides,
+	appendSlide,
 	constructLeftEditorSidebar,
 	constructRightEditorSidebar,
 	createHeader,
