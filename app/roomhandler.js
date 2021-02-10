@@ -15,7 +15,6 @@ window.Room = Room
 const loadSlide = window.loadSlide = (slideName) => {
 	document.getElementById('room-slide').textContent = 'Slide: ' + (Room.slide = slideName)
 	if (!slideName) {
-		Room.slide = undefined
 		return clearSlide()
 	}
 		
@@ -26,7 +25,6 @@ const loadSlide = window.loadSlide = (slideName) => {
 		const file = JSON.parse(xhr.responseText)
 		console.log(file)
 		clearSlide()
-		Room.slide = slideName
 		const saveData = file.saveData
 
 		// Clear the old slide.
