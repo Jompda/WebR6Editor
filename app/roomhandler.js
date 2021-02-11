@@ -120,12 +120,12 @@ function initRoomFromURL() {
 	const params = new URL(location).searchParams
 	Room.name = params.get('room')
 	Room.key = params.get('key')
-	Room.slide = params.get('slide')
+	const presetSlide = Room.slide = params.get('slide')
 	applyRoomInfo(Room)
 	if (Room.name && Room.key) {
 		loadRoom()
-		// Fix this to work with the slide controls
-		//if (Room.slide) loadSlide(Room.slide)
+		// Pretty illegal..
+		if (presetSlide) setTimeout(() => loadSlide(presetSlide), 500)
 	}
 }
 

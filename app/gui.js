@@ -92,6 +92,7 @@ function loadSlides(room) {
 		formElement('p', [['class','sidebar-text']], 'slides:'),
 		slideList
 	)
+	empty.click()
 }
 
 function appendSlide(slideList, slideName) {
