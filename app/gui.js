@@ -82,8 +82,10 @@ function loadSlides(room) {
 	roomInfo.append(
 		formElement('h3', [['class','sidebar-text'],['id','room-name']], 'Room: ' + room.name),
 		formElement('h3', [['class','sidebar-text'],['id','room-slide']], 'Slide: ' + room.slide),
+		createHR(),
 		formElement('button', [['onclick','newSlide(prompt("Slide name:"))']], 'New slide'),
 		formElement('button', [['onclick','saveSlide()']], 'Save slide'),
+		createHR(),
 		// This needs to be reworked for user-friendliness.
 		formElement('p', [['class','sidebar-text']], 'slides:'),
 		slideList

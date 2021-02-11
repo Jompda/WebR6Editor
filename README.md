@@ -18,3 +18,6 @@ The simple but useful web-based Rainbow Six: Siege strategy editor.
 - More tools: line, path, rectangle, circle.
 - Ability to hide and show objects based on their group or some kind of filtering.
 - History for undo/redo.
+
+## Brainstorming:
+- Why not use React?
