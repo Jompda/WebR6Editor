@@ -77,8 +77,10 @@ function loadSlides(room) {
 	roomInfo.textContent = ''
 
 	const slideList = formElement('div', [['id','slide-list']])
-	appendSlide(slideList,'')
-	room.slides.forEach((slideName) => appendSlide(slideList, decodeURI(slideName)))
+	// wtf
+	const empty = appendSlide(slideList,'')
+	room.slides = room.slides.map((slideName) => appendSlide(slideList, decodeURI(slideName)))
+	room.slides.unshift(empty)
 	roomInfo.append(
 		formElement('h3', [['class','sidebar-text'],['id','room-name']], 'Room: ' + room.name),
 		formElement('h3', [['class','sidebar-text'],['id','room-slide']], 'Slide: ' + room.slide),
@@ -105,6 +107,7 @@ function appendSlide(slideList, slideName) {
 		formElement('p', undefined, slideName)
 	)
 	slideList.appendChild(label)
+	return label
 }
 /*
  * END SEGMENT

@@ -2,6 +2,7 @@ import { getObjects, getIntersectingObject, update } from './main.js'
 import { getTool } from './toolhandler.js'
 import { setSelectedObject } from './gui.js'
 import Obj, { ControlPoint } from './objects/obj.js'
+import { nextSlide, previousSlide, Room } from './roomhandler.js'
 
 /* BEGIN SEGMENT
  * Filtering events outside the viewport.
@@ -57,11 +58,11 @@ window.enableMediaKeys = function () {
 		[ 'play', () => console.log('play') ],
 		[ 'pause', () => console.log('pause') ],
 		[ 'stop', () => console.log('stop') ],
-		[ 'seekbackward', () => console.log('previous') ],
-		[ 'seekforward', () => console.log('next') ],
+		[ 'seekbackward', () => previousSlide() ],
+		[ 'seekforward', () => nextSlide() ],
 		[ 'seekto', () => console.log('idk what') ],
-		[ 'previoustrack', () => console.log('previous') ],
-		[ 'nexttrack', () => console.log('next') ]
+		[ 'previoustrack', () => previousSlide()],
+		[ 'nexttrack', () => nextSlide()]
 	].forEach((handler) => navigator.mediaSession.setActionHandler(handler[0], handler[1]))
 }
 /* 

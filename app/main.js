@@ -143,6 +143,9 @@ const clearSlide = window.clearSlide = () => {
 	objects.splice(0, objects.length)
 	backgroundImageUrl = undefined
 	backgroundImage = createImage(1,1)
+	setZoom(1)
+	setTranslateX(0)
+	setTranslateY(0)
 	update()
 }
 

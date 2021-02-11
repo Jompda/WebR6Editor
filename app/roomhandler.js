@@ -7,8 +7,9 @@ import { requestHttpResource } from "./preload.js"
 const Room = window.Room = {
 	/**@type {string}*/ name: undefined,
 	/**@type {string}*/ key: undefined,
-	/**@type {string[]}*/ slides: [],
-	/**@type {string}*/ slide: undefined
+	/**@type {Object[]}*/ slides: [],
+	/**@type {string}*/ slide: undefined,
+	/**@type {number}*/ slideIndex: undefined
 }
 
 const loadSlide = window.loadSlide = (slideName) => {
@@ -108,8 +109,10 @@ const loadRoom = window.loadRoom = () => {
 	}).then((xhr) => {
 		const roominfo = JSON.parse(xhr.responseText)
 		Room.slides = roominfo.slides
+		Room.slideIndex = 0
 		console.log('Room:', Room)
 		loadSlides(Room)
+		console.log(Room.slides)
 	}).catch(() => alert('Authorization forbidden.'))
 }
 
@@ -121,8 +124,23 @@ function initRoomFromURL() {
 	applyRoomInfo(Room)
 	if (Room.name && Room.key) {
 		loadRoom()
-		if (Room.slide) loadSlide(Room.slide)
+		// Fix this to work with the slide controls
+		//if (Room.slide) loadSlide(Room.slide)
 	}
+}
+
+function previousSlide() {
+	if (Room.slideIndex <= 0) return;
+	const elem = Room.slides[--Room.slideIndex]
+	console.log(elem)
+	elem.click()
+}
+
+function nextSlide() {
+	if (Room.slideIndex >= Room.slides.length-1) return;
+	const elem = Room.slides[++Room.slideIndex]
+	console.log(elem)
+	elem.click()
 }
 
 export {
@@ -131,5 +149,7 @@ export {
 	saveSlide,
 	newSlide,
 	loadRoom,
-	initRoomFromURL
+	initRoomFromURL,
+	previousSlide,
+	nextSlide
 }
