@@ -77,10 +77,7 @@ function loadSlides(room) {
 	roomInfo.textContent = ''
 
 	const slideList = formElement('div', [['id','slide-list']])
-	// wtf
-	const empty = appendSlide(slideList,'')
-	room.slides = room.slides.map((slideName) => appendSlide(slideList, decodeURI(slideName)))
-	room.slides.unshift(empty)
+	room.slides.forEach((slide, index) => slide.elem = appendSlide(slideList, decodeURI(slide.slideName), index))
 	roomInfo.append(
 		formElement('h3', [['class','sidebar-text'],['id','room-name']], 'Room: ' + room.name),
 		formElement('h3', [['class','sidebar-text'],['id','room-slide']], 'Slide: ' + room.slide),
@@ -92,10 +89,9 @@ function loadSlides(room) {
 		formElement('p', [['class','sidebar-text']], 'slides:'),
 		slideList
 	)
-	empty.click()
 }
 
-function appendSlide(slideList, slideName) {
+function appendSlide(slideList, slideName, slideIndex) {
 	const label = formElement('label', [
 		['class','slide-selector']
 	])
@@ -103,7 +99,7 @@ function appendSlide(slideList, slideName) {
 		formElement('input', [
 			['type','radio'],
 			['name','slide-button'],
-			['onchange',`loadSlide('${slideName}')`]
+			['onchange',`setSlide('${slideIndex}')`]
 		]),
 		formElement('p', undefined, slideName)
 	)

@@ -13,7 +13,7 @@ const Room = window.Room = {
 }
 
 const loadSlide = window.loadSlide = (slideName) => {
-	document.getElementById('room-slide').textContent = 'Slide: ' + (Room.slide = slideName)
+	document.getElementById('room-slide').textContent = 'Slide: ' + (decodeURI(Room.slide = slideName))
 	if (!slideName) {
 		return clearSlide()
 	}
@@ -108,11 +108,11 @@ const loadRoom = window.loadRoom = () => {
 		url: `room/${Room.name}/`
 	}).then((xhr) => {
 		const roominfo = JSON.parse(xhr.responseText)
-		Room.slides = roominfo.slides
+		roominfo.slides.unshift('')
+		Room.slides = roominfo.slides.map((slideName) => {return{slideName, elem: undefined}})
 		Room.slideIndex = 0
 		console.log('Room:', Room)
 		loadSlides(Room)
-		console.log(Room.slides)
 	}).catch(() => alert('Authorization forbidden.'))
 }
 
@@ -125,20 +125,30 @@ function initRoomFromURL() {
 	if (Room.name && Room.key) {
 		loadRoom()
 		// Pretty illegal..
-		if (presetSlide) setTimeout(() => loadSlide(presetSlide), 500)
+		if (presetSlide) setTimeout(() => {
+			// Set the slide to the correct index
+			const enc = encodeURI(presetSlide)
+			const index = Room.slides.findIndex((slide)=>slide.slideName===enc)
+			if (index < 0) return alert('Unknown slide!')
+			Room.slides[index].elem.click()
+		}, 500)
 	}
+}
+
+const setSlide = window.setSlide = (index) => {
+	loadSlide(Room.slides[Room.slideIndex = index].slideName)
 }
 
 function previousSlide() {
 	if (Room.slideIndex <= 0) return;
-	const elem = Room.slides[--Room.slideIndex]
+	const elem = Room.slides[--Room.slideIndex].elem
 	console.log(elem)
 	elem.click()
 }
 
 function nextSlide() {
 	if (Room.slideIndex >= Room.slides.length-1) return;
-	const elem = Room.slides[++Room.slideIndex]
+	const elem = Room.slides[++Room.slideIndex].elem
 	console.log(elem)
 	elem.click()
 }
@@ -150,6 +160,7 @@ export {
 	newSlide,
 	loadRoom,
 	initRoomFromURL,
+	setSlide,
 	previousSlide,
 	nextSlide
 }
