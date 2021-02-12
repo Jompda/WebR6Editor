@@ -135,22 +135,17 @@ function initRoomFromURL() {
 	}
 }
 
-const setSlide = window.setSlide = (index) => {
+const setSlide = window.setSlide = (index) =>
 	loadSlide(Room.slides[Room.slideIndex = index].slideName)
-}
 
 function previousSlide() {
 	if (Room.slideIndex <= 0) return;
-	const elem = Room.slides[--Room.slideIndex].elem
-	console.log(elem)
-	elem.click()
+	Room.slides[--Room.slideIndex].elem.click()
 }
 
 function nextSlide() {
 	if (Room.slideIndex >= Room.slides.length-1) return;
-	const elem = Room.slides[++Room.slideIndex].elem
-	console.log(elem)
-	elem.click()
+	Room.slides[++Room.slideIndex].elem.click()
 }
 
 export {
