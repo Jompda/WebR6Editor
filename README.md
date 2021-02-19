@@ -3,7 +3,7 @@ The simple but useful web-based Rainbow Six: Siege strategy editor.
 ~Developed by: Joni Rapo
 
 ## TODO:
-- Proper Room and Slide controls.
+- Rewrite the slide controls
 - A database as the backbone of the room system.
 - Create images for the basic tools.
 - My "OCD" wants the icons' sizes to be powers of two.
